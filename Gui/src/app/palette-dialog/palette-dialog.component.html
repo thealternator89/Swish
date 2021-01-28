@@ -1,0 +1,13 @@
+<div mat-dialog-title id="text-entry">
+  <input type="text" class="full-width" (input)="onSearchChange($event.target.value)" placeholder="Start typing...">
+</div>
+<div mat-dialog-content id="plugin-list">
+  <mat-action-list>
+    <mat-list-item *ngFor="let plugin of plugins" (click)="selectPlugin(plugin)">
+      <div>
+        <div class="plugin-name"><b>{{plugin.name}}</b></div>
+        <div class="plugin-description">{{plugin.description}}</div>
+      </div>
+    </mat-list-item>
+  </mat-action-list>
+</div>

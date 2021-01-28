@@ -1,0 +1,45 @@
+
+
+#statusLabel {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    z-index: 2;
+    padding: 4px;
+    text-align: center;
+    user-select: none;
+}
+
+#progressBar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    background-color: rgba(0,0,0,0.4)
+}
+
+#bg {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+#bg.error {
+    background-color: darkred;
+}
+
+#bg.warn {
+    background-color: #B36200;
+}
+
+#bg.info {
+    background-color: transparent;
+}
+
+#bg.success {
+    background-color: darkgreen;
+}

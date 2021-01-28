@@ -1,0 +1,29 @@
+{
+  "name": "beep",
+  "version": "1.0.0",
+  "description": "Beep is an offline data transformation tool, heavily influenced by the Mac tool [Boop](https://boop.okat.best).",
+  "scripts": {
+    "build:all": "concurrently \"npm run build:base\" \"npm run build:core\" \"npm run build:gui\" \"npm run build:plugins\"",
+    "build:base": "cd Base && npm run build",
+    "build:core": "cd Core && npm run build",
+    "build:gui": "echo \"GUI doesn't need to be built. Running or packaging the GUI will build it.\"",
+    "build:plugins": "cd Plugins && npm run build",
+    "prettier": "prettier -c */**/*.ts",
+    "prettier:fix": "prettier -w */**/*.ts",
+    "start:gui": "npm run build:all && cd Gui && npm run electron",
+    "test": "npm run test:plugins",
+    "test:base": "cd Base && npm test",
+    "test:plugins": "cd Plugins && npm test"
+  },
+  "private": true,
+  "author": "Mark Benson <thealternator89@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thealternator89/Beep/issues"
+  },
+  "homepage": "https://github.com/thealternator89/Beep#readme",
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "prettier": "2.2.1"
+  }
+}
