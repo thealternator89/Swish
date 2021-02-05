@@ -31,6 +31,8 @@ function createWindow() {
     },
   });
 
+  win.setMenuBarVisibility(false);
+
   ipcHandler.setWindow(win);
 
   win.loadURL(
