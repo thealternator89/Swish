@@ -6,6 +6,7 @@ import { PaletteDialogComponent } from './palette-dialog/palette-dialog.componen
 import { v4 } from 'uuid';
 import { MenuCommand } from 'shared/const/ipc/menu-command';
 import { StatusComponent } from './status/status.component';
+import { EditorComponent } from './editor/editor.component';
 
 @Component({
   selector: 'app-root',
@@ -16,24 +17,8 @@ export class AppComponent {
   title = 'Beep';
   paletteDialogRef: MatDialogRef<PaletteDialogComponent>;
 
-  @ViewChild(StatusComponent) statusComponent:StatusComponent;
-
-  content: string = '';
-
-  editorOptions = {
-    theme: 'vs-dark',
-    language: 'plaintext',
-    scrollBeyondLastLine: false,
-    selectionHighlight: false,
-    occurrencesHighlight: false,
-    renderLineHighlight: "none",
-    fontFamily: "JetBrains Mono",
-    fontLigatures: true,
-    matchBrackets: "never",
-    minimap: {
-      enabled: false
-    }
-  };
+  @ViewChild(StatusComponent) statusComponent: StatusComponent;
+  @ViewChild(EditorComponent) editorComponent: EditorComponent;
 
   constructor(private dialog: MatDialog, private ipc: IpcService) {
     ipc.registerMenuCommands().subscribe((value: MenuCommand) => {
@@ -85,7 +70,7 @@ export class AppComponent {
       this.statusComponent.setStatus(`Running ${selectedPlugin.name}...`, 'info', false);
       const pluginResult = await this.ipc.runPlugin({
         plugin: selectedPlugin.id,
-        data: this.content,
+        data: this.editorComponent.text,
         requestId: currentPluginRunId,
       });
 
@@ -107,7 +92,7 @@ export class AppComponent {
       }
 
       if (text) {
-        this.content = text;
+        this.editorComponent.text = text;
       }
     });
   }

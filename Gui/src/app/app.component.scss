@@ -23,10 +23,11 @@ app-status {
     border: thin solid rgba(255,255,255,0.7);
 }
 
-nu-monaco-editor {
-    position: absolute;
-    top: $titlebarHeight;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+app-editor {
+  position: absolute;
+  top: $titlebarHeight;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  overflow: hidden;
 }

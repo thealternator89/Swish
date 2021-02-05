@@ -13,13 +13,15 @@ import { AppComponent } from './app.component';
 import { NuMonacoEditorModule } from '@ng-util/monaco-editor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PaletteDialogComponent } from './palette-dialog/palette-dialog.component';
-import { StatusComponent } from './status/status.component'
+import { StatusComponent } from './status/status.component';
+import { EditorComponent } from './editor/editor.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     PaletteDialogComponent,
-    StatusComponent
+    StatusComponent,
+    EditorComponent
   ],
   imports: [
     BrowserAnimationsModule,
