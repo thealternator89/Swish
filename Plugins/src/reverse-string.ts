@@ -7,15 +7,6 @@ export = {
     author: 'thealternator89',
     beepVersion: '1.0.0',
     process: async (args: PluginArgument) => {
-        const input = args.textContent;
-        let output = '';
-
-        for (let i = input.length - 1; i >= 0; i--) {
-            output += input[i];
-        }
-
-        return {
-            text: output,
-        };
+        return args.textContent.split('').reverse().join('');
     },
 };
