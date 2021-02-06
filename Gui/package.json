@@ -5,6 +5,7 @@
     "build": "npm run build:ng && npm run build:electron",
     "build:ng": "ng build --base-href ./",
     "build:electron": "tsc --p electron",
+    "packager": "electron-packager . Beep",
     "postbuild:electron": "copyfiles electron/assets/**/* electron/dist",
     "start:electron": "npm run build && electron ."
   },
@@ -39,6 +40,7 @@
     "codelyzer": "^6.0.0",
     "copyfiles": "^2.4.1",
     "electron": "^11.2.0",
+    "electron-packager": "^15.2.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.1.0",
