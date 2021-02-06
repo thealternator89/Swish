@@ -1,14 +1,15 @@
 import { PluginDefinition, pluginManager } from 'beep-base';
 import { PluginResult } from 'beep-base/dist/plugins/plugin-definition';
+import { configManager } from './config-manager';
 import { ipcHandler } from './ipc-handler';
 
 class BeepBackend {
   readonly plugins: PluginDefinition[];
 
   constructor() {
-    // if (configManager.userPluginPath) {
-    //   pluginManager.init(configManager.userPluginPath);
-    // }
+    if (configManager.config.userPlugins) {
+      pluginManager.init(configManager.config.userPlugins);
+    }
 
     //TODO: tidy this up
     const userPlugins = pluginManager.getUserPlugins();

@@ -8,22 +8,25 @@ import { Component, OnInit } from '@angular/core';
 export class EditorComponent implements OnInit {
   content: string = '';
 
-  editorOptions = {
-    theme: 'vs-dark',
-    language: 'plaintext',
-    scrollBeyondLastLine: false,
-    selectionHighlight: false,
-    occurrencesHighlight: false,
-    renderLineHighlight: 'none',
-    fontFamily: 'JetBrains Mono',
-    fontLigatures: true,
-    matchBrackets: 'never',
-    minimap: {
-      enabled: false,
-    },
-  };
+  editorOptions;
 
-  constructor() {}
+  constructor() {
+    const editorConfig = (window as any).config.editor;
+    this.editorOptions = {
+      theme: 'vs-dark',
+      language: 'plaintext',
+      scrollBeyondLastLine: false,
+      selectionHighlight: false,
+      occurrencesHighlight: false,
+      renderLineHighlight: 'none',
+      fontFamily: editorConfig.font,
+      fontLigatures: editorConfig.ligatures,
+      matchBrackets: 'never',
+      minimap: {
+        enabled: false,
+      },
+    }
+  }
 
   ngOnInit(): void {}
 
