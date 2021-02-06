@@ -1,4 +1,4 @@
-import { PluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './lib/plugin-definition';
 
 export = {
     name: 'Base-64 Encode',
@@ -6,7 +6,7 @@ export = {
     id: 'base64-encode',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    process: async (args: PluginArgument) => {
+    process: async (args: ProvidedPluginArgument) => {
         let binaryData = Buffer.from(args.textContent, 'utf8');
         return binaryData.toString('base64');
     },

@@ -5,7 +5,15 @@ export interface PluginDefinition {
     author: string;
     tags: string[];
     beepVersion: string;
-    process: (args: PluginArgument) => Promise<string|PluginResult>;
+    process: (args: ProvidedPluginArgument) => Promise<string | PluginResult>;
+}
+
+export interface ProvidedPluginArgument extends PluginArgument {
+    runPlugin(
+        pluginId: string,
+        args: string | PluginArgument,
+        type?: 'system' | 'user' | 'default'
+    ): Promise<string>;
 }
 
 export interface PluginArgument {

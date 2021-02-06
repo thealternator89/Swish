@@ -1,1 +1,1 @@
-export * from 'beep-plugins/dist/lib/plugin-definition'
+export * from 'beep-plugins/dist/lib/plugin-definition';

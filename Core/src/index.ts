@@ -64,8 +64,8 @@ if (program.plugin) {
 }
 
 async function runPlugin(pluginId: string): Promise<void> {
+    // TODO: would be good if we didn't get the plugin since we're not directly interacting with it anymore
     const plugin: PluginDefinition = pluginManager.getPluginById(pluginId);
-    const data = (await stdin()).trim();
 
     if (!plugin) {
         console.error(`Plugin '${pluginId}' not found.`);
@@ -73,8 +73,9 @@ async function runPlugin(pluginId: string): Promise<void> {
     }
 
     statusUpdatePrinter.start(plugin.name);
+    const data = (await stdin()).trim();
 
-    const output = await plugin.process({
+    const output = await pluginManager.runPlugin(pluginId, {
         textContent: data,
         statusUpdate: (text) => statusUpdatePrinter.updateStatus(text),
         progressUpdate: (percent) =>
@@ -82,23 +83,24 @@ async function runPlugin(pluginId: string): Promise<void> {
     });
 
     statusUpdatePrinter.stopAndClear();
+
     if (typeof output === 'string') {
         console.log(output);
+    } else if (!output) {
+        console.error(yellow('No value was returned by the plugin.'));
     } else {
         if (output.message) {
-            let statusText;
             switch (output.message.level) {
                 case 'info':
-                    statusText = output.message.text;
+                    console.error(output.message.text);
                     break;
                 case 'success':
-                    statusText = green(output.message.text);
+                    console.error(green(output.message.text));
                     break;
                 case 'warn':
-                    statusText = yellow(output.message.text);
+                    console.error(yellow(output.message.text));
                     break;
             }
-            console.error(statusText);
         }
 
         if (output.text) {

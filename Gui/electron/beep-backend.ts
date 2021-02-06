@@ -43,8 +43,7 @@ class BeepBackend {
     data: string,
     runId: string
   ): Promise<PluginResult> {
-    const plugin = pluginManager.getPluginById(pluginId);
-    const result = await plugin.process({
+    const result = await pluginManager.runPlugin(pluginId, {
       textContent: data,
       progressUpdate: (percent: number) =>
         ipcHandler.sendProgressUpdate(percent, runId),

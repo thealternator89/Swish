@@ -1,4 +1,4 @@
-import { PluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './lib/plugin-definition';
 
 export = {
     name: 'NO-OP',
@@ -7,7 +7,7 @@ export = {
     id: 'noop',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    process: async (args: PluginArgument) => {
+    process: async (args: ProvidedPluginArgument) => {
         console.log('test');
         return args.textContent;
     },

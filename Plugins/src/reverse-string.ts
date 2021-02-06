@@ -1,4 +1,4 @@
-import { PluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './lib/plugin-definition';
 
 export = {
     name: 'Reverse String',
@@ -6,7 +6,7 @@ export = {
     id: 'reverse-string',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    process: async (args: PluginArgument) => {
+    process: async (args: ProvidedPluginArgument) => {
         return args.textContent.split('').reverse().join('');
     },
 };

@@ -1,4 +1,6 @@
-const format = require('xml-formatter');
+import { ProvidedPluginArgument } from './lib/plugin-definition';
+
+import format from 'xml-formatter';
 
 export = {
     name: 'Prettify XML',
@@ -6,7 +8,7 @@ export = {
     id: 'prettify-xml',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    process: async (args) => {
+    process: async (args: ProvidedPluginArgument) => {
         return {
             text: format(args.textContent),
         };

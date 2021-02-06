@@ -8,9 +8,8 @@ describe('PaletteDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PaletteDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [PaletteDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

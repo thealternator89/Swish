@@ -1,7 +1,7 @@
 # Beep Plugins
 
 Plugins are standard commonjs modules. You can build them in vanilla javascript or use something like TypeScript.
-If your user plugin directory is a 
+If your user plugin directory is configured, you can install npm packages and import them into your script.
 
 ## Structure
 
@@ -11,7 +11,6 @@ interface PluginDefinition {
     name: string;
     id?: string;
     description: string;
-    options?: PluginOptions;
     author: string;
     tags: string[];
     beepVersion: string;
@@ -24,7 +23,6 @@ interface PluginDefinition {
 * **`name`**: Your plugin name which is displayed in the UI. This should be short and obvious.
 * **`id`**: _(optional)_ Your plugin ID. This is mainly used by Beep-Core. If not provided, your plugin's filename _(excluding the `.js`)_ is used.
 * **`description`**: A longer description of your plugin.
-* **`options`**: _(optional)_ Options your plugin takes. See below for the structure for this property.
 * **`author`**: Your name.
 * **`tags`**: Words to help filtering your plugin. See below for ideas for what you can put here.
 * **`beepVersion`**: The version of Beep-Base which your plugin supports. Beep will load the plugin if the major version matches, and the minor version is less than the current minor version
@@ -64,10 +62,7 @@ The text you pass back will be the entirety of what is given to the user.
 
 If your plugin experiences any issues which cannot be resolved, you should reject the promise with an error. If you write this as an async/await function, you can just `throw` an error to reject the promise. The message property of the thrown error object is used to display the problem to the user, so be as specific as you can about what has gone wrong.
 
-If there are pieces of code which may throw deeper down (e.g. a file doesn't exist), you should preferably test everything will be fine before trying to perform the action (e.g. check the file exists before attempting to open it), and throw an appropriate error if it isn't valid. If you can't confirm if an error will not be thrown, use a `try/catch` and throw your own, more understandable, error instead of letting the existing one bubble up.
-
-Examples of times to throw an error:
-* User input
+If there are pieces of code which may throw deeper down (e.g. a file doesn't exist), you should test everything will be fine before trying to perform the action (e.g. check the file exists before attempting to open it), and throw an appropriate error if it isn't valid. If you can't confirm if an error will not be thrown, use a `try/catch` and throw your own, more understandable, error instead of letting the existing one bubble up.
 
 ### Progress/Status updates to the user
 
@@ -83,3 +78,9 @@ This value may be an integer or floating-point, but **must** be in the range `0 
 #### Status Update
 
 If your plugin does its work in multiple phases, and you would like to keep the user informed of the stage it's at, use the `statusUpdate` function and pass any string to be displayed to the user.
+
+### Plugin Anti-patterns
+
+Don't:
+* **Use `console`** - Use the `statusUpdate` function or `message` in the response to pass this info to the user.
+    In all current implementations these messages will not make it anywhere to the user. Calling console from your plugin may cause issues in future implementations of Beep apps.

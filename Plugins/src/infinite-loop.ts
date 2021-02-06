@@ -1,12 +1,12 @@
 import { ProvidedPluginArgument } from './lib/plugin-definition';
 
 export = {
-    name: 'String Escape',
-    description: 'Escape text for most programming languages',
-    id: 'string-escape',
+    name: 'Infinite Loop',
+    description: 'Plugin which causes an infinite loop',
+    id: 'infinite-loop',
     author: 'thealternator89',
     beepVersion: '1.0.0',
     process: async (args: ProvidedPluginArgument) => {
-        return JSON.stringify(`"${args.textContent}"`);
+        await args.runPlugin('infinite-loop', args);
     },
 };

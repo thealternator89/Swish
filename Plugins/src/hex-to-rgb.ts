@@ -1,4 +1,4 @@
-import { PluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './lib/plugin-definition';
 
 export = {
     name: 'Hex to RGB',
@@ -6,7 +6,7 @@ export = {
     id: 'hex-to-rgb',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    process: async (args: PluginArgument) => {
+    process: async (args: ProvidedPluginArgument) => {
         const genericHex = generifyHex(args.textContent);
         const { r, g, b } = longHexToRgb(genericHex);
         const rgbString = `${r},${g},${b}`;

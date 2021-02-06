@@ -3,10 +3,9 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.scss']
+  styleUrls: ['./editor.component.scss'],
 })
 export class EditorComponent implements OnInit {
-
   content: string = '';
 
   editorOptions = {
@@ -15,19 +14,18 @@ export class EditorComponent implements OnInit {
     scrollBeyondLastLine: false,
     selectionHighlight: false,
     occurrencesHighlight: false,
-    renderLineHighlight: "none",
-    fontFamily: "JetBrains Mono",
+    renderLineHighlight: 'none',
+    fontFamily: 'JetBrains Mono',
     fontLigatures: true,
-    matchBrackets: "never",
+    matchBrackets: 'never',
     minimap: {
-      enabled: false
-    }
+      enabled: false,
+    },
   };
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   get text() {
     return this.content;
@@ -36,5 +34,4 @@ export class EditorComponent implements OnInit {
   set text(newContent: string) {
     this.content = newContent;
   }
-
 }

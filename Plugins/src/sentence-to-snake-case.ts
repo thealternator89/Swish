@@ -1,4 +1,4 @@
-import { PluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './lib/plugin-definition';
 import { convertWordCaseToSnakeCase } from './lib/convert-case';
 
 export = {
@@ -7,7 +7,7 @@ export = {
     id: 'sentence-to-snake-case',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    process: async (args: PluginArgument) => {
+    process: async (args: ProvidedPluginArgument) => {
         return {
             text: convertWordCaseToSnakeCase(args.textContent),
         };

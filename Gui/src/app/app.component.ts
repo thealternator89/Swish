@@ -11,7 +11,7 @@ import { EditorComponent } from './editor/editor.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'Beep';
@@ -22,26 +22,33 @@ export class AppComponent {
 
   constructor(private dialog: MatDialog, private ipc: IpcService) {
     ipc.registerMenuCommands().subscribe((value: MenuCommand) => {
-      switch(value) {
-        case 'toggleCommandPalette': this.togglePalette();
+      switch (value) {
+        case 'toggleCommandPalette':
+          this.togglePalette();
           break;
-        case 'editor.cut': document.execCommand('Cut');
+        case 'editor.cut':
+          document.execCommand('Cut');
           break;
-        case 'editor.copy': document.execCommand('Copy');
+        case 'editor.copy':
+          document.execCommand('Copy');
           break;
-        case 'editor.paste': document.execCommand('Paste');
+        case 'editor.paste':
+          document.execCommand('Paste');
           break;
       }
     });
 
     // Listen on this window for keyup events, so we can close the palette if the escape key is pressed.
-    window.addEventListener('keyup', (event) => {
-      if (event.code === 'Escape') {
-        this.paletteDialogRef?.componentInstance?.close();
-        event.stopPropagation();
-      }
-    }, true);
-
+    window.addEventListener(
+      'keyup',
+      (event) => {
+        if (event.code === 'Escape') {
+          this.paletteDialogRef?.componentInstance?.close();
+          event.stopPropagation();
+        }
+      },
+      true
+    );
   }
 
   togglePalette() {
@@ -55,8 +62,8 @@ export class AppComponent {
       height: '300px',
       width: '600px',
       position: {
-        top: '5px'
-      }
+        top: '5px',
+      },
     });
 
     this.paletteDialogRef.afterClosed().subscribe(async (selectedPlugin) => {
@@ -67,7 +74,11 @@ export class AppComponent {
       const currentPluginRunId = v4();
 
       this.statusComponent.setCurrentPluginRun(currentPluginRunId);
-      this.statusComponent.setStatus(`Running ${selectedPlugin.name}...`, 'info', false);
+      this.statusComponent.setStatus(
+        `Running ${selectedPlugin.name}...`,
+        'info',
+        false
+      );
       const pluginResult = await this.ipc.runPlugin({
         plugin: selectedPlugin.id,
         data: this.editorComponent.text,
@@ -77,7 +88,12 @@ export class AppComponent {
       this.statusComponent.clearCurrentPluginRun();
       this.statusComponent.clearProgressAndStatus();
 
-      const {error, message, text} = pluginResult;
+      if (!pluginResult) {
+        this.statusComponent.setStatus('No value was returned', 'warn');
+        return;
+      }
+
+      const { error, message, text } = pluginResult;
 
       if (error) {
         this.statusComponent.setStatus(error.message, 'error');

@@ -1,4 +1,4 @@
-import { PluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './lib/plugin-definition';
 
 const NEWLINE_CHAR = '\n';
 
@@ -8,7 +8,7 @@ export = {
     id: 'reverse-lines',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    process: async (args: PluginArgument) => {
+    process: async (args: ProvidedPluginArgument) => {
         const reversed = unifyNewLines(args.textContent)
             .split(NEWLINE_CHAR)
             .reverse()

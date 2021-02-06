@@ -1,4 +1,4 @@
-import { PluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './lib/plugin-definition';
 
 type parsedColor = { num: number; hex: string };
 
@@ -10,7 +10,7 @@ export = {
     id: 'rgb-to-hex',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    process: async (args: PluginArgument) => {
+    process: async (args: ProvidedPluginArgument) => {
         const { r, g, b } = extractRgb(args.textContent);
 
         throwIfValueInvalid(r, 'r');

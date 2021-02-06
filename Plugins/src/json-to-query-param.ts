@@ -1,4 +1,4 @@
-import { PluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './lib/plugin-definition';
 
 export = {
     name: 'JSON to query param',
@@ -6,7 +6,7 @@ export = {
     id: 'json-to-query-param',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    process: async (args: PluginArgument) => {
+    process: async (args: ProvidedPluginArgument) => {
         let input: any;
         try {
             input = JSON.parse(args.textContent);

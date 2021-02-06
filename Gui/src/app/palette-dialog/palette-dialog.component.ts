@@ -6,13 +6,16 @@ import { IpcService } from '../ipc.service';
 @Component({
   selector: 'app-palette-dialog',
   templateUrl: './palette-dialog.component.html',
-  styleUrls: ['./palette-dialog.component.scss']
+  styleUrls: ['./palette-dialog.component.scss'],
 })
 export class PaletteDialogComponent implements OnInit {
-
   plugins: PluginDefinition[];
 
-  constructor(public dialogRef: MatDialogRef<PaletteDialogComponent>, private ngZone: NgZone, private ipc: IpcService) {
+  constructor(
+    public dialogRef: MatDialogRef<PaletteDialogComponent>,
+    private ngZone: NgZone,
+    private ipc: IpcService
+  ) {
     this.dialogRef.backdropClick().subscribe(() => {
       this.close();
     });
@@ -25,17 +28,16 @@ export class PaletteDialogComponent implements OnInit {
   close() {
     this.ngZone.run(() => {
       this.dialogRef.close();
-    })
+    });
   }
 
   onSearchChange(query) {
     this.ipc.searchPlugins(query).then((results) => {
       this.plugins = results;
-    })
+    });
   }
 
   selectPlugin(plugin) {
     this.dialogRef.close(plugin);
   }
-
 }

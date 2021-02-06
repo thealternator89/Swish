@@ -1,4 +1,4 @@
-import { PluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './lib/plugin-definition';
 
 export = {
     name: 'Shorten Hex',
@@ -6,7 +6,7 @@ export = {
     id: 'shorten-hex',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    process: async (args: PluginArgument) => {
+    process: async (args: ProvidedPluginArgument) => {
         const hex = args.textContent;
         if (!/^#?([0-9a-f]){3,6}$/i.test(hex)) {
             throw new Error('Invalid Hex value - Should be e.g. "#AABBCC"');

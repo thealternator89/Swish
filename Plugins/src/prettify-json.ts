@@ -1,4 +1,4 @@
-import { PluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './lib/plugin-definition';
 
 export = {
     name: 'Prettify JSON',
@@ -6,7 +6,7 @@ export = {
     id: 'prettify-json',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    process: async (args: PluginArgument) => {
+    process: async (args: ProvidedPluginArgument) => {
         const prettified = JSON.stringify(
             JSON.parse(args.textContent),
             null,

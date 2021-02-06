@@ -1,4 +1,4 @@
-import { PluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './lib/plugin-definition';
 
 export = {
     name: 'JSON to JS',
@@ -6,7 +6,7 @@ export = {
     id: 'json-to-js',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    process: async (args: PluginArgument) => {
+    process: async (args: ProvidedPluginArgument) => {
         let obj: any;
         try {
             obj = JSON.parse(args.textContent);

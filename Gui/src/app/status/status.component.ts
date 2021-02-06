@@ -4,13 +4,12 @@ import { IpcService } from '../ipc.service';
 @Component({
   selector: 'app-status',
   templateUrl: './status.component.html',
-  styleUrls: ['./status.component.scss']
+  styleUrls: ['./status.component.scss'],
 })
 export class StatusComponent implements OnInit {
-
   text: string;
   progress?: number;
-  level?: 'error'|'warn'|'info'|'success';
+  level?: 'error' | 'warn' | 'info' | 'success';
 
   currentPluginRunId?: string;
   currentStatusTimeout?: NodeJS.Timeout;
@@ -19,7 +18,9 @@ export class StatusComponent implements OnInit {
     this.text = buildDefaultStatusText();
 
     ipc.registerPluginProgressUpdates().subscribe((update) => {
-      console.log(`${update.percentage}% - RunID: ${update.id}. CurrentRunId: ${this.currentPluginRunId}`);
+      console.log(
+        `${update.percentage}% - RunID: ${update.id}. CurrentRunId: ${this.currentPluginRunId}`
+      );
       // If the runId doesn't match the current run, it's probably old and we don't want to render it.
       if (this.currentPluginRunId !== update.id) {
         return;
@@ -30,18 +31,18 @@ export class StatusComponent implements OnInit {
     });
 
     ipc.registerPluginStatusUpdates().subscribe((update) => {
-      console.log(`${update.status} - RunID: ${update.id}. CurrentRunId: ${this.currentPluginRunId}`);
+      console.log(
+        `${update.status} - RunID: ${update.id}. CurrentRunId: ${this.currentPluginRunId}`
+      );
       if (this.currentPluginRunId !== update.id) {
         return;
       }
 
       this.updateStatus(update.status);
-    })
+    });
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   updateStatus(newStatus: string) {
     if (newStatus) {
@@ -52,7 +53,7 @@ export class StatusComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
-  updateProgress(newProgress: number|undefined) {
+  updateProgress(newProgress: number | undefined) {
     // Coerce percentage into the range 0 - 100
     if (newProgress < 0) {
       this.progress = 0;
@@ -75,13 +76,20 @@ export class StatusComponent implements OnInit {
     this.updateProgress(undefined);
   }
 
-  setStatus(message: string, level: 'error'|'warn'|'info'|'success', autoClear: boolean = true) {
+  setStatus(
+    message: string,
+    level: 'error' | 'warn' | 'info' | 'success',
+    autoClear: boolean = true
+  ) {
     this.clearProgressAndStatus();
     this.level = level;
     this.updateStatus(message);
 
     if (autoClear) {
-      this.currentStatusTimeout = setTimeout(() => this.clearProgressAndStatus(), 10000);
+      this.currentStatusTimeout = setTimeout(
+        () => this.clearProgressAndStatus(),
+        10000
+      );
     }
   }
 
