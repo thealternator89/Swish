@@ -1,4 +1,4 @@
-import { readdirSync } from 'fs';
+import { existsSync, readdirSync } from 'fs';
 import * as path from 'path';
 import { PluginDefinition } from './plugin-definition';
 import Fuse from 'fuse.js';
@@ -41,6 +41,10 @@ class PluginManager {
     }
 
     private loadPluginSet(directory: string): PluginDefinition[] {
+        if (!existsSync(directory)) {
+            return [];
+        }
+
         const plugins = readdirSync(directory).filter((file) =>
             file.endsWith('.js')
         ); // we only want JS files
@@ -70,6 +74,11 @@ class PluginManager {
         pluginRequiredVersion: string,
         beepVersion: number[]
     ): boolean {
+        // Plugin hasn't specified a version, ignore it.
+        if (!pluginRequiredVersion) {
+            return false;
+        }
+
         const requiredBeepVersion = pluginRequiredVersion
             .split('.')
             .map((n) => parseInt(n));
