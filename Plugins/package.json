@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "clean": "rimraf dist",
     "pretest": "npm run build",
     "test": "jest"
   },

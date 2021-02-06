@@ -5,9 +5,13 @@
     "build": "npm run build:ng && npm run build:electron",
     "build:ng": "ng build --base-href ./",
     "build:electron": "tsc --p electron",
-    "packager": "electron-packager . Beep",
     "postbuild:electron": "copyfiles electron/assets/**/* electron/dist",
-    "start:electron": "npm run build && electron ."
+    "clean": "npm run clean:ng && npm run clean:electron",
+    "clean:ng": "rimraf dist",
+    "clean:electron": "rimraf electron/dist",
+    "packager": "electron-packager . Beep",
+    "start:electron": "electron .",
+    "buildstart": "npm run build && npm run start:electron"
   },
   "main": "electron/dist/electron/main.js",
   "private": true,
