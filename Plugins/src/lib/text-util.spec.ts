@@ -1,4 +1,4 @@
-import { unifyNewLines } from '../text-util';
+import { unifyNewLines } from './text-util';
 
 describe('Text Util', () => {
     describe('unifyNewLines', () => {

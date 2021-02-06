@@ -1,4 +1,4 @@
-import { ProvidedPluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './model';
 
 type parsedColor = { num: number; hex: string };
 

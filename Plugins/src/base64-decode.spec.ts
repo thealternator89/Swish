@@ -1,5 +1,5 @@
-import base64Decode from '../base64-decode';
-import { basePluginArgument } from './_util';
+import base64Decode from './base64-decode';
+import { basePluginArgument } from './lib/_test_util';
 
 describe('Base64 Decode', () => {
     it('Correctly decodes a Base64 string', async () => {

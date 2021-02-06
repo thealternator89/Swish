@@ -1,4 +1,4 @@
-import { ProvidedPluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './model';
 import { convertWordCaseToCamelCase } from './lib/convert-case';
 
 export = {

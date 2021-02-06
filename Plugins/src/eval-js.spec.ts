@@ -1,5 +1,5 @@
-import evalJs from '../eval-js';
-import { basePluginArgument } from './_util';
+import evalJs from './eval-js';
+import { basePluginArgument } from './lib/_test_util';
 
 describe('Eval JS', () => {
     it('Evaluates the input math equation as javascript and returns the result', async () => {

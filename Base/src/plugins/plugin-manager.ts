@@ -53,9 +53,9 @@ class PluginManager {
             return [];
         }
 
-        const plugins = readdirSync(directory).filter((file) =>
-            file.endsWith('.js')
-        ); // we only want JS files
+        const plugins = readdirSync(directory).filter(
+            (file) => file.endsWith('.js') && !file.endsWith('.spec.js')
+        ); // we only want JS files which aren't specs
 
         const pluginObjs: PluginDefinition[] = [];
 

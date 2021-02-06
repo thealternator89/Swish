@@ -1,4 +1,4 @@
-import { ProvidedPluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './model';
 import { runPlugins } from './lib/text-util';
 
 const PLUGINS = ['base64-decode', 'prettify-json'];
@@ -12,6 +12,13 @@ export = {
     icon: 'view_agenda',
     process: async (args: ProvidedPluginArgument) => {
         const [headerB64, payloadB64, signature] = args.textContent.split('.');
+
+        if (!headerB64 || !payloadB64 || !signature) {
+            throw new Error(
+                'Invalid token. Expected format: <header>.<payload>.<signature>'
+            );
+        }
+
         const header = await runPlugins(headerB64, PLUGINS, args.runPlugin);
         const payload = await runPlugins(payloadB64, PLUGINS, args.runPlugin);
 

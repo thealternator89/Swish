@@ -1,4 +1,4 @@
-import { ProvidedPluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './model';
 
 // looks for any instance of a literal backslash (\) followed by a newline.
 const escapedNewlineRegex = /(\\\n)/g;

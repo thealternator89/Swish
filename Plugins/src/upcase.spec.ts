@@ -1,5 +1,5 @@
-import upcase from '../upcase';
-import { basePluginArgument } from './_util';
+import upcase from './upcase';
+import { basePluginArgument } from './lib/_test_util';
 
 describe('Upcase', () => {
     it('Correctly converts input string to lower case', async () => {

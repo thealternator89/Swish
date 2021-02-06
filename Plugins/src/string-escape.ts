@@ -1,4 +1,4 @@
-import { ProvidedPluginArgument } from './lib/plugin-definition';
+import { ProvidedPluginArgument } from './model';
 
 export = {
     name: 'String Escape',
@@ -8,6 +8,11 @@ export = {
     beepVersion: '1.0.0',
     icon: 'format_quote',
     process: async (args: ProvidedPluginArgument) => {
-        return JSON.stringify(`"${args.textContent}"`);
+        // JSON Stringify, then remove the quotes that got pre/postfixed to the text
+        // so we only keep the escaped text
+        return JSON.stringify(`${args.textContent}`).replace(
+            /^\"?(.*?)\"?$/,
+            '$1'
+        );
     },
 };

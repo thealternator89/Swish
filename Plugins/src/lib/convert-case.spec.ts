@@ -3,7 +3,7 @@ import {
     convertWordCaseToCamelCase,
     convertWordCaseToKebabCase,
     splitCamelAndPascalCase,
-} from '../convert-case';
+} from './convert-case';
 
 describe('Convert Case', () => {
     describe('Word case to camel case', () => {
