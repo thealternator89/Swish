@@ -8,13 +8,12 @@ const ENV_USER_PLUGINS = 'BEEP_PLUGIN_PATH';
 interface BeepConfig {
   userPlugins: string;
   editor: {
-    font: string,
-    ligatures: boolean,
-  }
+    font: string;
+    ligatures: boolean;
+  };
 }
 
 class ConfigManager {
-
   readonly config: BeepConfig;
 
   constructor() {
@@ -44,7 +43,7 @@ class ConfigManager {
 
   private getEnvConfig(): Partial<BeepConfig> {
     return {
-      userPlugins: env[ENV_USER_PLUGINS]
+      userPlugins: env[ENV_USER_PLUGINS],
     };
   }
 
@@ -60,10 +59,13 @@ class ConfigManager {
 }
 
 function getDefaultFont(): string {
-  switch(process.platform) {
-    case 'darwin': return 'Menlo';
-    case 'win32': return 'Consolas';
-    default: return 'monospace';
+  switch (process.platform) {
+    case 'darwin':
+      return 'Menlo';
+    case 'win32':
+      return 'Consolas';
+    default:
+      return 'monospace';
   }
 }
 
