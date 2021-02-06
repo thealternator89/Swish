@@ -1,4 +1,5 @@
 import { ProvidedPluginArgument } from './lib/plugin-definition';
+import { runPlugins } from './lib/text-util';
 
 export = {
     name: 'Base-64 Decode JSON',
@@ -8,13 +9,10 @@ export = {
     tags: ['base64', 'decode', 'json'],
     beepVersion: '1.0.0',
     process: async (args: ProvidedPluginArgument) => {
-        const decoded = await args.runPlugin(
-            'base64-decode',
+        return await runPlugins(
             args.textContent,
-            'system'
+            ['base64-decode', 'prettify-json'],
+            args.runPlugin
         );
-        const json = await args.runPlugin('prettify-json', decoded, 'system');
-
-        return json;
     },
 };

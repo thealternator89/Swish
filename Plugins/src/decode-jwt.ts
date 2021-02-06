@@ -1,4 +1,7 @@
 import { ProvidedPluginArgument } from './lib/plugin-definition';
+import { runPlugins } from './lib/text-util';
+
+const PLUGINS = ['base64-decode', 'prettify-json'];
 
 export = {
     name: 'Decode JSON Web Token (JWT)',
@@ -8,16 +11,15 @@ export = {
     beepVersion: '1.0.0',
     process: async (args: ProvidedPluginArgument) => {
         const [headerB64, payloadB64, signature] = args.textContent.split('.');
-        const [header, payload] = [headerB64, payloadB64]
-            .map(decodeBase64)
-            .map((str) => JSON.parse(str));
+        const header = await runPlugins(headerB64, PLUGINS, args.runPlugin);
+        const payload = await runPlugins(payloadB64, PLUGINS, args.runPlugin);
 
         return [
             'HEADER:',
-            indentLines(prettyPrintJson(header), 4),
+            indentLines(header, 4),
             ,
             'PAYLOAD:',
-            indentLines(prettyPrintJson(payload), 4),
+            indentLines(payload, 4),
             ,
             'SIGNATURE:',
             indentLines(signature, 4),
@@ -36,10 +38,4 @@ function whitespace(num: number) {
     return new Array(num + 1).join(' ');
 }
 
-function decodeBase64(text: string): string {
-    return Buffer.from(text, 'base64').toString('utf-8');
-}
 
-function prettyPrintJson(object: any): string {
-    return JSON.stringify(object, null, 4);
-}
