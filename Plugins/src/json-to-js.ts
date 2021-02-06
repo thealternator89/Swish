@@ -6,6 +6,7 @@ export = {
     id: 'json-to-js',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
         let obj: any;
         try {

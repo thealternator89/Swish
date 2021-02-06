@@ -6,6 +6,7 @@ export = {
     id: 'string-escape',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
         return JSON.stringify(`"${args.textContent}"`);
     },

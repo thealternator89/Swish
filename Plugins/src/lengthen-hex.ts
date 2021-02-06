@@ -6,6 +6,7 @@ export = {
     id: 'lengthen-hex',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'palette',
     process: async (args: ProvidedPluginArgument) => {
         const input = args.textContent;
         const genericHex = generifyHex(input);

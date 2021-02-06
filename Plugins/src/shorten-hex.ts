@@ -6,6 +6,7 @@ export = {
     id: 'shorten-hex',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'palette',
     process: async (args: ProvidedPluginArgument) => {
         const hex = args.textContent;
         if (!/^#?([0-9a-f]){3,6}$/i.test(hex)) {

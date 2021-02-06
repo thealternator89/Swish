@@ -6,8 +6,12 @@ export = {
     id: 'hex-to-rgb',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'palette',
     process: async (args: ProvidedPluginArgument) => {
-        const genericHex = await args.runPlugin('lengthen-hex', args.textContent);
+        const genericHex = await args.runPlugin(
+            'lengthen-hex',
+            args.textContent
+        );
         const { r, g, b } = longHexToRgb(genericHex);
         const rgbString = `${r},${g},${b}`;
         return `rgb(${rgbString})`;

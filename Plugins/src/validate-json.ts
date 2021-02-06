@@ -7,6 +7,7 @@ export = {
     id: 'validate-json',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'check_circle',
     process: async (args: ProvidedPluginArgument) => {
         JSON.parse(args.textContent);
 

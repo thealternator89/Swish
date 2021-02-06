@@ -5,6 +5,7 @@ export interface PluginDefinition {
     author: string;
     tags: string[];
     beepVersion: string;
+    icon: string;
     process: (args: ProvidedPluginArgument) => Promise<string | PluginResult>;
 }
 

@@ -8,6 +8,7 @@ export = {
     id: 'reverse-lines',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'sort',
     process: async (args: ProvidedPluginArgument) => {
         const reversed = unifyNewLines(args.textContent)
             .split(NEWLINE_CHAR)

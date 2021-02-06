@@ -6,6 +6,7 @@ export = {
     id: 'base64-encode',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
         let binaryData = Buffer.from(args.textContent, 'utf8');
         return binaryData.toString('base64');

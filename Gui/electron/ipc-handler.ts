@@ -4,7 +4,6 @@ import { beepBackend } from './beep-backend';
 import { IPCPluginResult } from './model/ipc/plugin';
 
 import { MenuCommand } from '../shared/const/ipc/menu-command';
-
 import { IPC_CHANNELS } from '../shared/const/ipc/ipc-channel';
 import { RunPluginResponse } from '../shared/models/ipc/run-plugin-response';
 
@@ -26,12 +25,13 @@ class IPCHandler {
       this.sendSearchResult(
         matching.map(
           // Filter out everything we don't want to send.
-          ({ id, name, description, author, tags }) => ({
+          ({ id, name, description, author, tags, icon }) => ({
             id,
             name,
             description,
             author,
             tags,
+            icon,
           })
         )
       );

@@ -9,6 +9,7 @@ export = {
     id: 'decode-jwt',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'view_agenda',
     process: async (args: ProvidedPluginArgument) => {
         const [headerB64, payloadB64, signature] = args.textContent.split('.');
         const header = await runPlugins(headerB64, PLUGINS, args.runPlugin);
@@ -30,12 +31,6 @@ export = {
 function indentLines(text: string, spaces: number): string {
     return text
         .split('\n')
-        .map((line) => whitespace(spaces) + line)
+        .map((line) => new Array(spaces + 1).join(' ') + line)
         .join('\n');
 }
-
-function whitespace(num: number) {
-    return new Array(num + 1).join(' ');
-}
-
-

@@ -6,6 +6,7 @@ export = {
     id: 'eval-js',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'sync',
     process: async (args: ProvidedPluginArgument) => {
         const text = args.textContent;
         let js: string;

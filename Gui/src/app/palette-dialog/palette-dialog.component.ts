@@ -32,12 +32,16 @@ export class PaletteDialogComponent implements OnInit {
   }
 
   onSearchChange(query) {
-    this.ipc.searchPlugins(query).then((results) => {
+    this.ipc.searchPlugins(query).then((results: PluginDefinition[]) => {
       this.plugins = results;
     });
   }
 
   selectPlugin(plugin) {
     this.dialogRef.close(plugin);
+  }
+
+  getPluginIcon(plugin: PluginDefinition) {
+    return plugin.icon || 'extension'
   }
 }

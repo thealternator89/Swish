@@ -6,6 +6,7 @@ export = {
     id: 'json-to-query-param',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
         let input: any;
         try {

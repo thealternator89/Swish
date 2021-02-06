@@ -8,6 +8,7 @@ export = {
     id: 'prettify-xml',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'expand',
     process: async (args: ProvidedPluginArgument) => {
         return {
             text: format(args.textContent),

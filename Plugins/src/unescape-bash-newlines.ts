@@ -15,6 +15,7 @@ export = {
     id: 'unescape-bash-newlines',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
         const trimmed = trimLines(args.textContent);
         return {

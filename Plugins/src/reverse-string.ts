@@ -6,6 +6,7 @@ export = {
     id: 'reverse-string',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'sort',
     process: async (args: ProvidedPluginArgument) => {
         return args.textContent.split('').reverse().join('');
     },

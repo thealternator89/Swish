@@ -7,6 +7,7 @@ export = {
     id: 'sentence-to-snake-case',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
         return {
             text: convertWordCaseToSnakeCase(args.textContent),

@@ -26,6 +26,22 @@ input:focus {
   display: none;
 }
 
+.plugin-icon {
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  width: 30px;
+  height: 30px;
+}
+
+.plugin-text {
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  bottom: 0px;
+  left: 40px;
+}
+
 .plugin-name {
     display: block;
     font-weight: bold;
