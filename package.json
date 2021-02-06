@@ -11,7 +11,7 @@
     "prettier": "prettier -c */**/*.ts",
     "prettier:fix": "prettier -w */**/*.ts",
     "start:gui": "npm run build:all && npm run start:gui:nobuild",
-    "start:gui:nobuild": "cd Gui && npm run electron",
+    "start:gui:nobuild": "cd Gui && npm run start:electron",
     "test": "npm run test:plugins",
     "test:base": "cd Base && npm test",
     "test:plugins": "cd Plugins && npm test"

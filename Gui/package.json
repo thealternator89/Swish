@@ -2,13 +2,11 @@
   "name": "beep-gui",
   "version": "0.1.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "electron": "ng build --base-href ./ && tsc --p electron && electron ."
+    "build": "npm run build:ng && npm run build:electron",
+    "build:ng": "ng build --base-href ./",
+    "build:electron": "tsc --p electron",
+    "postbuild:electron": "copyfiles electron/assets/**/* electron/dist",
+    "start:electron": "npm run build && electron ."
   },
   "main": "electron/dist/electron/main.js",
   "private": true,
@@ -41,6 +39,7 @@
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
+    "copyfiles": "^2.4.1",
     "electron": "^11.2.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",

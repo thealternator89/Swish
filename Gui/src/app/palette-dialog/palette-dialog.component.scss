@@ -22,6 +22,10 @@ input:focus {
     height: 200px;
 }
 
+#plugin-list::-webkit-scrollbar {
+  display: none;
+}
+
 .plugin-name {
     display: block;
     font-weight: bold;
