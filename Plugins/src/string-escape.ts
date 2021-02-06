@@ -6,7 +6,7 @@ export = {
     id: 'string-escape',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    icon: 'format-quote',
+    icon: 'format_quote',
     process: async (args: ProvidedPluginArgument) => {
         return JSON.stringify(`"${args.textContent}"`);
     },
