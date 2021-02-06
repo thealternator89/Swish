@@ -11,7 +11,7 @@ describe('RGB to Hex', () => {
             textContent: input,
         });
 
-        expect(output.text).toEqual(expected);
+        expect(output).toEqual(expected);
     });
     it('Truncates to a 3 char hex if possible', async () => {
         const input = '238,204,255';
@@ -22,7 +22,7 @@ describe('RGB to Hex', () => {
             textContent: input,
         });
 
-        expect(output.text).toEqual(expected);
+        expect(output).toEqual(expected);
     });
     it('Accepts input wrapped in rgb()', async () => {
         const input = 'rgb(238,204,255)';
@@ -33,6 +33,6 @@ describe('RGB to Hex', () => {
             textContent: input,
         });
 
-        expect(output.text).toEqual(expected);
+        expect(output).toEqual(expected);
     });
 });

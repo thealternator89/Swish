@@ -18,13 +18,9 @@ export = {
         throwIfValueInvalid(b, 'b');
 
         const hexString = r.hex + g.hex + b.hex;
+        const shortened = args.runPlugin('shorten-hex', hexString);
 
-        // attempt to shorten the hex if possible
-        const shortened = hexString.replace(/(.)\1(.)\2(.)\3/, '$1$2$3');
-
-        return {
-            text: `#${shortened}`,
-        };
+        return `#${shortened}`;
     },
 };
 

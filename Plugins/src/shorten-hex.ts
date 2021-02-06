@@ -13,7 +13,7 @@ export = {
         }
 
         // Only prefix a hash if the input had one prefixed
-        const prefix = hex.charAt[0] === '#' ? '#' : '';
+        const prefix = hex[0] === '#' ? '#' : '';
         const shortened = `${prefix}${hex.replace(
             /^#?([0-9a-f])\1([0-9a-f])\2([0-9a-f])\3$/i,
             '$1$2$3'
