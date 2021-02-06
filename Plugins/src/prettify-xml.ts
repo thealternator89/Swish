@@ -10,8 +10,6 @@ export = {
     beepVersion: '1.0.0',
     icon: 'expand',
     process: async (args: ProvidedPluginArgument) => {
-        return {
-            text: format(args.textContent),
-        };
+        return format(args.textContent, { collapseContent: true });
     },
 };
