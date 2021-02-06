@@ -29,6 +29,7 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
+    icon: path.join(__dirname, 'assets', 'icons', 'png', '64x64.png'),
   });
 
   win.setMenuBarVisibility(false);
