@@ -29,8 +29,12 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
-    icon: path.join(__dirname, 'assets', 'icons', 'png', '64x64.png'),
   });
+
+  // Setting the icon causes a SIGSEGV on darwin
+  if (process.platform !== 'darwin') {
+    win.setIcon(path.join(__dirname, 'assets', 'icons', 'png', '64x64.png'));
+  }
 
   win.setMenuBarVisibility(false);
 
