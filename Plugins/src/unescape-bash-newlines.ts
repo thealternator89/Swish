@@ -18,8 +18,6 @@ export = {
     icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
         const trimmed = trimLines(args.textContent);
-        return {
-            text: trimmed.replace(escapedNewlineRegex, ''),
-        };
+        return trimmed.replace(escapedNewlineRegex, '');
     },
 };

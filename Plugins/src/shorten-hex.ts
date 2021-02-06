@@ -12,17 +12,20 @@ export = {
         if (!/^#?([0-9a-f]){3,6}$/i.test(hex)) {
             throw new Error('Invalid Hex value - Should be e.g. "#AABBCC"');
         }
-
-        // Only prefix a hash if the input had one prefixed
-        const prefix = hex[0] === '#' ? '#' : '';
-        const shortened = `${prefix}${hex.replace(
+        
+        const shortened = hex.replace(
             /^#?([0-9a-f])\1([0-9a-f])\2([0-9a-f])\3$/i,
             '$1$2$3'
-        )}`;
+        );
+
+        // If the replacement failed, we will still have the same hex value as before
+        // So we should only add the prefix if we did successfully shorten the hex
+        const prefix = hex[0] === '#' ? '#' : '';
+        const output = shortened === hex ? hex : `${prefix}${shortened}`;
 
         return {
-            text: shortened,
-            message: getMessage(hex, shortened),
+            text: output,
+            message: getMessage(hex, output),
         };
     },
 };

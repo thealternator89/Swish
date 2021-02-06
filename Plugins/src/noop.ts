@@ -8,7 +8,6 @@ export = {
     author: 'thealternator89',
     beepVersion: '1.0.0',
     process: async (args: ProvidedPluginArgument) => {
-        console.log('test');
         return args.textContent;
     },
 };

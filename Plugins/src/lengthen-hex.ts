@@ -13,7 +13,11 @@ export = {
 
         // Only prefix a hash if it was prefixed on the input
         const prefix = input[0] === '#' ? '#' : '';
-        return `${prefix}${genericHex}`;
+        const lengthened = `${prefix}${genericHex}`;
+        return {
+            text: lengthened,
+            message: getMessage(input, lengthened),
+        };
     },
 };
 
@@ -34,4 +38,17 @@ function generifyHex(rawHex: string): string {
     throw new Error(
         "Expected either 3 or 6 hex chars. e.g. '333' or '#FCDEDC'"
     );
+}
+
+function getMessage(
+    original: string,
+    lengthened: string
+): { text: string; status: 'info' } {
+    if (lengthened === original) {
+        return {
+            text: 'Hex is already full-length',
+            status: 'info',
+        };
+    }
+    return undefined;
 }

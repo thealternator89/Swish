@@ -9,8 +9,6 @@ export = {
     beepVersion: '1.0.0',
     icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
-        return {
-            text: convertWordCaseToSnakeCase(args.textContent),
-        };
+        return convertWordCaseToSnakeCase(args.textContent);
     },
 };
