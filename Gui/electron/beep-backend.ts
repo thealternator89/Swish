@@ -4,37 +4,14 @@ import { configManager } from './config-manager';
 import { ipcHandler } from './ipc-handler';
 
 class BeepBackend {
-  readonly plugins: PluginDefinition[];
 
   constructor() {
     if (configManager.config.userPlugins) {
       pluginManager.init(configManager.config.userPlugins);
     }
-
-    //TODO: tidy this up
-    const userPlugins = pluginManager.getUserPlugins();
-    const systemPlugins = pluginManager.getSystemPlugins();
-
-    const tempPlugins = [];
-    for (const plugin of userPlugins) {
-      if (!tempPlugins.find((existing) => existing.id === plugin.id)) {
-        tempPlugins.push(plugin);
-      }
-    }
-    for (const plugin of systemPlugins) {
-      if (!tempPlugins.find((existing) => existing.id === plugin.id)) {
-        tempPlugins.push(plugin);
-      }
-    }
-
-    this.plugins = tempPlugins;
   }
 
   public search(query: string): PluginDefinition[] {
-    if (!query) {
-      return this.plugins;
-    }
-
     return pluginManager.searchPlugins(query);
   }
 

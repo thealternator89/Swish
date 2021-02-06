@@ -89,11 +89,11 @@ class PluginManager {
     }
 
     public getSystemPlugins() {
-        return this.systemPlugins;
+        return filterHiddenPlugins(this.systemPlugins);
     }
 
     public getUserPlugins() {
-        return this.userPlugins;
+        return filterHiddenPlugins(this.userPlugins);
     }
 
     public getPluginById(
@@ -116,10 +116,17 @@ class PluginManager {
     }
 
     public searchPlugins(query: string): PluginDefinition[] {
-        const fuse = new Fuse(
-            mergePluginLists(this.userPlugins, this.systemPlugins),
-            { keys: ['name', 'description', 'tags'] }
+        const availablePlugins = filterHiddenPlugins(
+            mergePluginLists(this.userPlugins, this.systemPlugins)
         );
+
+        if (!query) {
+            return availablePlugins;
+        }
+
+        const fuse = new Fuse(availablePlugins, {
+            keys: ['name', 'description', 'tags'],
+        });
         const results = fuse.search(query);
         return results.map((result) => result.item);
     }
@@ -223,6 +230,10 @@ function mergePluginLists(...lists: PluginDefinition[][]) {
     }
 
     return output;
+}
+
+function filterHiddenPlugins(list: PluginDefinition[]) {
+    return list.filter((plugin) => !plugin.hidden);
 }
 
 export const pluginManager = new PluginManager();

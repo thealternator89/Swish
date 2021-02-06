@@ -6,6 +6,7 @@ export interface PluginDefinition {
     tags: string[];
     beepVersion: string;
     icon: string;
+    hidden?: boolean;
     process: (args: ProvidedPluginArgument) => Promise<string | PluginResult>;
 }
 
