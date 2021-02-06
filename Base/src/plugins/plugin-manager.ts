@@ -16,6 +16,9 @@ const BEEP_BASE_VERSION = require('../../package.json')
 class PluginManager {
     private readonly systemPlugins: PluginDefinition[] = [];
     private userPlugins: PluginDefinition[] = [];
+    private userSelectablePlugins: PluginDefinition[];
+
+    private fuse: Fuse<PluginDefinition>;
 
     // Keeps track of which plugins are running, to ensure we don't enter an infinite loop and take down the entire app.
     private pluginStack: string[] = [];
@@ -30,6 +33,7 @@ class PluginManager {
             'dist'
         );
         this.systemPlugins = this.loadPluginSet(systemPluginPath);
+        this.reloadFuse();
     }
 
     // TODO: Rename this. It's not an init anymore - "reloadUserPlugins" maybe?
@@ -37,7 +41,11 @@ class PluginManager {
     public init(userPluginPath?: string) {
         if (userPluginPath) {
             this.userPlugins = this.loadPluginSet(userPluginPath);
+        } else {
+            this.userPlugins = [];
         }
+
+        this.reloadFuse();
     }
 
     private loadPluginSet(directory: string): PluginDefinition[] {
@@ -116,18 +124,11 @@ class PluginManager {
     }
 
     public searchPlugins(query: string): PluginDefinition[] {
-        const availablePlugins = filterHiddenPlugins(
-            mergePluginLists(this.userPlugins, this.systemPlugins)
-        );
-
         if (!query) {
-            return availablePlugins;
+            return this.userSelectablePlugins;
         }
 
-        const fuse = new Fuse(availablePlugins, {
-            keys: ['name', 'description', 'tags'],
-        });
-        const results = fuse.search(query);
+        const results = this.fuse.search(query);
         return results.map((result) => result.item);
     }
 
@@ -215,6 +216,16 @@ class PluginManager {
         }
 
         return result.text;
+    }
+
+    private reloadFuse(): void {
+        this.userSelectablePlugins = filterHiddenPlugins(
+            mergePluginLists(this.userPlugins, this.systemPlugins)
+        );
+
+        this.fuse = new Fuse(this.userSelectablePlugins, {
+            keys: ['name', 'description', 'tags'],
+        });
     }
 }
 
