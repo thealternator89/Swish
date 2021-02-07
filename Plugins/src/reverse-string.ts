@@ -1,3 +1,4 @@
+import { unifyNewLines } from './lib/text-util';
 import { ProvidedPluginArgument } from './model';
 
 export = {
@@ -8,6 +9,7 @@ export = {
     beepVersion: '1.0.0',
     icon: 'sort',
     process: async (args: ProvidedPluginArgument) => {
-        return args.textContent.split('').reverse().join('');
+        // We have to unify the newlines otherwise we will end up with "LFCR" occurring on CRLF systems
+        return unifyNewLines(args.textContent).split('').reverse().join('');
     },
 };
