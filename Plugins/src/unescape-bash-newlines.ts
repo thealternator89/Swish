@@ -1,3 +1,4 @@
+import { NEWLINE_CHAR } from './lib/text-util';
 import { ProvidedPluginArgument } from './model';
 
 // looks for any instance of a literal backslash (\) followed by a newline.
@@ -5,9 +6,9 @@ const escapedNewlineRegex = /(\\\n)/g;
 
 const trimLines = (lines: string) =>
     lines
-        .split('\n')
+        .split(NEWLINE_CHAR)
         .map((line) => line.trimStart())
-        .join('\n');
+        .join(NEWLINE_CHAR);
 
 export = {
     name: 'Remove escaped newlines in bash',

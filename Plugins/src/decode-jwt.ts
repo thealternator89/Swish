@@ -1,5 +1,5 @@
 import { ProvidedPluginArgument } from './model';
-import { runPlugins } from './lib/text-util';
+import { NEWLINE_CHAR, runPlugins } from './lib/text-util';
 
 const PLUGINS = ['base64-decode', 'prettify-json'];
 
@@ -31,13 +31,13 @@ export = {
             ,
             'SIGNATURE:',
             indentLines(signature, 4),
-        ].join('\n');
+        ].join(NEWLINE_CHAR);
     },
 };
 
 function indentLines(text: string, spaces: number): string {
     return text
-        .split('\n')
+        .split(NEWLINE_CHAR)
         .map((line) => new Array(spaces + 1).join(' ') + line)
-        .join('\n');
+        .join(NEWLINE_CHAR);
 }

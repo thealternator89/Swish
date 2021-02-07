@@ -1,7 +1,5 @@
-import { unifyNewLines } from './lib/text-util';
+import { NEWLINE_CHAR, unifyNewLines } from './lib/text-util';
 import { ProvidedPluginArgument } from './model';
-
-const NEWLINE_CHAR = '\n';
 
 export = {
     name: 'Sort Lines',

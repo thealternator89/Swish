@@ -1,3 +1,4 @@
+import { NEWLINE_CHAR } from './lib/text-util';
 import { ProvidedPluginArgument } from './model';
 
 export = {
@@ -39,7 +40,12 @@ function renderObject(obj: Object, depth: number = 1): string {
         }
     }
 
-    return `{\n${properties.join('\n')}\n${spaces((depth - 1) * 4)}}`;
+    return `{${
+        NEWLINE_CHAR +
+        properties.join('\n') +
+        NEWLINE_CHAR +
+        spaces((depth - 1) * 4)
+    }}`;
 }
 
 const spaces = (num: number) => new Array(num + 1).join(' ');
