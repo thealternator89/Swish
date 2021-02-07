@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss'],
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent   {
   content: string = '';
-
-  editorOptions;
+  editorOptions: any;
 
   constructor() {
     const editorConfig = (window as any).config.editor;
@@ -25,10 +24,8 @@ export class EditorComponent implements OnInit {
       minimap: {
         enabled: false,
       },
-    }
+    };
   }
-
-  ngOnInit(): void {}
 
   get text() {
     return this.content;
