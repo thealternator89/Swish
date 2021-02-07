@@ -6,7 +6,7 @@ export = {
     id: 'upcase',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    icon: 'keyboard_arrow_up',
+    icon: 'arrow_upward',
     tags: ['text', 'format', 'uppercase'],
     process: async (args: ProvidedPluginArgument) => {
         return {

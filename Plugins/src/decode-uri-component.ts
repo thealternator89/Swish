@@ -6,7 +6,7 @@ export = {
     id: 'decode-uri-component',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    icon: 'sync',
+    icon: 'emoji_symbols',
     process: async (args: ProvidedPluginArgument) => {
         return decodeURIComponent(args.textContent);
     },

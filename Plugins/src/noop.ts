@@ -7,6 +7,7 @@ export = {
     id: 'noop',
     author: 'thealternator89',
     beepVersion: '1.0.0',
+    icon: 'hourglass_bottom',
     process: async (args: ProvidedPluginArgument) => {
         return args.textContent;
     },

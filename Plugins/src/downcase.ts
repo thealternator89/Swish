@@ -6,7 +6,7 @@ export = {
     id: 'downcase',
     author: 'thealternator89',
     beepVersion: '1.0.0',
-    icon: 'keyboard_arrow_down',
+    icon: 'arrow_downward',
     process: async (args: ProvidedPluginArgument) => {
         return args.textContent.toLowerCase();
     },
