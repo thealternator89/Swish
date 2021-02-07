@@ -19,11 +19,21 @@ export = {
 
         for (let key in input) {
             if (input.hasOwnProperty(key)) {
-                const value = input[key];
-                params.push(`${key}=${value}`);
+                const value = getValueString(input[key]);
+                params.push(
+                    `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+                );
             }
         }
 
         return '?' + params.join('&');
     },
 };
+
+function getValueString(value: string | number | object): string {
+    if (typeof value === 'string') {
+        return value;
+    }
+
+    return JSON.stringify(value);
+}
