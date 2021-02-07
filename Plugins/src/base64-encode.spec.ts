@@ -1,8 +1,8 @@
 import base64Encode from './base64-encode';
 import { basePluginArgument } from './lib/_test_util';
 
-describe('Base64 Decode', () => {
-    it('Correctly decodes a Base64 string', async () => {
+describe('Base64 Encode', () => {
+    it('Correctly encodes a Base64 string', async () => {
         const input = 'Test string';
         const expected = 'VGVzdCBzdHJpbmc=';
 
