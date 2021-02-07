@@ -1,2 +1,2 @@
-export { PluginDefinition } from './plugins/plugin-definition';
+export { PluginDefinition, PluginResult } from 'beep-plugins/dist/model';
 export { pluginManager } from './plugins/plugin-manager';

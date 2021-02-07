@@ -1,5 +1,5 @@
 import { PluginDefinition, pluginManager } from 'beep-base';
-import { PluginResult } from 'beep-base/dist/plugins/plugin-definition';
+import { PluginResult } from 'beep-base';
 import { configManager } from './config-manager';
 import { ipcHandler } from './ipc-handler';
 

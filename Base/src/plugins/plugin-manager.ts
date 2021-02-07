@@ -1,12 +1,12 @@
 import { existsSync, readdirSync } from 'fs';
 import * as path from 'path';
-import { PluginDefinition } from './plugin-definition';
 import Fuse from 'fuse.js';
 import {
+    PluginDefinition,
     ProvidedPluginArgument,
     PluginArgument,
     PluginResult,
-} from 'beep-plugins/dist/lib/plugin-definition';
+} from 'beep-plugins/dist/model';
 import { InfiniteLoopError, PluginNotFoundError } from '../errors';
 
 const BEEP_BASE_VERSION = require('../../package.json')

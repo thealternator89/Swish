@@ -1,4 +1,4 @@
-import { PluginResult } from 'beep-base/dist/plugins/plugin-definition';
+import { PluginResult } from 'beep-base';
 
 export interface RunPluginResponse extends PluginResult {
   error?: Error;
