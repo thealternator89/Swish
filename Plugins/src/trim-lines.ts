@@ -6,7 +6,7 @@ export = {
     description: 'Remove all whitespace from the start and end of each line',
     id: 'trim-lines',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'content_cut',
     process: async (args: ProvidedPluginArgument) => {
         return unifyNewLines(args.textContent)

@@ -6,7 +6,7 @@ export = {
     description: 'Compute the SHA1 hash of your text',
     id: 'hash-sha1',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'fingerprint',
     process: async (args: ProvidedPluginArgument) => {
         return SHA1(args.textContent).toString();

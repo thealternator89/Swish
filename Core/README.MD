@@ -1,16 +1,36 @@
-# Beep-Core
+# Swish-Core
 
-A CLI-based implementation of the beep application.
+A CLI-based implementation of the Swish application.
 
 This accepts input via the `stdin` pipe.
 
-> ⚠️ WARNING: This has not been tested on Windows.
-> This uses ANSI escape codes to move the caret to provide feedback while a plugin is running. These (probably) don't work on Windows and may end up doing weird things. They might work with the new Windows terminal with ConPTY though.
+> **⚠️ Windows Warnings**
+> 
+> * This application does not work on _PowerShell_ or _Windows PowerShell_. It works as expected through Command Prompt.
+>   * PowerShell doesn't pass data as expected via the STDIN pipe. I haven't looked at fixing it.
+> * Builtin plugins unify line endings to "LF". This may cause issues if the output target expects "CRLF" line endings.
+
+## Installing 
+
+This package isn't built or published to NPM yet. You can use it if you wish using the following instructions:
+
+1. Ensure you have Node installed
+2. Clone the repo somewhere
+3. Follow the instructions in `SETUP.MD` at least up to step #4 (npm link)
+4. Run `swish --version` to check it works
+
+To update
+
+1. Open the repo
+2. Run `git pull`
+3. Run `npm run build`
+
+The linked `swish` executable will be updated.
 
 ## Flags
 
 ```
-Usage: beep [options]
+Usage: swish [options]
 
 Options:
   -V, --version          output the version number
@@ -21,49 +41,28 @@ Options:
   -h, --help             display help for command
 ```
 
-### -V, --version
-
-Output the version number
-
-### -ls, --list
-
-List all available plugins
-
 ## Running
 
-There are two ways to get data into the Beep CLI process.
+There are two ways to get data into the Swish CLI process.
 
 ### Basic
 
-You can echo, or pipe the output of any other program into beep, as shown below:
+You can echo, or pipe the output of any other program into swish, as shown below:
 
 ```bash
-$ echo "#333" | beep -p hex-to-rgb
-```
-
-### Here Document
-
-You can use a Here Document to pass larger static data to Beep. E.g.:
-
-```bash
-$ beep -p minify-json <<EOF
-{
-    "test": true,
-    "thing": 15
-}
-EOF
+$ echo "#333" | swish -p hex-to-rgb
 ```
 
 ### Files
 
-You can either pipe a file from `cat` into beep, or directly into beep to perform a transformation, e.g:
+You can either pipe a file from `cat` into swish, or directly into swish to perform a transformation, e.g:
 
 ```bash
-$ cat package.json | beep -p minify-json
+$ cat package.json | swish -p minify-json
 ```
 
 ```bash
-$ beep -p minify-json < package.json
+$ swish -p minify-json < package.json
 ```
 
 

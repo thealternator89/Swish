@@ -1,10 +1,9 @@
-import { PluginDefinition, pluginManager } from 'beep-base';
-import { PluginResult } from 'beep-base';
+import { PluginDefinition, pluginManager } from 'swish-base';
+import { PluginResult } from 'swish-base';
 import { configManager } from './config-manager';
 import { ipcHandler } from './ipc-handler';
 
-class BeepBackend {
-
+class SwishBackend {
   constructor() {
     if (configManager.config.userPlugins) {
       pluginManager.init(configManager.config.userPlugins);
@@ -38,4 +37,4 @@ class BeepBackend {
   }
 }
 
-export const beepBackend = new BeepBackend();
+export const swishBackend = new SwishBackend();

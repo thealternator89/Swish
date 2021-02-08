@@ -6,7 +6,7 @@ export = {
         'A base plugin which does nothing (a NO-OP), slowly. Use this to build a plugin.',
     id: 'noop-slow',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'hourglass_top',
     process: async (args: ProvidedPluginArgument) => {
         let percent = 0;

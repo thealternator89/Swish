@@ -6,7 +6,7 @@ export = {
     description: 'Reverses a string passed to it. e.g: "ABC123" -> "321CBA"',
     id: 'reverse-string',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'sort',
     process: async (args: ProvidedPluginArgument) => {
         // We have to unify the newlines otherwise we will end up with "LFCR" occurring on CRLF systems

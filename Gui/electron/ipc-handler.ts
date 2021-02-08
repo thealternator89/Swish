@@ -1,6 +1,6 @@
 import { BrowserWindow, ipcMain } from 'electron';
 
-import { beepBackend } from './beep-backend';
+import { swishBackend } from './swish-backend';
 import { IPCPluginResult } from './model/ipc/plugin';
 
 import { MenuCommand } from '../shared/const/ipc/menu-command';
@@ -21,7 +21,7 @@ class IPCHandler {
 
   public registerSearch() {
     ipcMain.on(IPC_CHANNELS.PLUGIN_SEARCH.REQ, (_event, arg: string) => {
-      const matching = beepBackend.search(arg);
+      const matching = swishBackend.search(arg);
       this.sendSearchResult(
         matching.map(
           // Filter out everything we don't want to send.
@@ -44,7 +44,7 @@ class IPCHandler {
 
       let response: RunPluginResponse;
       try {
-        response = await beepBackend.runPlugin(plugin, data, requestId);
+        response = await swishBackend.runPlugin(plugin, data, requestId);
       } catch (error) {
         response = {
           error: error,

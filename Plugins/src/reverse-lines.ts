@@ -6,7 +6,7 @@ export = {
     description: 'Reverses the lines of the input',
     id: 'reverse-lines',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'sort',
     process: async (args: ProvidedPluginArgument) => {
         return unifyNewLines(args.textContent)

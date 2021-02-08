@@ -7,7 +7,7 @@ export = {
         'Add padding to the right of each line so all lines are the same length',
     id: 'pad-right',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'format_align_left',
     process: async (args: ProvidedPluginArgument) => {
         const lines = unifyNewLines(args.textContent)

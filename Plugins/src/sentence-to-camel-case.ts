@@ -6,7 +6,7 @@ export = {
     description: 'Convert each line from a sentence to camel case (camelCase)',
     id: 'sentence-to-camel-case',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
         return convertWordCaseToCamelCase(args.textContent);

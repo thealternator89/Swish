@@ -9,7 +9,7 @@ export = {
     description: 'Converts an RGB color value to a Hex color',
     id: 'rgb-to-hex',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'palette',
     process: async (args: ProvidedPluginArgument) => {
         const { r, g, b } = extractRgb(args.textContent);

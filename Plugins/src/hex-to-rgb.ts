@@ -5,7 +5,7 @@ export = {
     description: 'Converts a Hex color value to an RGB color',
     id: 'hex-to-rgb',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'palette',
     process: async (args: ProvidedPluginArgument) => {
         const genericHex = await args.runPlugin(

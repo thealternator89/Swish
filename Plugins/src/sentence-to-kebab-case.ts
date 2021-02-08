@@ -6,7 +6,7 @@ export = {
     description: 'Convert each line from a sentence to kebab case (kebab-case)',
     id: 'sentence-to-kebab-case',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
         return convertWordCaseToKebabCase(args.textContent);

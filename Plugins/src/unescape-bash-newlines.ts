@@ -15,7 +15,7 @@ export = {
     description: 'Remove all escaped newlines in a bash command',
     id: 'unescape-bash-newlines',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
         const trimmed = trimLines(args.textContent);

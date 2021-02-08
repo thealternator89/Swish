@@ -6,7 +6,7 @@ export = {
         'A base plugin which does nothing (a NO-OP). Copy this to build a plugin.',
     id: 'noop',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'hourglass_bottom',
     process: async (args: ProvidedPluginArgument) => {
         return args.textContent;

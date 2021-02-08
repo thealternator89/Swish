@@ -6,7 +6,7 @@ import { buildMenus } from './menu-manager';
 import * as path from 'path';
 import * as url from 'url';
 
-const APP_NAME = 'Beep';
+const APP_NAME = 'Swish';
 
 let win: BrowserWindow;
 
@@ -42,7 +42,7 @@ function createWindow() {
 
   win.loadURL(
     url
-      .pathToFileURL(path.join(__dirname, '../../../dist/beep-gui/index.html'))
+      .pathToFileURL(path.join(__dirname, '../../../dist/swish-gui/index.html'))
       .toString()
   );
 

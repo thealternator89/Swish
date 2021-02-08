@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/beep-gui'),
+      dir: require('path').join(__dirname, './coverage/swish-gui'),
       subdir: '.',
       reporters: [
         { type: 'html' },

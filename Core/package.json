@@ -1,10 +1,10 @@
 {
-  "name": "beep-core",
+  "name": "swish-core",
   "version": "0.1.0",
-  "description": "Basic data manipulation",
+  "description": "Basic data manipulation CLI",
   "main": "dist/index.js",
   "bin": {
-    "beep": "dist/index.js"
+    "swish": "dist/index.js"
   },
   "scripts": {
     "start": "node .",
@@ -20,7 +20,7 @@
     "typescript": "^4.0.3"
   },
   "dependencies": {
-    "beep-base": "file:../Base",
+    "swish-base": "file:../Base",
     "colors": "^1.4.0",
     "commander": "^6.1.0",
     "enquirer": "^2.3.6",

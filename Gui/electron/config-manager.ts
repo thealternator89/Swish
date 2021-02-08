@@ -3,9 +3,9 @@ import { homedir } from 'os';
 import { join } from 'path';
 import { env } from 'process';
 
-const ENV_USER_PLUGINS = 'BEEP_PLUGIN_PATH';
+const ENV_USER_PLUGINS = 'SWISH_PLUGIN_PATH';
 
-interface BeepConfig {
+interface SwishConfig {
   userPlugins: string;
   editor: {
     font: string;
@@ -14,7 +14,7 @@ interface BeepConfig {
 }
 
 class ConfigManager {
-  readonly config: BeepConfig;
+  readonly config: SwishConfig;
 
   constructor() {
     const fileConfig = this.readFileConfig();
@@ -28,8 +28,8 @@ class ConfigManager {
     };
   }
 
-  private readFileConfig(): Partial<BeepConfig> {
-    const configPath = join(homedir(), '.beeprc');
+  private readFileConfig(): Partial<SwishConfig> {
+    const configPath = join(homedir(), '.swishrc');
 
     if (!existsSync(configPath)) {
       return {};
@@ -41,13 +41,13 @@ class ConfigManager {
     return config;
   }
 
-  private getEnvConfig(): Partial<BeepConfig> {
+  private getEnvConfig(): Partial<SwishConfig> {
     return {
       userPlugins: env[ENV_USER_PLUGINS],
     };
   }
 
-  private getDefaultConfig(): BeepConfig {
+  private getDefaultConfig(): SwishConfig {
     return {
       editor: {
         font: getDefaultFont(),

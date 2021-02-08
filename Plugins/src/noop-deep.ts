@@ -6,7 +6,7 @@ export = {
         'A base plugin which does nothing (a NO-OP), slowly. Use this to build a plugin.',
     id: 'noop-deep',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'layers',
     process: (args: ProvidedPluginArgument) => {
         return args.runPlugin('noop-slow', {

@@ -6,7 +6,7 @@ import * as stdin from 'get-stdin';
 import * as tabula from 'tabula';
 import { env } from 'process';
 
-import { pluginManager, PluginDefinition } from 'beep-base';
+import { pluginManager, PluginDefinition } from 'swish-base';
 
 import { StatusUpdatePrinter } from './status-update-printer';
 
@@ -24,7 +24,7 @@ program
 
 program.parse(process.argv);
 
-const userPluginPath = env['BEEP_PLUGIN_PATH'];
+const userPluginPath = env['SWISH_PLUGIN_PATH'];
 
 if (userPluginPath) {
     pluginManager.init(userPluginPath);

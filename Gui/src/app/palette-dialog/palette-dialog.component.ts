@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { PluginDefinition } from 'beep-base';
+import { PluginDefinition } from 'swish-base';
 import { IpcService } from '../ipc.service';
 
 @Component({

@@ -12,7 +12,7 @@ export = {
         'Basic, insecure cypher. Rotates each alphabet character by 13 places',
     id: 'rot13-cypher',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'lock_open',
     process: async (args: ProvidedPluginArgument) => {
         return args.textContent.split('').map(rotate13).join('');

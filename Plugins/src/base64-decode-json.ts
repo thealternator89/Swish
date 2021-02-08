@@ -7,7 +7,7 @@ export = {
     id: 'base64-decode-json',
     author: 'thealternator89',
     tags: ['base64', 'decode', 'json'],
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
         return await runPlugins(

@@ -7,7 +7,7 @@ export = {
     description: 'Removes unnecessary whitespace from input XML',
     id: 'minify-xml',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'compress',
     process: async (args: ProvidedPluginArgument) => {
         return format(args.textContent, {

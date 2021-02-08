@@ -6,7 +6,7 @@ export = {
     id: 'base64-decode',
     author: 'thealternator89',
     tags: ['base64', 'decode', 'text'],
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
         let binaryData = Buffer.from(args.textContent, 'base64');

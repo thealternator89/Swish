@@ -6,7 +6,7 @@ export = {
     description: 'Converts JSON to a static CommonJS exported module',
     id: 'json-to-js',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'code',
     process: async (args: ProvidedPluginArgument) => {
         let obj: any;

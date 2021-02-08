@@ -7,7 +7,7 @@ export interface PluginDefinition {
     description: string;
     author: string;
     tags: string[];
-    beepVersion: string;
+    swishVersion: string;
     icon: string;
     hidden?: boolean;
     process: (args: ProvidedPluginArgument) => Promise<string | PluginResult>;

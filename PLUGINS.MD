@@ -1,4 +1,4 @@
-# Beep Plugins
+# Swish Plugins
 
 Plugins are standard commonjs modules. You can build them in vanilla javascript or use something like TypeScript.
 If your user plugin directory is configured, you can install npm packages and import them into your script.
@@ -13,7 +13,7 @@ interface PluginDefinition {
     description: string;
     author: string;
     tags: string[];
-    beepVersion: string;
+    swishVersion: string;
     process: (args: PluginArgument) => Promise<string>;
 }
 ```
@@ -21,11 +21,11 @@ interface PluginDefinition {
 ### Properties
 
 * **`name`**: Your plugin name which is displayed in the UI. This should be short and obvious.
-* **`id`**: _(optional)_ Your plugin ID. This is mainly used by Beep-Core. If not provided, your plugin's filename _(excluding the `.js`)_ is used.
+* **`id`**: _(optional)_ Your plugin ID. If not provided, your plugin's filename _(excluding the `.js`)_ is used.
 * **`description`**: A longer description of your plugin.
 * **`author`**: Your name.
 * **`tags`**: Words to help filtering your plugin. See below for ideas for what you can put here.
-* **`beepVersion`**: The version of Beep-Base which your plugin supports. Beep will load the plugin if the major version matches, and the minor version is less than the current minor version
+* **`swishVersion`**: The version of Swish-Base which your plugin supports. Swish will only load the plugin if the major version matches, and the minor version is less than the current minor version
 * **`process`**: The function which is invoked to process data. See below for how this works.
 
 ## Process function
@@ -83,4 +83,4 @@ If your plugin does its work in multiple phases, and you would like to keep the 
 
 Don't:
 * **Use `console`** - Use the `statusUpdate` function or `message` in the response to pass this info to the user.
-    In all current implementations these messages will not make it anywhere to the user. Calling console from your plugin may cause issues in future implementations of Beep apps.
+    In all current implementations these messages will not make it anywhere to the user. Calling console from your plugin may cause issues in future implementations of Swish apps.

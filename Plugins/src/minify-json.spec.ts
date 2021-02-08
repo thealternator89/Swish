@@ -7,11 +7,11 @@ describe('Minify JSON', () => {
             "something": {
                 "isValid": true,
                 "number": 32,
-                "text": "Beep is Cool!"
+                "text": "Swish is Cool!"
             }
         }`;
         const expected =
-            '{"something":{"isValid":true,"number":32,"text":"Beep is Cool!"}}';
+            '{"something":{"isValid":true,"number":32,"text":"Swish is Cool!"}}';
 
         const output = await minifyJson.process({
             ...basePluginArgument,

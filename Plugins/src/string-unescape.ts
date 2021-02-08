@@ -5,7 +5,7 @@ export = {
     description: 'Remove slashes from a string',
     id: 'string-unescape',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'format_quote',
     process: async (args: ProvidedPluginArgument) => {
         const text = args.textContent;

@@ -8,7 +8,7 @@ export = {
     description: 'Decodes a JWT and makes it human-readable',
     id: 'decode-jwt',
     author: 'thealternator89',
-    beepVersion: '1.0.0',
+    swishVersion: '1.0.0',
     icon: 'view_agenda',
     process: async (args: ProvidedPluginArgument) => {
         const [headerB64, payloadB64, signature] = args.textContent.split('.');

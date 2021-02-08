@@ -14,7 +14,7 @@ import { EditorComponent } from './editor/editor.component';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'Beep';
+  title = 'Swish';
   paletteDialogRef: MatDialogRef<PaletteDialogComponent>;
 
   @ViewChild(StatusComponent) statusComponent: StatusComponent;

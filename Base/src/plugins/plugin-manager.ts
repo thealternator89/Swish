@@ -6,7 +6,7 @@ import {
     ProvidedPluginArgument,
     PluginArgument,
     PluginResult,
-} from 'beep-plugins/dist/model';
+} from 'swish-plugins/dist/model';
 import { InfiniteLoopError, PluginNotFoundError } from '../errors';
 
 const BEEP_BASE_VERSION = require('../../package.json')
@@ -29,7 +29,7 @@ class PluginManager {
             '..',
             '..',
             'node_modules',
-            'beep-plugins',
+            'swish-plugins',
             'dist'
         );
         this.systemPlugins = this.loadPluginSet(systemPluginPath);
@@ -63,7 +63,7 @@ class PluginManager {
             const plugin = require(`${directory}/${pluginFile}`) as PluginDefinition;
 
             if (
-                !this.checkPluginVersion(plugin.beepVersion, BEEP_BASE_VERSION)
+                !this.checkPluginVersion(plugin.swishVersion, BEEP_BASE_VERSION)
             ) {
                 continue;
             }
@@ -80,19 +80,19 @@ class PluginManager {
 
     private checkPluginVersion(
         pluginRequiredVersion: string,
-        beepVersion: number[]
+        swishVersion: number[]
     ): boolean {
         // Plugin hasn't specified a version, ignore it.
         if (!pluginRequiredVersion) {
             return false;
         }
 
-        const requiredBeepVersion = pluginRequiredVersion
+        const requiredVersion = pluginRequiredVersion
             .split('.')
             .map((n) => parseInt(n));
         return (
-            requiredBeepVersion[0] === beepVersion[0] && // Major version matches AND
-            requiredBeepVersion[1] <= beepVersion[1]
+            requiredVersion[0] === swishVersion[0] && // Major version matches AND
+            requiredVersion[1] <= swishVersion[1]
         ); // Minor version is less than or equal
     }
 

@@ -6,13 +6,13 @@ describe('Minify XML', () => {
         const input = `
         <root>
             <parentElem>
-                <child>Beep</child>
+                <child>Swish</child>
                 <child>Is</child>
                 <child>Cool</child>
             </parentElem>
         </root>`;
         const expected =
-            '<root><parentElem><child>Beep</child><child>Is</child><child>Cool</child></parentElem></root>';
+            '<root><parentElem><child>Swish</child><child>Is</child><child>Cool</child></parentElem></root>';
 
         const output = await minifyXml.process({
             ...basePluginArgument,
