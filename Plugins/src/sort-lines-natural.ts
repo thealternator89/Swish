@@ -11,7 +11,7 @@ const VALID_NUMBER = /^(\d*|\d{1,3}(,\d{3})*)(\.\d*)?$/;
 export = {
     name: 'Sort Lines (Natural)',
     description: 'Sorts the lines of the input, keeping numbers in order',
-    id: 'sort-lines',
+    id: 'sort-lines-natural',
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'sort',
