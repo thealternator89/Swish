@@ -6,7 +6,7 @@ export = {
     id: 'eval-js',
     author: 'thealternator89',
     swishVersion: '1.0.0',
-    icon: 'sync',
+    icon: 'widgets',
     process: async (args: ProvidedPluginArgument) => {
         const text = args.textContent;
         let js: string;

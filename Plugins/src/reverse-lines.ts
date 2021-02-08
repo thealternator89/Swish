@@ -7,7 +7,7 @@ export = {
     id: 'reverse-lines',
     author: 'thealternator89',
     swishVersion: '1.0.0',
-    icon: 'sort',
+    icon: 'swap_vert',
     process: async (args: ProvidedPluginArgument) => {
         return unifyNewLines(args.textContent)
             .split(NEWLINE_CHAR)

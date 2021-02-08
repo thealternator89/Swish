@@ -7,7 +7,7 @@ export = {
     id: 'reverse-string',
     author: 'thealternator89',
     swishVersion: '1.0.0',
-    icon: 'sort',
+    icon: 'replay',
     process: async (args: ProvidedPluginArgument) => {
         // We have to unify the newlines otherwise we will end up with "LFCR" occurring on CRLF systems
         return unifyNewLines(args.textContent).split('').reverse().join('');
