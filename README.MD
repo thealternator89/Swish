@@ -2,14 +2,20 @@
 
 Swish is an awesome offline data transformation tool, heavily influenced by the Mac tool [Boop](https://boop.okat.best).
 
-This is a monorepo containing the following:
+We often get data in weird, unreadable formats from various systems. Often it's tempting to use a web service to transform the data into something you can use - but not any more - Swish It!
+
+Swish is built with Node, Electron and Angular.
+
+## Repo
+
+The Swish repo is a monorepo containing the following:
 
 * **Base**: The base plugin handling capability and interfaces shared amongst other repos
 * **Core**: CLI client for Swish. Pipe data in to have it transformed using the same plugins as the Swish GUI
 * **Gui**: Electron GUI client for Swish
 * **Plugins**: Builtin plugins for Swish
 
-> ⚠️ If you would like to work on this repo, check out SETUP.MD for instructions to get it all set up correctly.
+> ⚠️ If you would like to work on this repo, check out [SETUP.MD](docs/SETUP.MD) for instructions to get it all set up correctly.
 > There is a very specific install/build order as each component depends on others.
 > This will eventually be scripted, but it is currently a manual process.
 
