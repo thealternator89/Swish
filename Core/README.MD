@@ -5,12 +5,12 @@ A CLI-based implementation of the Swish application.
 This accepts input via the `stdin` pipe.
 
 > **⚠️ Windows Warnings**
-> 
-> * This application does not work on _PowerShell_ or _Windows PowerShell_. It works as expected through Command Prompt.
->   * PowerShell doesn't pass data as expected via the STDIN pipe. I haven't looked at fixing it.
-> * Builtin plugins unify line endings to "LF". This may cause issues if the output target expects "CRLF" line endings.
+>
+> - This application does not work on _PowerShell_ or _Windows PowerShell_. It works as expected through Command Prompt.
+>   - PowerShell doesn't pass data as expected via the STDIN pipe. I haven't looked at fixing it.
+> - Builtin plugins unify line endings to "LF". This may cause issues if the output target expects "CRLF" line endings.
 
-## Installing 
+## Installing
 
 This package isn't built or published to NPM yet. You can use it if you wish using the following instructions:
 
@@ -64,5 +64,3 @@ $ cat package.json | swish -p minify-json
 ```bash
 $ swish -p minify-json < package.json
 ```
-
-

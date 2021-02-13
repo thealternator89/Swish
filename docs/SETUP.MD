@@ -12,30 +12,30 @@ For best results, avoid working on this repo on FAT, exFAT or shared file system
 > ⚠️ Wait until each step is complete before moving on to the next step!
 
 1. In the `/` directory:
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 2. In the `/Plugins` directory:
-    ```bash
-    npm install
-    npm run build
-    ```
+   ```bash
+   npm install
+   npm run build
+   ```
 3. In the `/Base` directory:
-    ```bash
-    npm install
-    npm run build
-    ```
+   ```bash
+   npm install
+   npm run build
+   ```
 4. In the `/Core` directory:
-    ```bash
-    npm install
-    npm run build
-    npm link # you can skip this if you don't want the swish-core cli
-    ```
+   ```bash
+   npm install
+   npm run build
+   npm link # you can skip this if you don't want the swish-core cli
+   ```
 5. In the `/Gui` directory:
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 6. In the `/` directory: - _check it's all set up correctly_
-    ```bash
-    npm run build
-    ```
+   ```bash
+   npm run build
+   ```

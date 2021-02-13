@@ -10,48 +10,53 @@ Swish plugins are standard commonjs modules. You can build them in vanilla javas
 
 ```typescript
 interface PluginDefinition {
-    name: string;
-    id?: string;
-    description: string;
-    author: string;
-    tags?: string[];
-    icon?: string;
-    swishVersion: string;
-    process: (args: PluginArgument) => Promise<string>;
+  name: string;
+  id?: string;
+  description: string;
+  author: string;
+  tags?: string[];
+  icon?: string;
+  swishVersion: string;
+  process: (args: PluginArgument) => Promise<string>;
 }
 ```
 
-* **`name`**: Your plugin name which is displayed in the UI. This should be short and obvious.
-* **`id`**: _(optional)_ Your plugin ID. If not provided, your plugin's filename _(excluding the `.js`)_ is used.
-* **`description`**: A longer description of your plugin.
-* **`author`**: Your name.
-* **`tags`**: Words to help filtering your plugin. See below for ideas for what you can put here.
-* **`icon`**: The icon to use in Swish beside your plugin.  
-    Swish contains [Material Design Icons](https://material.io/resources/icons/?style=baseline). Select an icon and use the name of it here.  
-* **`swishVersion`**: The version of Swish-Base which your plugin targets.  
+- **`name`**: Your plugin name which is displayed in the UI. This should be short and obvious.
+- **`id`**: _(optional)_ Your plugin ID. If not provided, your plugin's filename _(excluding the `.js`)_ is used.
+- **`description`**: A longer description of your plugin.
+- **`author`**: Your name.
+- **`tags`**: Words to help filtering your plugin. See below for ideas for what you can put here.
+- **`icon`**: The icon to use in Swish beside your plugin.  
+   Swish contains [Material Design Icons](https://material.io/resources/icons/?style=baseline). Select an icon and use the name of it here.
+- **`swishVersion`**: The version of Swish-Base which your plugin targets.  
   Swish will only load plugins which target the current major version, and the current or a previous minor version.
-* **`process`**: The function which is invoked to process data. See below for how this works.
+- **`process`**: The function which is invoked to process data. See below for how this works.
 
 ### Process function
 
 The `process` function in your plugin is where the magic happens!
 
 You will be passed data matching the following shape:
+
 ```typescript
 interface PluginArgument {
-    textContent: string;
-    statusUpdate(text: string): void;
-    progressUpdate(percent: number): void;
-    runPlugin(pluginId: string, data: PluginArgument | string, type: 'default'|'system'|'user')
+  textContent: string;
+  statusUpdate(text: string): void;
+  progressUpdate(percent: number): void;
+  runPlugin(
+    pluginId: string,
+    data: PluginArgument | string,
+    type: 'default' | 'system' | 'user'
+  );
 }
 ```
 
-* **`textContent`**: The text content to process
-* **`statusUpdate`**: A callback to update the UI with the current status - used for long-running plugins.  
+- **`textContent`**: The text content to process
+- **`statusUpdate`**: A callback to update the UI with the current status - used for long-running plugins.  
   This can be any text, but should be short to ensure it fits on any UI.
-* **`progressUpdate`**: A callback to update the UI with the progress - used for long-running plugins.  
+- **`progressUpdate`**: A callback to update the UI with the progress - used for long-running plugins.  
   This takes a whole-number percentage as an argument in the range `0` - `100`.
-* **`runPlugin`**: Pass some data to another plugin to run.
+- **`runPlugin`**: Pass some data to another plugin to run.
   This helps simplify your plugin by offloading some work to another plugin rather than reimplementing it.
 
 ### Returning a result
@@ -61,20 +66,21 @@ Your plugin must return a promise which resolves to either a string or object.
 In most situations, your promise will only need to resolve to a string, only if you want to provide a message to the user should your promise resolve with an object.
 
 If you want to provide a message to the user, your object result must be the following shape.
+
 ```typescript
 interface PluginResult {
-    text?: string;
-    message?: {
-        text: string,
-        status: 'info' | 'warn' | 'success',
-    }
+  text?: string;
+  message?: {
+    text: string;
+    status: 'info' | 'warn' | 'success';
+  };
 }
 ```
 
-* **`text`**: The resulting text for the plugin execution
-* **`message`**:
-  * **`text`**: Text of the message to display to the user
-  * **`status`**: The status of the message - used to colour the message.
+- **`text`**: The resulting text for the plugin execution
+- **`message`**:
+  - **`text`**: Text of the message to display to the user
+  - **`status`**: The status of the message - used to colour the message.
 
 Note that no part of the object is **required**, but you should at least return either `text` or the `message`.  
 This is useful to allow you to build a plugin which provides feedback on the input without modifying the text.
@@ -100,4 +106,4 @@ This value may be an integer or floating-point, but **must** be in the range `0 
 
 If your plugin does its work in multiple phases, and you would like to keep the user informed of the stage it's at, use the `statusUpdate` function and pass any string to be displayed to the user.
 
-### 
+###
