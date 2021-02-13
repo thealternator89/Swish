@@ -56,8 +56,11 @@ class PluginManager {
         }
 
         const plugins = readdirSync(resolvedDirectory).filter(
-            (file) => file.endsWith('.js') && !file.endsWith('.spec.js')
-        ); // we only want JS files which aren't specs
+            (file) =>
+                file.endsWith('.js') && //find JS files
+                !file.endsWith('.spec.js') && // which aren't specs
+                !file.startsWith('_') // and don't start with '_'
+        );
 
         const pluginObjs: PluginDefinition[] = [];
 
@@ -150,7 +153,7 @@ class PluginManager {
         const plugin = this.getPluginById(id, type);
 
         if (!plugin) {
-            throw new PluginNotFoundError(`Plugin with ID ${id} not found!`);
+            throw new PluginNotFoundError(`Plugin with ID '${id}' not found!`);
         }
 
         this.pluginStack.push(id);
@@ -160,7 +163,7 @@ class PluginManager {
         ) {
             this.pluginStack.pop();
             throw new InfiniteLoopError(
-                `Infinite Loop: Plugin ${id} has been called too many times!`
+                `Infinite Loop detected: Plugin '${id}' has been called too many times!`
             );
         }
 
