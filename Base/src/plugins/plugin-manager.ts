@@ -127,7 +127,9 @@ class PluginManager {
 
     public searchPlugins(query: string): PluginDefinition[] {
         if (!query) {
-            return this.userSelectablePlugins;
+            return this.userSelectablePlugins.sort((a, b) =>
+                a.name.localeCompare(b.name)
+            );
         }
 
         const results = this.fuse.search(query);
