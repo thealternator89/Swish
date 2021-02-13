@@ -1,5 +1,6 @@
 import { existsSync, readdirSync } from 'fs';
 import * as path from 'path';
+import { homedir } from 'os';
 import Fuse from 'fuse.js';
 import {
     PluginDefinition,
@@ -49,18 +50,19 @@ class PluginManager {
     }
 
     private loadPluginSet(directory: string): PluginDefinition[] {
-        if (!existsSync(directory)) {
+        const resolvedDirectory = resolvePath(directory);
+        if (!existsSync(resolvedDirectory)) {
             return [];
         }
 
-        const plugins = readdirSync(directory).filter(
+        const plugins = readdirSync(resolvedDirectory).filter(
             (file) => file.endsWith('.js') && !file.endsWith('.spec.js')
         ); // we only want JS files which aren't specs
 
         const pluginObjs: PluginDefinition[] = [];
 
         for (const pluginFile of plugins) {
-            const plugin = require(`${directory}/${pluginFile}`) as PluginDefinition;
+            const plugin = require(`${resolvedDirectory}/${pluginFile}`) as PluginDefinition;
 
             if (
                 !this.checkPluginVersion(plugin.swishVersion, BEEP_BASE_VERSION)
@@ -245,6 +247,14 @@ function mergePluginLists(...lists: PluginDefinition[][]) {
 
 function filterHiddenPlugins(list: PluginDefinition[]) {
     return list.filter((plugin) => !plugin.hidden);
+}
+
+function resolvePath(origPath: string) {
+    if (!origPath.startsWith('~')) {
+        return origPath;
+    }
+
+    return path.join(homedir(), origPath.substr(1));
 }
 
 export const pluginManager = new PluginManager();
