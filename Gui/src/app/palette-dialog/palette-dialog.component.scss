@@ -44,10 +44,19 @@ input:focus {
 
 .plugin-name {
     display: block;
+    height: 15pt;
+    text-overflow: ellipsis;
     font-weight: bold;
 }
 
 .plugin-description {
     display: block;
     font-size: 8pt;
+    height: 15pt;
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
