@@ -1,45 +1,43 @@
-
-
 #statusLabel {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    z-index: 2;
-    padding: 4px;
-    text-align: center;
-    user-select: none;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  z-index: 2;
+  padding: 4px;
+  text-align: center;
+  user-select: none;
 }
 
 #progressBar {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    background-color: rgba(0,0,0,0.4)
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 #bg {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
 }
 
 #bg.error {
-    background-color: darkred;
+  background-color: darkred;
 }
 
 #bg.warn {
-    background-color: #B36200;
+  background-color: #b36200;
 }
 
 #bg.info {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 #bg.success {
-    background-color: darkgreen;
+  background-color: darkgreen;
 }

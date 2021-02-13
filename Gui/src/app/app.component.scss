@@ -1,26 +1,26 @@
 $titlebarHeight: 40px;
 
 .titleBar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: $titlebarHeight;
-    align-items: center;
-    background-color: #1976d2;
-    color: white;
-    -webkit-app-region: drag
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $titlebarHeight;
+  align-items: center;
+  background-color: #1976d2;
+  color: white;
+  -webkit-app-region: drag;
 }
 
 app-status {
-    position: absolute;
-    overflow: hidden;
-    top: 5px;
-    bottom: 5px;
-    left: 150px;
-    right: 150px;
-    border-radius: 5px;
-    border: thin solid rgba(255,255,255,0.7);
+  position: absolute;
+  overflow: hidden;
+  top: 5px;
+  bottom: 5px;
+  left: 150px;
+  right: 150px;
+  border-radius: 5px;
+  border: thin solid rgba(255, 255, 255, 0.7);
 }
 
 app-editor {

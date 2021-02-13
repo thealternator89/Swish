@@ -1,3 +1,7 @@
-<div id="statusLabel">{{text}}</div>
-<div id="progressBar" *ngIf="progress" [ngStyle]="{'width': progress + '%'}"></div>
+<div id="statusLabel">{{ text }}</div>
+<div
+  id="progressBar"
+  *ngIf="progress"
+  [ngStyle]="{ width: progress + '%' }"
+></div>
 <div id="bg" *ngIf="level" [className]="level"></div>

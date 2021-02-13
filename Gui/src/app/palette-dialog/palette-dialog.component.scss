@@ -1,25 +1,25 @@
 input {
-    background-color: transparent;
-    border: none;
-    color: white;
-    font-size: 20pt;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 20pt;
 }
 
 input:focus {
-    outline: none;
+  outline: none;
 }
 
 .full-width {
-    width: 100%;
+  width: 100%;
 }
 
 #text-entry {
-    padding-bottom: 5px;
-    border-bottom: thin solid white;
+  padding-bottom: 5px;
+  border-bottom: thin solid white;
 }
 
 #plugin-list {
-    height: 200px;
+  height: 200px;
 }
 
 #plugin-list::-webkit-scrollbar {
@@ -43,16 +43,16 @@ input:focus {
 }
 
 .plugin-name {
-    display: block;
-    height: 15pt;
-    text-overflow: ellipsis;
-    font-weight: bold;
+  display: block;
+  height: 15pt;
+  text-overflow: ellipsis;
+  font-weight: bold;
 }
 
 .plugin-description {
-    display: block;
-    font-size: 8pt;
-    height: 15pt;
+  display: block;
+  font-size: 8pt;
+  height: 15pt;
 }
 
 .ellipsis {

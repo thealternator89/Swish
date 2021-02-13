@@ -42,6 +42,6 @@ export class PaletteDialogComponent implements OnInit {
   }
 
   getPluginIcon(plugin: PluginDefinition) {
-    return plugin.icon || 'extension'
+    return plugin.icon || 'extension';
   }
 }

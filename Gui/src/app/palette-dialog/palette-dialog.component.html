@@ -1,14 +1,28 @@
 <div mat-dialog-title id="text-entry">
-  <input type="text" class="full-width" (input)="onSearchChange($event.target.value)" placeholder="Start typing...">
+  <input
+    type="text"
+    class="full-width"
+    (input)="onSearchChange($event.target.value)"
+    placeholder="Start typing..."
+  />
 </div>
 <div mat-dialog-content id="plugin-list">
   <mat-action-list>
-    <mat-list-item *ngFor="let plugin of plugins" (click)="selectPlugin(plugin)">
+    <mat-list-item
+      *ngFor="let plugin of plugins"
+      (click)="selectPlugin(plugin)"
+    >
       <div>
-        <div class="plugin-icon"><span class="material-icons">{{getPluginIcon(plugin)}}</span></div>
+        <div class="plugin-icon">
+          <span class="material-icons">{{ getPluginIcon(plugin) }}</span>
+        </div>
         <div class="plugin-text">
-          <div class="plugin-name ellipsis"><b>{{plugin.name}}</b></div>
-          <div class="plugin-description ellipsis">{{plugin.description}}</div>
+          <div class="plugin-name ellipsis">
+            <b>{{ plugin.name }}</b>
+          </div>
+          <div class="plugin-description ellipsis">
+            {{ plugin.description }}
+          </div>
         </div>
       </div>
     </mat-list-item>
