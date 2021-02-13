@@ -10,7 +10,7 @@
     "clean": "npm run clean:ng && npm run clean:electron",
     "clean:ng": "rimraf dist",
     "clean:electron": "rimraf electron/dist",
-    "package": "electron-packager . Swish --overwrite --prune --out=release-builds",
+    "package": "electron-packager . --overwrite --prune --out=release-builds",
     "package:mac": "npm run package -- --icon=electron/assets/icons/mac/icon.icns",
     "start:electron": "electron .",
     "buildstart": "npm run build && npm run start:electron"
