@@ -20,9 +20,9 @@ class PluginManager {
     private userSelectablePlugins: PluginDefinition[];
 
     private fuse: Fuse<PluginDefinition>;
-
-    // Keeps track of which plugins are running, to ensure we don't enter an infinite loop and take down the entire app.
-    private pluginStack: string[] = [];
+    // Keeps track of which plugins are running, and with what data,
+    // to ensure we don't enter an infinite loop and take down the entire app.
+    private pluginStack: {id: string, data: string}[] = [];
 
     public constructor() {
         const systemPluginPath = path.join(
@@ -156,16 +156,15 @@ class PluginManager {
             throw new PluginNotFoundError(`Plugin with ID '${id}' not found!`);
         }
 
-        this.pluginStack.push(id);
+        const pluginDef = {id: id, data: args.textContent};
 
-        if (
-            this.pluginStack.filter((pluginId) => pluginId === id).length >= 100
-        ) {
-            this.pluginStack.pop();
+        if (this.pluginStack.find((item) => item.id === pluginDef.id && item.data === pluginDef.data)) {
             throw new InfiniteLoopError(
-                `Infinite Loop detected: Plugin '${id}' has been called too many times!`
+                `Infinite Loop detected: Called plugin '${id}' with the same data twice`
             );
         }
+
+        this.pluginStack.push({id: id, data: args.textContent})
 
         try {
             return await plugin.process({
