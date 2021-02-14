@@ -12,19 +12,7 @@
       *ngFor="let plugin of plugins"
       (click)="selectPlugin(plugin)"
     >
-      <div>
-        <div class="plugin-icon">
-          <span class="material-icons">{{ getPluginIcon(plugin) }}</span>
-        </div>
-        <div class="plugin-text">
-          <div class="plugin-name ellipsis">
-            <b>{{ plugin.name }}</b>
-          </div>
-          <div class="plugin-description ellipsis">
-            {{ plugin.description }}
-          </div>
-        </div>
-      </div>
+      <app-palette-plugin-item [plugin]="plugin"></app-palette-plugin-item>
     </mat-list-item>
   </mat-action-list>
 </div>

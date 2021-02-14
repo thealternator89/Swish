@@ -40,8 +40,4 @@ export class PaletteDialogComponent implements OnInit {
   selectPlugin(plugin) {
     this.dialogRef.close(plugin);
   }
-
-  getPluginIcon(plugin: PluginDefinition) {
-    return plugin.icon || 'extension';
-  }
 }

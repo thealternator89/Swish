@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PaletteDialogComponent } from './palette-dialog/palette-dialog.component';
 import { StatusComponent } from './status/status.component';
 import { EditorComponent } from './editor/editor.component';
+import { PalettePluginItemComponent } from './palette-plugin-item/palette-plugin-item.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { EditorComponent } from './editor/editor.component';
     PaletteDialogComponent,
     StatusComponent,
     EditorComponent,
+    PalettePluginItemComponent,
   ],
   imports: [
     BrowserAnimationsModule,
