@@ -14,15 +14,16 @@ const BEEP_BASE_VERSION = require('../../package.json')
     .version.split('.')
     .map((n: string) => parseInt(n));
 
+const SEARCH_KEYS = ['name', 'description', 'tags'];
+
 class PluginManager {
     private readonly systemPlugins: PluginDefinition[] = [];
     private userPlugins: PluginDefinition[] = [];
     private userSelectablePlugins: PluginDefinition[];
 
-    private fuse: Fuse<PluginDefinition>;
     // Keeps track of which plugins are running, and with what data,
     // to ensure we don't enter an infinite loop and take down the entire app.
-    private pluginStack: {id: string, data: string}[] = [];
+    private pluginStack: { id: string; data: string }[] = [];
 
     public constructor() {
         const systemPluginPath = path.join(
@@ -34,7 +35,7 @@ class PluginManager {
             'dist'
         );
         this.systemPlugins = this.loadPluginSet(systemPluginPath);
-        this.reloadFuse();
+        this.rebuildUserSelectablePlugins();
     }
 
     // TODO: Rename this. It's not an init anymore - "reloadUserPlugins" maybe?
@@ -46,7 +47,7 @@ class PluginManager {
             this.userPlugins = [];
         }
 
-        this.reloadFuse();
+        this.rebuildUserSelectablePlugins();
     }
 
     private loadPluginSet(directory: string): PluginDefinition[] {
@@ -135,7 +136,11 @@ class PluginManager {
             );
         }
 
-        const results = this.fuse.search(query);
+        const fuse = new Fuse(this.userSelectablePlugins, {
+            keys: SEARCH_KEYS,
+        });
+
+        const results = fuse.search(query);
         return results.map((result) => result.item);
     }
 
@@ -156,15 +161,20 @@ class PluginManager {
             throw new PluginNotFoundError(`Plugin with ID '${id}' not found!`);
         }
 
-        const pluginDef = {id: id, data: args.textContent};
+        const pluginDef = { id: id, data: args.textContent };
 
-        if (this.pluginStack.find((item) => item.id === pluginDef.id && item.data === pluginDef.data)) {
+        if (
+            this.pluginStack.find(
+                (item) =>
+                    item.id === pluginDef.id && item.data === pluginDef.data
+            )
+        ) {
             throw new InfiniteLoopError(
                 `Infinite Loop detected: Called plugin '${id}' with the same data twice`
             );
         }
 
-        this.pluginStack.push({id: id, data: args.textContent})
+        this.pluginStack.push({ id: id, data: args.textContent });
 
         try {
             return await plugin.process({
@@ -224,14 +234,10 @@ class PluginManager {
         return result.text;
     }
 
-    private reloadFuse(): void {
+    private rebuildUserSelectablePlugins(): void {
         this.userSelectablePlugins = filterHiddenPlugins(
             mergePluginLists(this.userPlugins, this.systemPlugins)
         );
-
-        this.fuse = new Fuse(this.userSelectablePlugins, {
-            keys: ['name', 'description', 'tags'],
-        });
     }
 }
 
