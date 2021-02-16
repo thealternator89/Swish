@@ -9,8 +9,8 @@ export = {
     tags: ['base64', 'decode', 'json'],
     swishVersion: '1.0.0',
     icon: 'code',
-    process: async (args: ProvidedPluginArgument) => {
-        return await runPlugins(
+    process: (args: ProvidedPluginArgument) => {
+        return runPlugins(
             args.textContent,
             ['base64-decode', 'prettify-json'],
             args.runPlugin

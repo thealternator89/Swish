@@ -11,17 +11,15 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'palette',
-    process: async (args: ProvidedPluginArgument) => {
+    process: (args: ProvidedPluginArgument) => {
         const { r, g, b } = extractRgb(args.textContent);
 
         throwIfValueInvalid(r, 'r');
         throwIfValueInvalid(g, 'g');
         throwIfValueInvalid(b, 'b');
 
-        const hexString = r.hex + g.hex + b.hex;
-        const shortened = args.runPlugin('shorten-hex', hexString);
-
-        return `#${shortened}`;
+        const hexString = `#${r.hex}${g.hex}${b.hex}`;
+        return args.runPlugin('shorten-hex', hexString);
     },
 };
 

@@ -19,8 +19,8 @@ export = {
             );
         }
 
-        const header = await runPlugins(headerB64, PLUGINS, args.runPlugin);
-        const payload = await runPlugins(payloadB64, PLUGINS, args.runPlugin);
+        const header = await base64DecodeJson(headerB64, args.runPlugin);
+        const payload = await base64DecodeJson(payloadB64, args.runPlugin);
 
         return [
             'HEADER:',
@@ -34,6 +34,13 @@ export = {
         ].join(NEWLINE_CHAR);
     },
 };
+
+function base64DecodeJson(
+    data: string,
+    runPluginFunc: (pluginId: string, args: string) => Promise<string>
+): Promise<string> {
+    return runPlugins(data, PLUGINS, runPluginFunc);
+}
 
 function indentLines(text: string, spaces: number): string {
     return text

@@ -8,7 +8,7 @@ export = {
     id: 'yaml-to-json',
     author: 'thealternator89',
     swishVersion: '1.0.0',
-    process: async (args: ProvidedPluginArgument) => {
+    process: (args: ProvidedPluginArgument) => {
         const parsed = yaml.parse(args.textContent);
         const json = JSON.stringify(parsed);
         return args.runPlugin('prettify-json', json);
