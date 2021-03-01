@@ -16,36 +16,57 @@ export = {
             throw new Error('JSON is invalid');
         }
 
-        return `module.exports = ${renderObject(obj)};`;
+        return `module.exports = ${getPropertyValue(obj)};`;
     },
 };
 
-function renderObject(obj: Object, depth: number = 1): string {
+function getPropertyValue(prop: any, depth: number = 1): string {
+    if (Array.isArray(prop)) {
+        return renderArray(prop, depth);
+    }
+    if (typeof prop === 'object') {
+        return renderObject(prop, depth);
+    }
+    if (typeof prop === 'string') {
+        return `'${prop}'`;
+    }
+
+    return `${prop}`;
+}
+
+function renderObject(obj: Object, depth: number): string {
     const properties: string[] = [];
 
     for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
             const prop = obj[key];
-            let value;
-
-            if (typeof prop === 'object') {
-                value = renderObject(prop, depth + 1);
-            } else if (typeof prop === 'string') {
-                value = `'${prop}'`;
-            } else {
-                value = `${prop}`;
-            }
-
-            properties.push(`${spaces(depth * 4)}${safeKey(key)}: ${value},`);
+            let value = getPropertyValue(prop, depth + 1);
+            properties.push(`${spaces(depth * 4)}${safeKey(key)}: ${value}`);
         }
     }
 
-    return `{${
+    return (
+        '{' +
         NEWLINE_CHAR +
-        properties.join('\n') +
+        properties.join(',\n') +
         NEWLINE_CHAR +
-        spaces((depth - 1) * 4)
-    }}`;
+        spaces((depth - 1) * 4) +
+        '}'
+    );
+}
+
+function renderArray(array: any[], depth: number) {
+    return (
+        '[' +
+        NEWLINE_CHAR +
+        spaces(depth * 4) +
+        array
+            .map((item) => getPropertyValue(item, depth))
+            .join(`,\n${spaces(depth * 4)}`) +
+        NEWLINE_CHAR +
+        spaces((depth - 1) * 4) +
+        ']'
+    );
 }
 
 const spaces = (num: number) => new Array(num + 1).join(' ');

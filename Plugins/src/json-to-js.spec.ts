@@ -45,4 +45,18 @@ describe('JSON to JS', () => {
 
         expect(outputObject).toEqual(inputObj);
     });
+    it('Correctly builds array', async () => {
+        const inputArray = [1, 'str', { obj: true }, false];
+
+        const input = JSON.stringify(inputArray);
+
+        const converted = await jsonToJs.process({
+            ...basePluginArgument,
+            textContent: input,
+        });
+
+        const outputObject = requireFromString(converted);
+
+        expect(outputObject).toEqual(inputArray);
+    });
 });
