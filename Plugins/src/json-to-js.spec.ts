@@ -59,4 +59,17 @@ describe('JSON to JS', () => {
 
         expect(outputObject).toEqual(inputArray);
     });
+    it('Correctly handles escaped strings', async () => {
+        const inputObj = { test: 'L1\nL2\nL3' };
+        const input = JSON.stringify(inputObj);
+
+        const converted = await jsonToJs.process({
+            ...basePluginArgument,
+            textContent: input,
+        });
+
+        const outputObject = requireFromString(converted);
+
+        expect(outputObject).toEqual(inputObj);
+    });
 });

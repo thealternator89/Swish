@@ -28,7 +28,7 @@ function getPropertyValue(prop: any, depth: number = 1): string {
         return renderObject(prop, depth);
     }
     if (typeof prop === 'string') {
-        return `'${prop}'`;
+        return renderString(prop);
     }
 
     return `${prop}`;
@@ -67,6 +67,19 @@ function renderArray(array: any[], depth: number) {
         spaces((depth - 1) * 4) +
         ']'
     );
+}
+
+function renderString(text: string) {
+    let stringified = JSON.stringify(text);
+
+    if (text.includes("'")) {
+        return stringified;
+    }
+
+    // Unwrap the string from double quotes, and unescape any double quotes
+    stringified = stringified.replace(/^"(.*)"$/, '$1').replace(/\\"/g, '"');
+
+    return `'${stringified}'`;
 }
 
 const spaces = (num: number) => new Array(num + 1).join(' ');
