@@ -12,12 +12,13 @@ import { StatusUpdatePrinter } from './status-update-printer';
 
 const statusUpdatePrinter = new StatusUpdatePrinter();
 
+const BEEP_CORE_VERSION = require('../package.json').version;
 // Store a local reference to 'console', then redefine the global 'console' to a sink
 const console = global.console;
 preventCallsToConsole();
 
 program
-    .version('0.1.0')
+    .version(BEEP_CORE_VERSION)
     .option('-ls, --list', 'list all available plugins')
     .option('-i, --info <plugin>', 'print info about specified plugin')
     .option('-p, --plugin <name>', 'process input using a plugin');
