@@ -106,4 +106,7 @@ This value may be an integer or floating-point, but **must** be in the range `0 
 
 If your plugin does its work in multiple phases, and you would like to keep the user informed of the stage it's at, use the `statusUpdate` function and pass any string to be displayed to the user.
 
-###
+### A note on Line Endings
+
+When data is passed to your plugin, Swish will convert any line endings to `LF` (`\n`).
+Swish will automatically convert the line endings to match the input in data returned. The line endings you use will not be preserved.
