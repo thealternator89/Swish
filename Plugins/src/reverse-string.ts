@@ -1,4 +1,3 @@
-import { unifyNewLines } from './lib/text-util';
 import { ProvidedPluginArgument } from './model';
 
 export = {
@@ -9,7 +8,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'replay',
     process: async (args: ProvidedPluginArgument) => {
-        // We have to unify the newlines otherwise we will end up with "LFCR" occurring on CRLF systems
-        return unifyNewLines(args.textContent).split('').reverse().join('');
+        return args.textContent.split('').reverse().join('');
     },
 };

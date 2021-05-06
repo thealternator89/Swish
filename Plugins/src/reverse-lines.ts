@@ -1,4 +1,4 @@
-import { NEWLINE_CHAR, unifyNewLines } from './lib/text-util';
+import { NEWLINE_CHAR } from './lib/text-util';
 import { ProvidedPluginArgument } from './model';
 
 export = {
@@ -9,7 +9,7 @@ export = {
     swishVersion: '1.0.0',
     icon: 'swap_vert',
     process: async (args: ProvidedPluginArgument) => {
-        return unifyNewLines(args.textContent)
+        return args.textContent
             .split(NEWLINE_CHAR)
             .reverse()
             .join(NEWLINE_CHAR);

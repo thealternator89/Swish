@@ -1,4 +1,4 @@
-import { NEWLINE_CHAR, unifyNewLines } from './lib/text-util';
+import { NEWLINE_CHAR } from './lib/text-util';
 import { ProvidedPluginArgument } from './model';
 
 export = {
@@ -10,7 +10,7 @@ export = {
     swishVersion: '1.0.0',
     icon: 'filter_alt',
     process: async (args: ProvidedPluginArgument) => {
-        const lines = unifyNewLines(args.textContent).split(NEWLINE_CHAR);
+        const lines = args.textContent.split(NEWLINE_CHAR);
         const deduped = deduplicate(lines);
         const result = deduped.join(NEWLINE_CHAR);
 

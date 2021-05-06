@@ -1,14 +1,6 @@
 export const NEWLINE_CHAR = '\n';
 
 /**
- * Unify newlines across different text systems.
- * Converts "\r\n" (CRLF) and "\r" (CR) to "\n" (LF)
- * @param text String to unify the new lines for
- */
-export const unifyNewLines = (text: string) =>
-    text.replace(/\r\n/g, NEWLINE_CHAR).replace(/\r/g, NEWLINE_CHAR);
-
-/**
  * Run a set of plugins in series over input text, passing the output of each plugin as input to the next.
  * The result of the final plugin run is returned.
  * @param input The initial input string

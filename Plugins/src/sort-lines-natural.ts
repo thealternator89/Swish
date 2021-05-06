@@ -1,4 +1,4 @@
-import { NEWLINE_CHAR, unifyNewLines } from './lib/text-util';
+import { NEWLINE_CHAR } from './lib/text-util';
 import { ProvidedPluginArgument } from './model';
 
 // Valid comma groupings
@@ -16,7 +16,7 @@ export = {
     swishVersion: '1.0.0',
     icon: 'sort',
     process: async (args: ProvidedPluginArgument) => {
-        return unifyNewLines(args.textContent)
+        return args.textContent
             .split(NEWLINE_CHAR)
             .sort(naturalCompare)
             .join(NEWLINE_CHAR);
