@@ -10,7 +10,8 @@
             "node_modules/@types"
         ],
         "types": [
-            "node"
+            "node",
+            "jest"
         ],
         "outDir": "dist"
     },

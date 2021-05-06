@@ -9,6 +9,7 @@ import {
     PluginResult,
 } from 'swish-plugins/dist/model';
 import { InfiniteLoopError, PluginNotFoundError } from '../errors';
+import { identifyLineEndingChar, unifyLineEndings } from '../util/text-utils';
 
 const BEEP_BASE_VERSION = require('../../package.json')
     .version.split('.')
@@ -177,13 +178,28 @@ class PluginManager {
         this.pluginStack.push({ id: id, data: args.textContent });
 
         try {
-            return await plugin.process({
+            const lineEndingChar = identifyLineEndingChar(args.textContent);
+            const unifiedTextContent = unifyLineEndings(args.textContent);
+
+            const runResult = await plugin.process({
                 progressUpdate: () => undefined,
                 statusUpdate: () => undefined,
                 ...args,
                 runPlugin: (id, args, type) =>
                     this.internalRunPlugin(id, args, type),
+                textContent: unifiedTextContent,
             });
+
+            if (typeof runResult === 'string') {
+                return unifyLineEndings(runResult, lineEndingChar);
+            } else {
+                return {
+                    ...runResult,
+                    text: runResult.text
+                        ? unifyLineEndings(runResult.text, lineEndingChar)
+                        : undefined,
+                };
+            }
         } catch (error) {
             throw error;
         } finally {
