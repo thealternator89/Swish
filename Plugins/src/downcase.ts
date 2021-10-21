@@ -7,6 +7,8 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'arrow_downward',
+    group: 'Text',
+    usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return args.textContent.toLowerCase();
     },

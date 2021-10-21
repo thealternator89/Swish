@@ -17,6 +17,8 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'attach_money',
+    group: 'Dev',
+    usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const trimmed = trimLines(args.textContent);
         return trimmed.replace(escapedNewlineRegex, '');

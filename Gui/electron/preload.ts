@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import { configManager } from './config-manager';
+import { configManager } from 'swish-base';
 
 process.once('loaded', () => {
   const win = window as any;

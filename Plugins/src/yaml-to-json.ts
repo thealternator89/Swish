@@ -8,6 +8,8 @@ export = {
     id: 'yaml-to-json',
     author: 'thealternator89',
     swishVersion: '1.0.0',
+    group: 'Data',
+    usableFrom: ['core', 'clip', 'gui'],
     process: (args: ProvidedPluginArgument) => {
         const parsed = yaml.parse(args.textContent);
         const json = JSON.stringify(parsed);

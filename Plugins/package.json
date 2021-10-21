@@ -24,6 +24,7 @@
   "dependencies": {
     "crypto-js": "^4.0.0",
     "html-escaper": "^2.0.2",
+    "uuid": "^8.3.2",
     "xml-formatter": "^2.4.0",
     "yaml": "^1.10.0"
   }

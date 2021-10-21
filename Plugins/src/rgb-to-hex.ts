@@ -11,6 +11,8 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'palette',
+    group: 'Web',
+    usableFrom: ['core', 'clip', 'gui'],
     process: (args: ProvidedPluginArgument) => {
         const { r, g, b } = extractRgb(args.textContent);
 

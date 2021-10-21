@@ -9,6 +9,8 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'expand',
+    group: 'Data',
+    usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return format(args.textContent, { collapseContent: true });
     },

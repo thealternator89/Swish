@@ -17,6 +17,8 @@ const BEEP_BASE_VERSION = require('../../package.json')
 
 const SEARCH_KEYS = ['name', 'description', 'tags'];
 
+const LocaleComparePluginDefinition = (a, b) => a.name.localeCompare(b.name);
+
 class PluginManager {
     private readonly systemPlugins: PluginDefinition[] = [];
     private userPlugins: PluginDefinition[] = [];
@@ -53,6 +55,7 @@ class PluginManager {
 
     private loadPluginSet(directory: string): PluginDefinition[] {
         const resolvedDirectory = resolvePath(directory);
+
         if (!existsSync(resolvedDirectory)) {
             return [];
         }
@@ -132,8 +135,8 @@ class PluginManager {
 
     public searchPlugins(query: string): PluginDefinition[] {
         if (!query) {
-            return this.userSelectablePlugins.sort((a, b) =>
-                a.name.localeCompare(b.name)
+            return this.userSelectablePlugins.sort(
+                LocaleComparePluginDefinition
             );
         }
 
@@ -143,6 +146,31 @@ class PluginManager {
 
         const results = fuse.search(query);
         return results.map((result) => result.item);
+    }
+
+    public getAllPluginsByGroup(): { [key: string]: PluginDefinition[] } {
+        let groups = this.userSelectablePlugins
+            .map((plugin) => plugin.group)
+            .filter((group) => group)
+            .sort((a, b) => a.localeCompare(b));
+
+        groups = groups.filter(
+            (group, index) => groups.indexOf(group) === index
+        );
+
+        const result = {};
+
+        for (const group of groups) {
+            result[group] = this.userSelectablePlugins
+                .filter((plugin) => plugin.group === group)
+                .sort(LocaleComparePluginDefinition);
+        }
+
+        result['_other'] = this.userSelectablePlugins.filter(
+            (plugin) => !plugin.group
+        );
+
+        return result;
     }
 
     /**

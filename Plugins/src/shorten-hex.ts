@@ -7,6 +7,8 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'palette',
+    group: 'Web',
+    usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const hex = args.textContent;
         if (!/^#?([0-9a-f]){3,6}$/i.test(hex)) {

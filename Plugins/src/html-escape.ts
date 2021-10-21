@@ -8,6 +8,8 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'public',
+    group: 'Web',
+    usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return escape(args.textContent);
     },

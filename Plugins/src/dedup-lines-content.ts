@@ -9,6 +9,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'filter_alt',
+    usableFrom: ['core', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const lines = args.textContent.split(NEWLINE_CHAR);
         const deduped = deduplicate(lines);

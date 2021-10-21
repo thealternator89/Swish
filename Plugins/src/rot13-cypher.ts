@@ -14,6 +14,8 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'lock_open',
+    group: 'Cryptography',
+    usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return args.textContent.split('').map(rotate13).join('');
     },

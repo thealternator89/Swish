@@ -8,6 +8,8 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'check_circle',
+    group: 'Dev',
+    usableFrom: ['core', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         JSON.parse(args.textContent);
 

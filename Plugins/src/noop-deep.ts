@@ -8,6 +8,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'layers',
+    usableFrom: ['core', 'gui'],
     process: (args: ProvidedPluginArgument) => {
         return args.runPlugin('noop-slow', {
             ...args,

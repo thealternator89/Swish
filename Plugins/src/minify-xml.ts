@@ -9,6 +9,8 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'compress',
+    group: 'Data',
+    usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return format(args.textContent, {
             lineSeparator: '',

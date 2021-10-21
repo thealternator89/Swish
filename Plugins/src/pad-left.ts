@@ -9,6 +9,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'format_align_right',
+    usableFrom: ['core', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const lines = args.textContent
             .split(NEWLINE_CHAR)

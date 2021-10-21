@@ -1,6 +1,9 @@
-import { PluginDefinition, pluginManager } from 'swish-base';
-import { PluginResult } from 'swish-base';
-import { configManager } from './config-manager';
+import {
+  PluginDefinition,
+  PluginResult,
+  pluginManager,
+  configManager,
+} from 'swish-base';
 import { ipcHandler } from './ipc-handler';
 
 class SwishBackend {

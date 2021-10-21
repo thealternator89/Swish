@@ -8,6 +8,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'hourglass_bottom',
+    usableFrom: ['core', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return args.textContent;
     },

@@ -7,6 +7,8 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'palette',
+    group: 'Web',
+    usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const genericHex = await args.runPlugin(
             'lengthen-hex',

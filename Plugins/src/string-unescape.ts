@@ -7,6 +7,8 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'format_quote',
+    group: 'Dev',
+    usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const text = args.textContent;
         return JSON.parse(`"${escapeSurroundingQuotes(text)}"`);

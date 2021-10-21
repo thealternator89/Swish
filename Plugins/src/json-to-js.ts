@@ -8,6 +8,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'code',
+    usableFrom: ['core', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         let obj: any;
         try {
@@ -39,8 +40,7 @@ function renderObject(obj: Object, depth: number): string {
 
     for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
-            const prop = obj[key];
-            let value = getPropertyValue(prop, depth + 1);
+            const value = getPropertyValue(obj[key], depth + 1);
             properties.push(`${spaces(depth * 4)}${safeKey(key)}: ${value}`);
         }
     }

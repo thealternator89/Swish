@@ -8,6 +8,8 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'fingerprint',
+    group: 'Cryptography',
+    usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return SHA256(args.textContent).toString();
     },

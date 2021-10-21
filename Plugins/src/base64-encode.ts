@@ -7,6 +7,8 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'code',
+    group: 'Cryptography',
+    usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         let binaryData = Buffer.from(args.textContent, 'utf8');
         return binaryData.toString('base64');

@@ -7,6 +7,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'calculate',
+    usableFrom: ['core', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const text = args.textContent.trim();
         const parsed = parseInt(text);

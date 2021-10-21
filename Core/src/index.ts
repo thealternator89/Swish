@@ -4,9 +4,8 @@ import { bold, red, yellow, green, underline } from 'colors/safe';
 import { program } from 'commander';
 import * as stdin from 'get-stdin';
 import * as tabula from 'tabula';
-import { env } from 'process';
 
-import { pluginManager, PluginDefinition } from 'swish-base';
+import { configManager, pluginManager, PluginDefinition } from 'swish-base';
 
 import { StatusUpdatePrinter } from './status-update-printer';
 
@@ -25,10 +24,8 @@ program
 
 program.parse(process.argv);
 
-const userPluginPath = env['SWISH_PLUGIN_PATH'];
-
-if (userPluginPath) {
-    pluginManager.init(userPluginPath);
+if (configManager.config.userPlugins) {
+    pluginManager.init(configManager.config.userPlugins);
 }
 
 if (program.list) {
