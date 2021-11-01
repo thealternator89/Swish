@@ -30,13 +30,7 @@ class SwishBackend {
         ipcHandler.sendStatusUpdate(status, runId),
     });
 
-    if (typeof result === 'string') {
-      return {
-        text: result,
-      };
-    } else {
-      return result;
-    }
+    return result;
   }
 }
 

@@ -93,13 +93,7 @@ export class AppComponent {
         return;
       }
 
-      const { error, message, text } = pluginResult;
-
-      if (error) {
-        this.statusComponent.setStatus(error.message, 'error');
-        console.error(error);
-        return; // If there was an error we don't want to do anything else.
-      }
+      const { message, text } = pluginResult;
 
       if (message) {
         this.statusComponent.setStatus(message.text, message.level);

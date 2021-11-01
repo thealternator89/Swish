@@ -9,7 +9,7 @@ export = {
     swishVersion: '1.0.0',
     icon: 'check_circle',
     group: 'Dev',
-    usableFrom: ['core', 'gui'],
+    usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         JSON.parse(args.textContent);
 

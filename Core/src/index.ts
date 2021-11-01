@@ -98,6 +98,17 @@ async function runPlugin(pluginId: string): Promise<void> {
                 case 'warn':
                     console.error(yellow(output.message.text));
                     break;
+                case 'error':
+                    console.error(
+                        bold(
+                            red(
+                                `${underline('ERROR OCCURRED:')} ${
+                                    output.message.text
+                                }`
+                            )
+                        )
+                    );
+                    break;
             }
         }
 

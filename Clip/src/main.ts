@@ -3,9 +3,10 @@ import {
     clipboard,
     Tray,
     Menu,
-    nativeImage,
+    nativeTheme,
     dialog,
     MenuItem,
+    Notification,
 } from 'electron';
 import { PluginDefinition, configManager, pluginManager } from 'swish-base';
 import { exit } from 'process';
@@ -16,22 +17,29 @@ if (configManager?.config?.userPlugins) {
 
 let tray;
 
+const defaultContextMenu = Menu.buildFromTemplate([
+    ...buildPluginContextItems(),
+    // Quit button
+    { type: 'separator' },
+    { label: 'Quit', click: () => exit(0) },
+]);
+
+const runningContextMenu = Menu.buildFromTemplate([
+    { label: 'Running, please wait...', enabled: false },
+    { type: 'separator' },
+    { label: 'Quit', click: () => exit(0) },
+]);
+
 app.on('ready', () => {
-    const trayIcon = nativeImage.createFromPath(
-        'assets/tray/icons/png/32x32.png'
-    );
-    tray = new Tray(trayIcon);
+    tray = new Tray(getTrayIconPath());
 
-    const contextMenu = Menu.buildFromTemplate([
-        ...buildPluginContextItems(),
-        // Quit button
-        { type: 'separator' },
-        { label: 'Quit', click: () => exit(0) },
-    ]);
-
-    tray.setContextMenu(contextMenu);
+    tray.setContextMenu(defaultContextMenu);
     tray.setToolTip('Swish');
 });
+
+if (process.platform === 'darwin') {
+    app.dock.hide();
+}
 
 function buildPluginContextItems(): MenuItem[] {
     const pluginsByGroup = pluginManager.getAllPluginsByGroup();
@@ -68,8 +76,10 @@ function buildPluginContextItems(): MenuItem[] {
 async function runPlugin(plugin: PluginDefinition) {
     const sink = () => undefined;
 
-    let result;
+    tray.setImage(getTrayIconPath('Active'));
+    tray.setContextMenu(runningContextMenu);
 
+    let result;
     try {
         result = await pluginManager.runPlugin(plugin.id, {
             textContent: clipboard.readText(),
@@ -81,33 +91,50 @@ async function runPlugin(plugin: PluginDefinition) {
         return;
     }
 
-    if (typeof result === 'string') {
-        clipboard.writeText(result);
-        return;
-    }
-
     if (result.text) {
         clipboard.writeText(result.text);
     }
 
     if (result.message) {
-        let level;
-
-        switch (result.level) {
-            case 'info':
-                level = 'info';
-                break;
-            case 'warn':
-                level = 'warning';
-                break;
-            default:
-                return;
-        }
-
-        dialog.showMessageBox(null, {
-            message: result.message.text,
-            detail: 'Test',
-            type: level,
-        });
+        showNotification(
+            plugin.name,
+            `${result.message.text}`,
+            result.message.level
+        );
+    } else {
+        showNotification(plugin.name, 'Complete', 'success');
     }
+
+    tray.setImage(getTrayIconPath());
+    tray.setContextMenu(defaultContextMenu);
+}
+
+function showNotification(
+    title: string,
+    body: string,
+    level: 'info' | 'success' | 'warn' | 'error'
+) {
+    let bodyPrefix = '';
+
+    switch (level) {
+        case 'warn':
+            bodyPrefix = 'Warning: ';
+            break;
+        case 'error':
+            bodyPrefix = 'Error: ';
+            break;
+    }
+
+    new Notification({
+        title: title,
+        body: bodyPrefix + body,
+        icon: 'assets/icons/notification/png/Notification.png',
+    }).show();
+}
+
+function getTrayIconPath(state: string = '') {
+    const BASE_TRAY_ICON_PATH = 'assets/icons/tray/png';
+    const variation = nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
+
+    return `${BASE_TRAY_ICON_PATH}/SwishTray${state}_${variation}.png`;
 }

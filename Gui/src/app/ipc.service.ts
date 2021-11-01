@@ -3,8 +3,8 @@ import { IpcRenderer } from 'electron';
 
 import { Observable } from 'rxjs';
 import { IPC_CHANNELS } from 'shared/const/ipc/ipc-channel';
-import { RunPluginResponse } from 'shared/models/ipc/run-plugin-response';
 import { RunPluginRequest } from 'shared/models/ipc/run-plugin-request';
+import { PluginResult } from 'swish-base';
 
 @Injectable({
   providedIn: 'root',
@@ -59,13 +59,13 @@ export class IpcService {
     });
   }
 
-  runPlugin(runPluginRequest: RunPluginRequest): Promise<RunPluginResponse> {
+  runPlugin(runPluginRequest: RunPluginRequest): Promise<PluginResult> {
     this.ipc.send(IPC_CHANNELS.RUN_PLUGIN.REQ, runPluginRequest);
 
     return new Promise((resolve, reject) => {
       this.ipc.once(
         IPC_CHANNELS.RUN_PLUGIN.RES,
-        (_event, arg: RunPluginResponse) => {
+        (_event, arg: PluginResult) => {
           resolve(arg);
         }
       );

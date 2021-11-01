@@ -1,11 +1,12 @@
 import { BrowserWindow, ipcMain } from 'electron';
 
+import { PluginResult } from 'swish-base';
+
 import { swishBackend } from './swish-backend';
 import { IPCPluginResult } from './model/ipc/plugin';
 
 import { MenuCommand } from '../shared/const/ipc/menu-command';
 import { IPC_CHANNELS } from '../shared/const/ipc/ipc-channel';
-import { RunPluginResponse } from '../shared/models/ipc/run-plugin-response';
 
 class IPCHandler {
   private win: BrowserWindow;
@@ -42,12 +43,15 @@ class IPCHandler {
     ipcMain.on(IPC_CHANNELS.RUN_PLUGIN.REQ, async (_event, arg) => {
       const { plugin, data, requestId } = arg;
 
-      let response: RunPluginResponse;
+      let response: PluginResult;
       try {
         response = await swishBackend.runPlugin(plugin, data, requestId);
       } catch (error) {
         response = {
-          error: error,
+          message: {
+            level: 'error',
+            text: error.message,
+          },
         };
       }
 

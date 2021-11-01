@@ -183,7 +183,7 @@ class PluginManager {
         id: string,
         args: PluginArgument,
         type?: 'system' | 'user' | 'default'
-    ): Promise<string | PluginResult> {
+    ): Promise<PluginResult> {
         const plugin = this.getPluginById(id, type);
 
         if (!plugin) {
@@ -219,7 +219,9 @@ class PluginManager {
             });
 
             if (typeof runResult === 'string') {
-                return unifyLineEndings(runResult, lineEndingChar);
+                return {
+                    text: unifyLineEndings(runResult, lineEndingChar),
+                };
             } else {
                 return {
                     ...runResult,
@@ -229,7 +231,12 @@ class PluginManager {
                 };
             }
         } catch (error) {
-            throw error;
+            return {
+                message: {
+                    level: 'error',
+                    text: error.message,
+                },
+            };
         } finally {
             this.pluginStack.pop();
         }
