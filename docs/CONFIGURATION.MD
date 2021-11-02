@@ -9,7 +9,7 @@ There are two ways to configure how Swish works; Environment variables and your 
 
 Currently only one environment variable is used:
 
-- **`SWISH_PLUGIN_PATH`** - The path to the directory containing your user plugins. This should be the <u>complete</u> path to your plugins.
+- **`SWISH_PLUGIN_PATH`** - The path to the directory containing your user plugins. This should be the <u>absolute</u> path to your plugins.
 
 ## .swishrc
 
@@ -33,6 +33,8 @@ Create a file named `.swishrc` in your home directory:
 ```
 
 - **`userPlugins`**: The path to the directory containing your user plugins
-- **`editor`**:
+- **`editor`**: _(These options are only used by Swish-Gui)_
   - **`font`**: The font to use in the editor
   - **`ligatures`**: Whether to use ligatures - what are ligatures? [see this from Fira Code](https://github.com/tonsky/FiraCode#whats-in-the-box)
+
+Note that `~` can be used as part of the `userPlugins` path on Windows as well as Linux and Mac. On Windows it refers to `%USERPROFILE%`.

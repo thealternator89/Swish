@@ -1,9 +1,11 @@
 # Setup
 
-There is a postinstall script which will set up the repo ready to work correctly.  
+There is a postinstall script which will set up the repo ready to work correctly.
 You should be able to get everything set up and ready to go by running `npm i` from the root of the repo.
 
-If you the repo fails to be setup automatically, check out **Troubleshooting** below.
+Note that on postinstall, each subrepo in turn has its dependencies installed and is built. This can take some time (approx 10 minutes), with particularly Swish-Gui and Swish-Clip taking the longest time to set up.
+
+If the repo fails to be setup automatically, check out **Troubleshooting** below.
 
 ## Dependency Chain
 

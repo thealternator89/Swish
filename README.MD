@@ -8,35 +8,47 @@ Swish is built with Node, Electron and Angular.
 
 ## Repo
 
-The Swish repo is a monorepo containing the following:
+The Swish repo is a monorepo containing the following projects:
 
-- **Base**: The base plugin handling capability and interfaces shared amongst other repos
-- **Core**: CLI client for Swish. Pipe data in to have it transformed using the same plugins as the Swish GUI
-- **Gui**: Electron GUI client for Swish
-- **Plugins**: Builtin plugins for Swish
+### Base
 
-> ⚠️ If you would like to work on this repo, check out [SETUP.MD](docs/SETUP.MD) for instructions to get it all set up correctly.
-> There is a very specific install/build order as each component depends on others.
-> This will eventually be scripted, but it is currently a manual process.
+The base of all the applications. This handles configuration, and loading and running plugins.
+
+### Clip
+
+A lightweight GUI for Swish. This sits in your OS tray and manipulates the content of your clipboard.
+
+### Core
+
+The raw experience of Swish. You can pipe your data from any app through Swish in the terminal to transform it.
+
+### Gui
+
+The full-featured GUI client for Swish. This is heavily influenced by the Mac tool "Boop"
+
+### Plugins
+
+Builtin plugins for Swish, and models regarding the structure of plugins.
 
 ## Differences to Boop
 
-While Boop is an awesome tool, and Swish is heavily based on it, here are some ways Swish is different:
+While Boop is an awesome tool, and Swish GUI is heavily based on it, here are some ways Swish is different:
 
-- Cross-platform - you can perform the same data transformation on Mac, Linux or Windows. Boop is Mac-only.
-  - Your plugins can come with you wherever you go!
+- Cross-platform - you can perform the same data transformation on Mac, Linux or Windows. Boop is Mac-only.  
+  Your plugins can come with you wherever you go!
 - Uses standard Node concepts for building plugins
-  - Your plugin exports a CommonJS module containing all the data required by Swish, rather than containing a header comment in JSON which is hard to write.
+  - Your plugin exports a CommonJS module containing all the data required by Swish, rather than containing a header comment in JSON which is difficult to get right.
   - Plugins follow standard promise conventions
     - You get passed some text content and (as long as you export an async function) can just directly return the result - no need to deeply understand any complex data.
     - Long-running processes can provide UI feedback with simple callback functions
   - Error conditions can be handled by throwing an Error - the message you use will be displayed to the user
-  - Testing is really easy (even for long-running plugins) - no need to handle out-of-sync responses
-- An error occurred somewhere deep in your plugin? Just open up the console to view the entire error, with stack trace!
-- Multi-paradigm - you can use Swish via the GUI, or just pipe data through it in the console and use the exact same plugins!
-- Plugins can use other plugins to do some transformation, making building custom plugins even easier!
+  - Testing is really easy (even for long-running plugins) - there is no need to handle out-of-sync responses
+- An error occurred somewhere deep in your plugin? Just open up the console to view the entire error, with stack trace! (swish-gui)
+- Multi-paradigm - you can use Swish via one of two GUI-based applications, or just pipe data through it in the console and use the exact same plugins!
+- Plugins can utilise other plugins to do some transformation, making it even easier to write custom plugins!
 - Don't like the way a builtin plugin does something? Create a custom plugin with the same ID, and your plugin replaces the builtin one!
-- Swish uses the same hotkey as Atom, VS Code and Sublime Text to open the command palette - which developers who use these tools already have muscle memory for
+  - Don't use a builtin plugin and want it gone? Create a custom plugin with the same ID and `hidden: true` and it's gone!
+- Swish GUI uses the same hotkey as VS Code, Sublime Text and Atom to open the command palette - which developers who use these tools already have muscle memory for
 
 ## Differences to Atom, Sublime Text, VS Code, etc.
 
