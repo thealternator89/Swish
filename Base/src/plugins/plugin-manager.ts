@@ -169,6 +169,10 @@ class PluginManager {
         return results.map((result) => result.item);
     }
 
+    public getAllUserSelectablePlugins(appName?: 'clip'|'core'|'gui'): PluginDefinition[] {
+        return this.userSelectablePlugins.filter((plugin) => !appName || plugin.usableFrom.includes(appName));
+    }
+
     public getAllPluginsByGroup(): { [key: string]: PluginDefinition[] } {
         let groups = this.userSelectablePlugins
             .map((plugin) => plugin.group)

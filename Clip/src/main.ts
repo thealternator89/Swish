@@ -11,6 +11,7 @@ import {
 import { PluginDefinition, configManager, pluginManager } from 'swish-base';
 import { exit } from 'process';
 import * as path from 'path';
+import { BuildPluginGroups, PluginItem, PluginGroup } from './group-parser';
 
 // A sink function which runs but does absolutely nothing.
 const SINK_FUNCTION = () => undefined;
@@ -46,34 +47,30 @@ if (process.platform === 'darwin') {
 }
 
 function buildPluginContextItems(): MenuItem[] {
-    const pluginsByGroup = pluginManager.getAllPluginsByGroup();
+    const allPlugins = pluginManager.getAllUserSelectablePlugins('clip');
 
-    const filterPlugins = (plugin: PluginDefinition) =>
-        !plugin.usableFrom || plugin.usableFrom.includes('clip');
+    const baseGroup = BuildPluginGroups(allPlugins);
 
-    const buildMenuItem = (plugin: PluginDefinition) => ({
+    const buildGroupOrPluginMenuItem = (item) =>
+        item instanceof PluginGroup
+            ? buildGroupMenuItem(item)
+            : buildPluginMenuItem(item);
+
+    const buildGroupMenuItem = (group: PluginGroup) => ({
+        label: group.name,
+        submenu: group.items.map(buildGroupOrPluginMenuItem),
+    });
+
+    const buildPluginMenuItem = (plugin: PluginItem) => ({
         label: plugin.name,
         toolTip: plugin.description,
         click: () => runPlugin(plugin),
     });
 
-    const groupMenus = Object.keys(pluginsByGroup)
-        .filter((group) => group !== '_other')
-        .map((group) => ({
-            label: group,
-            submenu: pluginsByGroup[group]
-                .filter(filterPlugins)
-                .map(buildMenuItem),
-        })) as any;
-
-    const ungrouped = pluginsByGroup['_other']
-        .filter(filterPlugins)
-        .map(buildMenuItem);
-
-    return [...groupMenus, ...ungrouped];
+    return baseGroup.map(buildGroupOrPluginMenuItem);
 }
 
-async function runPlugin(plugin: PluginDefinition) {
+async function runPlugin(plugin: { id: string; name: string }) {
     tray.setImage(getTrayIconPath('Active'));
     tray.setContextMenu(runningContextMenu);
 
