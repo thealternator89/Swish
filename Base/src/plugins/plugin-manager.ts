@@ -170,7 +170,12 @@ class PluginManager {
     }
 
     public getAllUserSelectablePlugins(appName?: 'clip'|'core'|'gui'): PluginDefinition[] {
-        return this.userSelectablePlugins.filter((plugin) => !appName || plugin.usableFrom.includes(appName));
+        return this.userSelectablePlugins.filter(
+            (plugin) =>
+                !appName ||
+                !plugin.usableFrom ||
+                plugin.usableFrom.includes(appName)
+        );
     }
 
     public getAllPluginsByGroup(): { [key: string]: PluginDefinition[] } {
