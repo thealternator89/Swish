@@ -70,19 +70,40 @@ class PluginManager {
         const pluginObjs: PluginDefinition[] = [];
 
         for (const pluginFile of plugins) {
-            const plugin = require(`${resolvedDirectory}/${pluginFile}`) as PluginDefinition;
+            const importedPlugins = require(`${resolvedDirectory}/${pluginFile}`) as
+                | PluginDefinition
+                | PluginDefinition[];
 
-            if (
-                !this.checkPluginVersion(plugin.swishVersion, BEEP_BASE_VERSION)
-            ) {
-                continue;
+            let pluginItems : PluginDefinition[];
+
+            if (Object.prototype.toString.call(importedPlugins) === '[object Object]') {
+                pluginItems = [importedPlugins as PluginDefinition];
+            } else {
+                pluginItems = importedPlugins as PluginDefinition[];
             }
 
-            // If plugin doesn't specify an id, use the filename as an id (excl. extension)
-            if (!plugin.id) {
-                plugin.id = pluginFile.substr(0, pluginFile.length - 3); // remove js extension
+            for (let i = 0; i < pluginItems.length; i++) {
+                const plugin = pluginItems[i] as PluginDefinition;
+
+                if (
+                    !this.checkPluginVersion(
+                        plugin.swishVersion,
+                        BEEP_BASE_VERSION
+                    )
+                ) {
+                    continue;
+                }
+
+                // If plugin doesn't specify an id, use the filename as an id (excl. extension)
+                // If multiple plugins in a module, add a suffix for all other than the first one.
+                // e.g. `some-plugin`, `some-plugin-1`, `some-plugin-2`...
+                if (!plugin.id) {
+                    const baseId = pluginFile.substr(0, pluginFile.length - 3); // remove js extension
+                    const idSuffix = i > 0 ? `-${i}` : '';
+                    plugin.id = `${baseId}${idSuffix}`
+                }
+                pluginObjs.push(plugin);
             }
-            pluginObjs.push(plugin);
         }
 
         return pluginObjs;
