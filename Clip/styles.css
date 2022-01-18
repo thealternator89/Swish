@@ -23,4 +23,8 @@ body {
     overflow-y: scroll;
 }
 
+#item-list::-webkit-scrollbar {
+    display: none;
+}
+
 /* Add styles here to customize the appearance of your app */

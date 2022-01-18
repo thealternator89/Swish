@@ -1,6 +1,6 @@
 {
-  "name": "swish-clip2",
-  "version": "1.0.0",
+  "name": "swish-clip",
+  "version": "1.1.0",
   "description": "A minimal Swish GUI",
   "main": "main.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "build:electron": "cd electron && webpack",
     "build:preload": "tsc preload.ts",
     "build:web": "cd web && webpack",
+    "package": "electron-packager . --overwrite --prune --out=release-builds",
     "clean": "rm *.js",
     "prestart": "npm run build",
     "start": "electron ."
@@ -18,6 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^16.0.2",
+    "electron-packager": "^15.4.0",
     "path-browserify": "^1.0.1",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.4",

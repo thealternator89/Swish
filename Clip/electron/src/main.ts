@@ -24,6 +24,7 @@ function createWindow() {
             preload: path.join(__dirname, 'preload.js'),
         },
         frame: false,
+        skipTaskbar: true,
     });
 
     mainWindow.on('blur', () => {
