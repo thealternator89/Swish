@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Swish - Clip</title>
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+
+        <!-- Bootstrap -->
+        <link href="deps/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Popper - needs to be included before bootstrap js. -->
+        <!-- TODO: Bring this into the bundle so it doesn't require internet. -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+        <script src="deps/bootstrap-5.1.3-dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Internal Styles -->
+        <link href="deps/material-icons/MaterialIcons.css" rel="stylesheet">
+        <link href="./styles.css" rel="stylesheet">
+
+        <!-- Internal Scripts -->
+        <script src="./renderer.js" defer></script>
+    </head>
+    <body class="bg-dark">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+                <input 
+                    id="plugin-search"
+                    type="text"
+                    placeholder="Search for a plugin"
+                    onsubmit="return false;"
+                    class="form-control form-control-lg bg-dark" >
+        </nav>
+        <div id="item-list" class="list-group">
+        </div>
+    </body>
+</html>

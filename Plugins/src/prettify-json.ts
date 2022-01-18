@@ -7,6 +7,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'expand',
+    tags: ['json', 'prettify', 'beautify', 'format', 'dev'],
     group: 'Data',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {

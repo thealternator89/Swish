@@ -8,6 +8,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'sort',
+    tags: ['sort', 'text'],
     group: 'Text',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {

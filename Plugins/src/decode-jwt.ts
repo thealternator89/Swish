@@ -10,6 +10,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'view_agenda',
+    tags: ['jwt', 'auth0'],
     group: 'Cryptography',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {

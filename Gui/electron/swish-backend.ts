@@ -1,16 +1,9 @@
-import {
-  PluginDefinition,
-  PluginResult,
-  pluginManager,
-  configManager,
-} from 'swish-base';
+import { PluginDefinition, PluginResult, pluginManager } from 'swish-base';
 import { ipcHandler } from './ipc-handler';
 
 class SwishBackend {
   constructor() {
-    if (configManager.config.userPlugins) {
-      pluginManager.init(configManager.config.userPlugins);
-    }
+    pluginManager.reloadUserPlugins();
   }
 
   public search(query: string): PluginDefinition[] {

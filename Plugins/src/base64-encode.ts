@@ -6,6 +6,7 @@ export = {
     id: 'base64-encode',
     author: 'thealternator89',
     swishVersion: '1.0.0',
+    tags: ['base64', 'encode', 'text'],
     icon: 'code',
     group: 'Cryptography',
     usableFrom: ['core', 'clip', 'gui'],

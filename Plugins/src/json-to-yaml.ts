@@ -9,6 +9,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     group: 'Data',
+    tags: ['json', 'yaml', 'dev'],
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const parsed = JSON.parse(args.textContent);

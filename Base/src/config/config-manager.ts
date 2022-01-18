@@ -4,12 +4,16 @@ import { join } from 'path';
 import { env } from 'process';
 
 const ENV_USER_PLUGINS = 'SWISH_PLUGIN_PATH';
+const ENV_CLIP_HOTKEY = 'SWISH_CLIP_HOTKEY';
 
 interface SwishConfig {
-    userPlugins: string;
-    editor: {
+    userPlugins?: string;
+    editor?: {
         font: string;
         ligatures: boolean;
+    };
+    clip?: {
+        hotkey?: string;
     };
 }
 
@@ -37,23 +41,31 @@ class ConfigManager {
 
         const configContents = readFileSync(configPath, 'utf-8');
 
-        const config = JSON.parse(configContents);
-        return config;
+        try {
+            const config = JSON.parse(configContents);
+            return config;
+        } catch (ex) {
+            console.log(
+                `Error loading config file at ${configPath}: ${ex.message}`
+            );
+        }
     }
 
     private getEnvConfig(): Partial<SwishConfig> {
         return {
             userPlugins: env[ENV_USER_PLUGINS],
+            clip: {
+                hotkey: env[ENV_CLIP_HOTKEY],
+            },
         };
     }
 
-    private getDefaultConfig(): SwishConfig {
+    private getDefaultConfig(): Partial<SwishConfig> {
         return {
             editor: {
                 font: getDefaultFont(),
                 ligatures: false,
             },
-            userPlugins: '',
         };
     }
 }

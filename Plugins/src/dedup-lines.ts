@@ -7,6 +7,7 @@ export = {
     id: 'dedup-lines',
     author: 'thealternator89',
     swishVersion: '1.0.0',
+    tags: ['Deduplicate'],
     icon: 'filter_alt',
     usableFrom: ['core', 'gui'],
     process: async (args: ProvidedPluginArgument) => {

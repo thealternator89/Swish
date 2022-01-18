@@ -17,6 +17,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'attach_money',
+    tags: ['bash', 'shell', 'unescape', 'dev'],
     group: 'Dev',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {

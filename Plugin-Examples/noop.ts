@@ -1,5 +1,3 @@
-import { ProvidedPluginArgument } from './model';
-
 export = {
     name: 'NO-OP',
     description:
@@ -9,7 +7,7 @@ export = {
     swishVersion: '1.0.0',
     icon: 'hourglass_bottom',
     usableFrom: ['core', 'gui'],
-    process: async (args: ProvidedPluginArgument) => {
+    process: async (args: any) => {
         return args.textContent;
     },
 };

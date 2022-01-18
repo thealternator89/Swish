@@ -7,6 +7,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'compress',
+    tags: ['json', 'minify'],
     group: 'Data',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {

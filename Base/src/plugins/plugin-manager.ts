@@ -10,6 +10,8 @@ import {
 } from 'swish-plugins/dist/model';
 import { InfiniteLoopError, PluginNotFoundError } from '../errors';
 import { identifyLineEndingChar, unifyLineEndings } from '../util/text-utils';
+import { configManager } from '../config/config-manager';
+import { loadCjsPlugin } from './plugin-loader';
 
 const BEEP_BASE_VERSION = require('../../package.json')
     .version.split('.')
@@ -41,9 +43,9 @@ class PluginManager {
         this.rebuildUserSelectablePlugins();
     }
 
-    // TODO: Rename this. It's not an init anymore - "reloadUserPlugins" maybe?
-    // Make userPluginPath required as well maybe.
-    public init(userPluginPath?: string) {
+    public reloadUserPlugins() {
+        const userPluginPath = configManager.config.userPlugins;
+
         if (userPluginPath) {
             this.userPlugins = this.loadPluginSet(userPluginPath);
         } else {
@@ -67,44 +69,20 @@ class PluginManager {
                 !file.startsWith('_') // and don't start with '_'
         );
 
-        const pluginObjs: PluginDefinition[] = [];
+        let pluginObjs: PluginDefinition[] = [];
 
-        for (const pluginFile of plugins) {
-            const importedPlugins = require(`${resolvedDirectory}/${pluginFile}`) as
-                | PluginDefinition
-                | PluginDefinition[];
-
-            let pluginItems : PluginDefinition[];
-
-            if (Object.prototype.toString.call(importedPlugins) === '[object Object]') {
-                pluginItems = [importedPlugins as PluginDefinition];
-            } else {
-                pluginItems = importedPlugins as PluginDefinition[];
-            }
-
-            for (let i = 0; i < pluginItems.length; i++) {
-                const plugin = pluginItems[i] as PluginDefinition;
-
-                if (
-                    !this.checkPluginVersion(
-                        plugin.swishVersion,
+        plugins.forEach((plugin) => {
+            const module = loadCjsPlugin(
+                plugin,
+                resolvedDirectory,
+                (loadedPlugin) =>
+                    this.checkPluginVersion(
+                        loadedPlugin.swishVersion,
                         BEEP_BASE_VERSION
                     )
-                ) {
-                    continue;
-                }
-
-                // If plugin doesn't specify an id, use the filename as an id (excl. extension)
-                // If multiple plugins in a module, add a suffix for all other than the first one.
-                // e.g. `some-plugin`, `some-plugin-1`, `some-plugin-2`...
-                if (!plugin.id) {
-                    const baseId = pluginFile.substr(0, pluginFile.length - 3); // remove js extension
-                    const idSuffix = i > 0 ? `-${i}` : '';
-                    plugin.id = `${baseId}${idSuffix}`
-                }
-                pluginObjs.push(plugin);
-            }
-        }
+            );
+            pluginObjs = pluginObjs.concat(module);
+        });
 
         return pluginObjs;
     }
@@ -169,38 +147,20 @@ class PluginManager {
         return results.map((result) => result.item);
     }
 
-    public getAllUserSelectablePlugins(appName?: 'clip'|'core'|'gui'): PluginDefinition[] {
+    /**
+     * Get all user-selectable plugins for a specific Swish application
+     * @param appName app name - to restrict the items to ones which say they are capable of working in that app
+     * @returns An array of all plugins which the user can select
+     */
+    public getAllUserSelectablePlugins(
+        appName?: 'clip' | 'core' | 'gui'
+    ): PluginDefinition[] {
         return this.userSelectablePlugins.filter(
             (plugin) =>
-                !appName ||
-                !plugin.usableFrom ||
-                plugin.usableFrom.includes(appName)
+                !appName || // If we haven't passed an app name, just include all plugins
+                !plugin.usableFrom || // If the plugin doesn't restrict where it can be used, include it
+                plugin.usableFrom.includes(appName) // Check if the requested app is able to use plugin
         );
-    }
-
-    public getAllPluginsByGroup(): { [key: string]: PluginDefinition[] } {
-        let groups = this.userSelectablePlugins
-            .map((plugin) => plugin.group)
-            .filter((group) => group)
-            .sort((a, b) => a.localeCompare(b));
-
-        groups = groups.filter(
-            (group, index) => groups.indexOf(group) === index
-        );
-
-        const result = {};
-
-        for (const group of groups) {
-            result[group] = this.userSelectablePlugins
-                .filter((plugin) => plugin.group === group)
-                .sort(LocaleComparePluginDefinition);
-        }
-
-        result['_other'] = this.userSelectablePlugins.filter(
-            (plugin) => !plugin.group
-        );
-
-        return result;
     }
 
     /**
@@ -345,7 +305,7 @@ function resolvePath(origPath: string) {
         return origPath;
     }
 
-    return path.join(homedir(), origPath.substr(1));
+    return path.join(homedir(), origPath.substring(1));
 }
 
 export const pluginManager = new PluginManager();

@@ -11,6 +11,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'palette',
+    tags: ['hex', 'rgb', 'color', 'web', 'css'],
     group: 'Web',
     usableFrom: ['core', 'clip', 'gui'],
     process: (args: ProvidedPluginArgument) => {

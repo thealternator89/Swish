@@ -9,7 +9,7 @@ import { ProvidedPluginArgument } from './model';
 // Possibly starting with a dollar, euro, or pound symbol - for monetary amounts
 // Possibly ending with a percent symbol - for percentages
 // NOTE: This means the following is "valid": $500,000.57%
-const VALID_NUMBER = /^[\$£€]?(\d*|\d{1,3}(,\d{3})*)(\.\d*)?\%?$/;
+const VALID_NUMBER = /^[$£€]?(\d*|\d{1,3}(,\d{3})*)(\.\d*)?%?$/;
 
 export = {
     name: 'Sort Lines (Natural)',
@@ -18,6 +18,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'sort',
+    tags: ['sort', 'natural'],
     group: 'Text',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {

@@ -7,6 +7,8 @@ export = {
     id: 'uuid-generate-v4',
     author: 'thealternator89',
     swishVersion: '1.0.0',
+    icon: 'loop',
+    tags: ['uuid', 'random', 'generate'],
     group: 'UUID',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (_args: ProvidedPluginArgument) => {

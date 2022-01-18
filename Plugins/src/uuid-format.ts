@@ -6,6 +6,8 @@ export = {
     id: 'uuid-format',
     author: 'thealternator89',
     swishVersion: '1.0.0',
+    icon: 'power_input',
+    tags: ['uuid', 'format'],
     group: 'UUID',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {

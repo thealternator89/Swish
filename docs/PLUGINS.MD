@@ -136,14 +136,14 @@ Because of how JavaScript and CommonJS modules work, plugins aren't sandboxed, a
 
 ## Building on top of other plugins
 
-One cool feature of Swish is that you don't have to keep reinventing the wheel when you want to 
+One cool feature of Swish is that you don't have to keep reinventing the wheel when you want to make something happen.
 
 The arguments passed to your plugin includes a `runPlugin` function. If you call this, Swish will run the specified plugin with the data provided and returns a promise which will resolve to the result.
 
 Example usage:
 
 ```js
-const result = await args.runPlugin('noop', args.textContent, user);
+const result = await args.runPlugin('noop', args.textContent, 'user');
 ```
 
 ### Gotchas

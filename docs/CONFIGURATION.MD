@@ -7,13 +7,10 @@ There are two ways to configure how Swish works; Environment variables and your 
 
 ## Environment Variables
 
-Currently only one environment variable is used:
-
 - **`SWISH_PLUGIN_PATH`** - The path to the directory containing your user plugins. This should be the <u>absolute</u> path to your plugins.
+* **`SWISH_CLIP_HOTKEY`** - The hotkey to use to display Swish Clip (only for Swish-Clip). This should match the Electron [Accelerator](https://www.electronjs.org/docs/latest/api/accelerator) definition.
 
 ## .swishrc
-
-**Note: This currently only works with the _Swish GUI_ - support will be brought to the CLI later.**
 
 Create a file named `.swishrc` in your home directory:
 
@@ -28,6 +25,10 @@ Create a file named `.swishrc` in your home directory:
   "editor": {
     "font": "JetBrains Mono",
     "ligatures": true
+  },
+  "clip": {
+    "hotkey": "Control+Alt+Space",
+    "iconMode": "light"
   }
 }
 ```
@@ -36,5 +37,8 @@ Create a file named `.swishrc` in your home directory:
 - **`editor`**: _(These options are only used by Swish-Gui)_
   - **`font`**: The font to use in the editor
   - **`ligatures`**: Whether to use ligatures - what are ligatures? [see this from Fira Code](https://github.com/tonsky/FiraCode#whats-in-the-box)
+- **`clip`**: _(These options are only used by Swish-Clip)_
+  - **`hotkey`**: The hotkey to use to activate Swish-Clip - This should match the Electron [Accelerator](https://www.electronjs.org/docs/latest/api/accelerator) definition
+  - **`iconMode`**: The color (`dark` or `light`) for the icon. If not set, we attempt to set the color based on the state of the OS, however this isn't always accurate - particularly if you use different color schemes for the taskbar and windows.
 
 Note that `~` can be used as part of the `userPlugins` path on Windows as well as Linux and Mac. On Windows it refers to `%USERPROFILE%`.

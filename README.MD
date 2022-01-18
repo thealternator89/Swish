@@ -16,7 +16,7 @@ The base of all the applications. This handles configuration, and loading and ru
 
 ### Clip
 
-A lightweight GUI for Swish. This sits in your OS tray and manipulates the content of your clipboard.
+A lightweight GUI for Swish. This sits in your OS tray and provides UI to search for and select a plugin to run, using your clipboard contents.
 
 ### Core
 

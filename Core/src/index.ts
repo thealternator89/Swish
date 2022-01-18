@@ -25,7 +25,7 @@ program
 program.parse(process.argv);
 
 if (configManager.config.userPlugins) {
-    pluginManager.init(configManager.config.userPlugins);
+    pluginManager.reloadUserPlugins();
 }
 
 if (program.list) {

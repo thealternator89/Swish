@@ -1,0 +1,26 @@
+/* styles.css */
+
+body {
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+#plugin-search {
+    width: 99%;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    border: none;
+}
+
+#item-list{
+    position: fixed;
+    top: 64px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    overflow-y: scroll;
+}
+
+/* Add styles here to customize the appearance of your app */

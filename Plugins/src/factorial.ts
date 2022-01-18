@@ -1,25 +1,21 @@
 import { ProvidedPluginArgument } from './model';
 
+// NOTE: This isn't a good or useful implementation, this is just an example to show how to build a recursive plugin.
+
 export = {
     name: 'Factorial',
     description: 'Calculates the factorial value of the number provided',
     id: 'factorial',
     author: 'thealternator89',
     swishVersion: '1.0.0',
+    tags: ['factorial', 'math', 'calculation'],
     icon: 'calculate',
     usableFrom: ['core', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const text = args.textContent.trim();
-        const parsed = parseInt(text);
+        const parsed = BigInt(text);
         if (`${parsed}` !== text) {
             throw new Error(`Value '${text}' is not a number`);
-        }
-
-        // If we start above 21, integer overflow will occur.
-        if (parsed > 21) {
-            throw new Error(
-                `Can't perform factorial on ${parsed}. Max starting value is 21`
-            );
         }
 
         // Negative factorials are valid, but this would be slightly difficult to support
@@ -30,9 +26,9 @@ export = {
         if (parsed > 1) {
             const next = await args.runPlugin('factorial', {
                 ...args,
-                textContent: `${parsed - 1}`,
+                textContent: `${parsed - 1n}`,
             });
-            const nextInt = parseInt(next);
+            const nextInt = BigInt(next);
             return `${parsed * nextInt}`;
         }
 

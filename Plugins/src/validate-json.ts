@@ -8,6 +8,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'check_circle',
+    tags: ['json', 'validate', 'dev'],
     group: 'Dev',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
