@@ -88,6 +88,7 @@ app.whenReady().then(() => {
     createMenu();
     createWindow();
     registerHotkey();
+    mainWindow.hide();
 });
 
 if (process.platform === 'darwin') {
