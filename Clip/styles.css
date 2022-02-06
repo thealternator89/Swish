@@ -6,6 +6,10 @@ body {
     overflow: hidden;
 }
 
+.navbar {
+    -webkit-app-region: drag
+}
+
 #plugin-search {
     width: 99%;
     margin-left: auto;
