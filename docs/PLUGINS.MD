@@ -78,6 +78,8 @@ If you want to provide a message to the user, your object result must be the fol
 ```typescript
 interface PluginResult {
   text?: string;
+  html?: string;
+  rtf?: string;
   message?: {
     text: string;
     status: 'info' | 'warn' | 'error' | 'success';
@@ -86,12 +88,27 @@ interface PluginResult {
 ```
 
 - **`text`**: The resulting text for the plugin execution
+- **`html`**: The resulting text as HTML - _only for Swish-Clip_
+- **`rtf`**: The resulting text in RTF format - _only for Swish-Clip_
 - **`message`**:
   - **`text`**: Text of the message to display to the user
   - **`status`**: The status of the message - used to colour the message.
 
 Note that no part of the object is **required**, but you should at least return either `text` or the `message`.  
 This is useful to allow you to build a plugin which provides feedback on the input without modifying the text.
+
+#### Text, HTML and RTF?
+
+Plugins can output Text, HTML and RTF if required.  
+The default response (when you just return a string from your plugin) is 'text' - this is used by all versions of Swish.
+
+Why would I want to output HTML or RTF?
+* Plain text is pretty boring - spice it up with some **formatting**.
+* Provide your data in a table to make it more readable or able to be ingested into other applications like Excel
+* Your plugin can build a link with a human-readable title, rather than just a plain URL
+
+Since HTML and RTF are only available from Swish-Clip, you should _always_ return `text`.  
+`html` and `rtf` are both completely optional, you can provide one without the other.
 
 ### Error Handling
 
