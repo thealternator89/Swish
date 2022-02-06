@@ -218,6 +218,12 @@ class PluginManager {
                     text: runResult.text
                         ? unifyLineEndings(runResult.text, lineEndingChar)
                         : undefined,
+                    html: runResult.html
+                        ? unifyLineEndings(runResult.html, lineEndingChar)
+                        : undefined,
+                    rtf: runResult.rtf
+                        ? unifyLineEndings(runResult.rtf, lineEndingChar)
+                        : undefined
                 };
             }
         } catch (error) {

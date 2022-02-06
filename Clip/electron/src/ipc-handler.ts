@@ -60,6 +60,14 @@ class IPCHandler {
                 clipboard.writeText(response.text);
             }
 
+            if (response.html) {
+                clipboard.writeHTML(response.html);
+            }
+
+            if (response.rtf) {
+                clipboard.writeRTF(response.rtf);
+            }
+
             const pluginName = swishBackend.getPluginName(pluginId);
 
             if (response.message) {
