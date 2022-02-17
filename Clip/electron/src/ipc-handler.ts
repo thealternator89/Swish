@@ -55,18 +55,12 @@ class IPCHandler {
                     },
                 };
             }
-
-            if (response.text) {
-                clipboard.writeText(response.text);
-            }
-
-            if (response.html) {
-                clipboard.writeHTML(response.html);
-            }
-
-            if (response.rtf) {
-                clipboard.writeRTF(response.rtf);
-            }
+            
+            clipboard.write({
+                text: response.text,
+                html: response.html,
+                rtf: response.rtf,
+            });
 
             const pluginName = swishBackend.getPluginName(pluginId);
 
