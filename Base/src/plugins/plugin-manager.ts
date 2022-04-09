@@ -91,9 +91,9 @@ class PluginManager {
         pluginRequiredVersion: string,
         swishVersion: number[]
     ): boolean {
-        // Plugin hasn't specified a version, ignore it.
+        // Plugin hasn't specified a version, assume it works.
         if (!pluginRequiredVersion) {
-            return false;
+            return true;
         }
 
         const requiredVersion = pluginRequiredVersion

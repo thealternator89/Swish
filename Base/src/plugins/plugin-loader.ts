@@ -9,18 +9,9 @@ export function loadCjsPlugin(
     return (
         safeRequire(fullPath)
             // Filter out invalid plugins
-            .filter(
-                (plugin) =>
-                    (plugin.hidden || // Always include hidden plugins - they don't have the same req's as visible ones
-                        checkPropertiesExist(plugin, fullPath, [
-                            'name',
-                            'description',
-                            'author',
-                            'swishVersion',
-                            'process',
-                        ])) &&
-                    condition(plugin)
-            )
+            .filter((plugin) => validatePlugin(plugin, fullPath))
+            // Filter out plugins which don't meet condition
+            .filter(condition)
             // Add the plugin id
             .map((plugin, index) => {
                 const baseId = filename.substring(0, filename.length - 3); // remove js extension
@@ -49,6 +40,18 @@ function safeRequire(path: string): PluginDefinition[] {
         console.error(`Error loading plugin at ${path}: ${err.message}`);
         return new Array(0);
     }
+}
+
+function validatePlugin(plugin: any, path: string): boolean {
+    if (!plugin.hidden && (!plugin.name || !plugin.process)) {
+        console.error(
+            `Plugin ${
+                plugin.id ?? plugin.name
+            } (${path}) missing required properties. 'name' and 'process' are required. - Ignoring`
+        );
+        return false;
+    }
+    return true;
 }
 
 function checkPropertiesExist(

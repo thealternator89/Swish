@@ -110,7 +110,7 @@ class PluginListManager {
                             plugin.tags?.join(', ') ?? ''
                         ).toLocaleLowerCase()}</small>
                     </div>
-                    <small>${plugin.description}</small>
+                    <small>${plugin.description ?? ''}</small>
                 </div>
             </div>`;
         return baseElem;
