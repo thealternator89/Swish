@@ -17,18 +17,4 @@ describe('Sort Lines', () => {
 
         expect(output).toEqual(expected);
     });
-    it('Handles CRLF line endings', async () => {
-        const inputLines = ['Golf', 'Sierra', 'Charlie'];
-        const expectedLines = ['Charlie', 'Golf', 'Sierra'];
-
-        const input = inputLines.join('\r\n');
-        const expected = expectedLines.join(NEWLINE_CHAR);
-
-        const output = await sortLines.process({
-            ...basePluginArgument,
-            textContent: input,
-        });
-
-        expect(output).toEqual(expected);
-    });
 });
