@@ -12,6 +12,7 @@ import { InfiniteLoopError, PluginNotFoundError } from '../errors';
 import { identifyLineEndingChar, unifyLineEndings } from '../util/text-utils';
 import { configManager } from '../config/config-manager';
 import { loadCjsPlugin } from './plugin-loader';
+import { LoadedPlugin } from './LoadedPlugin';
 
 const BEEP_BASE_VERSION = require('../../package.json')
     .version.split('.')
@@ -22,13 +23,17 @@ const SEARCH_KEYS = ['name', 'description', 'tags'];
 const LocaleComparePluginDefinition = (a, b) => a.name.localeCompare(b.name);
 
 class PluginManager {
-    private readonly systemPlugins: PluginDefinition[] = [];
-    private userPlugins: PluginDefinition[] = [];
-    private userSelectablePlugins: PluginDefinition[];
+    private readonly systemPlugins: LoadedPlugin[] = [];
+    private userPlugins: LoadedPlugin[] = [];
+    private userSelectablePlugins: LoadedPlugin[];
 
     // Keeps track of which plugins are running, and with what data,
     // to ensure we don't enter an infinite loop and take down the entire app.
-    private pluginStack: { id: string; data: string }[] = [];
+    private pluginStack: {
+        id: string;
+        data: string;
+        system: boolean;
+    }[] = [];
 
     public constructor() {
         const systemPluginPath = path.join(
@@ -39,7 +44,12 @@ class PluginManager {
             'swish-plugins',
             'dist'
         );
-        this.systemPlugins = this.loadPluginSet(systemPluginPath);
+        this.systemPlugins = this.loadPluginSet(systemPluginPath).map(
+            (plugin) => ({
+                ...plugin,
+                systemPlugin: true, // store that this is a system plugin
+            })
+        );
         this.rebuildUserSelectablePlugins();
     }
 
@@ -47,7 +57,12 @@ class PluginManager {
         const userPluginPath = configManager.config.userPlugins;
 
         if (userPluginPath) {
-            this.userPlugins = this.loadPluginSet(userPluginPath);
+            this.userPlugins = this.loadPluginSet(userPluginPath).map(
+                (plugin) => ({
+                    ...plugin,
+                    systemPlugin: false, // store that this is not a system plugin
+                })
+            );
         } else {
             this.userPlugins = [];
         }
@@ -116,7 +131,7 @@ class PluginManager {
     public getPluginById(
         id: string,
         type: 'system' | 'user' | 'default' = 'default'
-    ): PluginDefinition {
+    ): LoadedPlugin {
         const findPluginFunc = (plugin) => plugin.id === id;
 
         switch (type) {
@@ -132,7 +147,7 @@ class PluginManager {
         }
     }
 
-    public searchPlugins(query: string): PluginDefinition[] {
+    public searchPlugins(query: string): LoadedPlugin[] {
         if (!query) {
             return this.userSelectablePlugins.sort(
                 LocaleComparePluginDefinition
@@ -154,7 +169,7 @@ class PluginManager {
      */
     public getAllUserSelectablePlugins(
         appName?: 'clip' | 'core' | 'gui'
-    ): PluginDefinition[] {
+    ): LoadedPlugin[] {
         return this.userSelectablePlugins.filter(
             (plugin) =>
                 !appName || // If we haven't passed an app name, just include all plugins
@@ -180,12 +195,18 @@ class PluginManager {
             throw new PluginNotFoundError(`Plugin with ID '${id}' not found!`);
         }
 
-        const pluginDef = { id: id, data: args.textContent };
+        const pluginDef = {
+            id: id,
+            data: args.textContent,
+            system: plugin.systemPlugin,
+        };
 
         if (
             this.pluginStack.find(
                 (item) =>
-                    item.id === pluginDef.id && item.data === pluginDef.data
+                    item.id === pluginDef.id &&
+                    item.data === pluginDef.data &&
+                    item.system === plugin.systemPlugin
             )
         ) {
             throw new InfiniteLoopError(
@@ -193,7 +214,11 @@ class PluginManager {
             );
         }
 
-        this.pluginStack.push({ id: id, data: args.textContent });
+        this.pluginStack.push({
+            id: id,
+            data: args.textContent,
+            system: plugin.systemPlugin,
+        });
 
         try {
             const lineEndingChar = identifyLineEndingChar(args.textContent);
@@ -223,7 +248,7 @@ class PluginManager {
                         : undefined,
                     rtf: runResult.rtf
                         ? unifyLineEndings(runResult.rtf, lineEndingChar)
-                        : undefined
+                        : undefined,
                 };
             }
         } catch (error) {
@@ -288,8 +313,8 @@ class PluginManager {
     }
 }
 
-function mergePluginLists(...lists: PluginDefinition[][]) {
-    const output: PluginDefinition[] = [];
+function mergePluginLists(...lists: LoadedPlugin[][]) {
+    const output: LoadedPlugin[] = [];
 
     for (const list of lists) {
         for (const plugin of list) {
@@ -302,7 +327,7 @@ function mergePluginLists(...lists: PluginDefinition[][]) {
     return output;
 }
 
-function filterHiddenPlugins(list: PluginDefinition[]) {
+function filterHiddenPlugins(list: LoadedPlugin[]) {
     return list.filter((plugin) => !plugin.hidden);
 }
 
