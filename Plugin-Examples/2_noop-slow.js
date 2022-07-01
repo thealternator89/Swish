@@ -1,4 +1,9 @@
-export = {
+// Example 2: NO-OP - Slow
+//
+// This plugin takes a while to do its work.
+// It uses 'progressUpdate' and 'statusUpdate' to tell the user what's happening.
+
+module.exports = {
     name: 'NO-OP - Slow',
     description:
         'A base plugin which does nothing (a NO-OP), slowly. Use this to build a plugin.',
@@ -7,7 +12,7 @@ export = {
     swishVersion: '1.0.0',
     icon: 'hourglass_top',
     usableFrom: ['core', 'gui'],
-    process: async (args: any) => {
+    process: async (args) => {
         let percent = 0;
 
         while (percent < 100) {
@@ -31,7 +36,7 @@ export = {
     },
 };
 
-function sleep(time: number): Promise<void> {
+function sleep(time) {
     return new Promise((resolve) => {
         setTimeout(resolve, time);
     });

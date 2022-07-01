@@ -1,8 +1,9 @@
-import { ProvidedPluginArgument } from './model';
-
+// Example 4: Factorial
+//
+// This plugin recursively runs itself to reach a result.
 // NOTE: This isn't a good or useful implementation, this is just an example to show how to build a recursive plugin.
 
-export = {
+module.exports = {
     name: 'Factorial',
     description: 'Calculates the factorial value of the number provided',
     id: 'factorial',
@@ -10,8 +11,7 @@ export = {
     swishVersion: '1.0.0',
     tags: ['factorial', 'math', 'calculation'],
     icon: 'calculate',
-    usableFrom: ['core', 'gui'],
-    process: async (args: ProvidedPluginArgument) => {
+    process: async (args) => {
         const text = args.textContent.trim();
         const parsed = BigInt(text);
         if (`${parsed}` !== text) {
