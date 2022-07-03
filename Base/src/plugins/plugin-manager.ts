@@ -54,7 +54,7 @@ class PluginManager {
     }
 
     public reloadUserPlugins() {
-        const userPluginPath = configManager.config.userPlugins;
+        const userPluginPath = (configManager.config as any).userPlugins;
 
         if (userPluginPath) {
             this.userPlugins = this.loadPluginSet(userPluginPath).map(

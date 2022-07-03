@@ -18,18 +18,51 @@ interface SwishConfig {
 }
 
 class ConfigManager {
-    readonly config: SwishConfig;
+    readonly config: object;
+
+    private fileConfig: object;
+    private envConfig: object;
+    private defaultConfig: object;
 
     constructor() {
-        const fileConfig = this.readFileConfig();
-        const envConfig = this.getEnvConfig();
-        const defaultConfig = this.getDefaultConfig();
+        this.fileConfig = this.readFileConfig();
+        this.envConfig = this.getEnvConfig();
+        this.defaultConfig = this.getDefaultConfig();
 
+        // Just so other things don't break temporarily
         this.config = {
-            ...defaultConfig,
-            ...envConfig,
-            ...fileConfig,
+            ...this.defaultConfig,
+            ...this.envConfig,
+            ...this.fileConfig,
         };
+    }
+
+    public getConfig() {
+        return mergeDeep(
+            {},
+            this.defaultConfig,
+            this.fileConfig,
+            this.envConfig
+        );
+    }
+
+    // Specify environment to parse
+    public parseEnvironment(
+        section: string,
+        map: { [key: string]: string }
+    ): void {
+        const config = {};
+        // Create the section in the config, and store in a variable for us to add things to
+        const configSection = (config[section] = {});
+
+        for (const envVar of Object.keys(map)) {
+            const configKey = map[envVar];
+            const configValue = env[envVar];
+            if (configValue) {
+                configSection[configKey] = configValue;
+            }
+        }
+        this.envConfig = config;
     }
 
     private readFileConfig(): Partial<SwishConfig> {
@@ -79,6 +112,38 @@ function getDefaultFont(): string {
         default:
             return 'monospace';
     }
+}
+
+/**
+ * Simple object check.
+ * @param item
+ * @returns {boolean}
+ */
+export function isObject(item) {
+    return item && typeof item === 'object' && !Array.isArray(item);
+}
+
+/**
+ * Deep merge two objects.
+ * @param target
+ * @param ...sources
+ */
+export function mergeDeep(target, ...sources) {
+    if (!sources.length) return target;
+    const source = sources.shift();
+
+    if (isObject(target) && isObject(source)) {
+        for (const key in source) {
+            if (isObject(source[key])) {
+                if (!target[key]) Object.assign(target, { [key]: {} });
+                mergeDeep(target[key], source[key]);
+            } else {
+                Object.assign(target, { [key]: source[key] });
+            }
+        }
+    }
+
+    return mergeDeep(target, ...sources);
 }
 
 export const configManager = new ConfigManager();
