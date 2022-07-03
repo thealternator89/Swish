@@ -47,8 +47,7 @@ router.get('', async (_req, res) => {
 
     const packageJsonContent = fs.readFileSync(packageJsonPath, 'utf-8');
     const packageObject = JSON.parse(packageJsonContent);
-
-    const dependencies = Object.keys(packageObject.dependencies).map(
+    const dependencies = Object.keys(packageObject.dependencies ?? {}).map(
         (key) => `${key}@${packageObject.dependencies[key]}`
     );
 
