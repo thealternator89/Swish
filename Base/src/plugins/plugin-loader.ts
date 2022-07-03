@@ -53,21 +53,3 @@ function validatePlugin(plugin: any, path: string): boolean {
     }
     return true;
 }
-
-function checkPropertiesExist(
-    plugin: any,
-    path: string,
-    props: string[]
-): boolean {
-    const missing = props.filter((prop) => !plugin[prop]);
-
-    if (missing.length !== 0) {
-        console.error(
-            `Plugin ${
-                plugin.id ?? plugin.name
-            } (${path}) missing properties: ${missing.join(', ')} - Ignoring`
-        );
-    }
-
-    return missing.length === 0;
-}
