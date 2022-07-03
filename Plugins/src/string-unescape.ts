@@ -12,22 +12,11 @@ export = {
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const text = args.textContent;
-        return JSON.parse(`"${escapeSurroundingQuotes(text)}"`);
+        return JSON.parse(`"${removeSurroundingQuotes(text)}"`);
     },
 };
 
-function escapeSurroundingQuotes(text: string): string {
-    let temp = text;
-
-    // Starts with an unescaped quote
-    if (temp.startsWith('"')) {
-        temp = `\\${temp}`;
-    }
-
-    // Ends with an unescaped quote
-    if (temp.endsWith('"') && !temp.endsWith('\\"')) {
-        temp = `${temp.substr(0, temp.length - 1)}\\"`;
-    }
-
-    return temp;
+function removeSurroundingQuotes(text: string): string {
+    // If the input has an unescaped quote on both sides, remove them.
+    return text.trim().replace(/^"(.*?[^\\])"$/, '$1');
 }
