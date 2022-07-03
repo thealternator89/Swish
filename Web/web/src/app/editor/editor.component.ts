@@ -1,0 +1,275 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+  MatDialogState,
+} from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
+
+import * as uuid from 'uuid';
+
+import { PluginResult } from 'swish-base';
+
+import { HotkeyService } from '../hotkey.service';
+import { LoadingDialogComponent } from '../loading-dialog/loading-dialog.component';
+import { PaletteComponent } from '../palette/palette.component';
+import { PluginResultSnackbarComponent } from '../plugin-result-snackbar/plugin-result-snackbar.component';
+import {
+  PluginResultEventData,
+  PluginUpdateEventData,
+  WebsocketService,
+} from '../websocket.service';
+
+@Component({
+  selector: 'app-editor',
+  templateUrl: './editor.component.html',
+  styleUrls: ['./editor.component.scss'],
+})
+export class EditorComponent implements OnInit {
+  editorOptions: any;
+
+  @ViewChild(NuMonacoEditorComponent)
+  editorComponent!: NuMonacoEditorComponent;
+
+  languages = [
+    { key: 'plaintext', name: 'Plain Text' },
+    { key: 'csharp', name: 'C#' },
+    { key: 'java', name: 'Java' },
+    { key: 'javascript', name: 'JavaScript' },
+    { key: 'json', name: 'JSON' },
+    { key: 'typescript', name: 'TypeScript' },
+    { key: 'xml', name: 'XML' },
+    { key: 'yaml', name: 'YAML' },
+  ];
+
+  // Dialog reference for palette
+  paletteDialog?: MatDialogRef<PaletteComponent>;
+
+  // Dialog reference for loading dialog
+  loadingDialog?: MatDialogRef<LoadingDialogComponent>;
+
+  currentRunId?: string;
+
+  colorMode = 'dark';
+
+  constructor(
+    private dialog: MatDialog,
+    hotkeyService: HotkeyService,
+    private websocketService: WebsocketService,
+    private snackBar: MatSnackBar
+  ) {
+    this.colorMode = localStorage.getItem('colorscheme') ?? 'dark';
+
+    hotkeyService.onTogglePalette().subscribe(() => this.togglePalette());
+    hotkeyService.onClosePalette().subscribe(() => this.closePalette());
+
+    this.editorOptions = {
+      theme: this.getTheme(),
+      language: 'plaintext',
+      scrollBeyondLastLine: false,
+      selectionHighlight: false,
+      occurrencesHighlight: false,
+      renderLineHighlight: 'none',
+      // fontFamily: editorConfig.font,
+      // fontLigatures: editorConfig.ligatures,
+      matchBrackets: 'never',
+      minimap: {
+        enabled: false,
+      },
+    };
+
+    websocketService.events.subscribe((event) => {
+      if (event.data.runId !== this.currentRunId) {
+        console.warn(
+          `Received update with unexpected RunId ${event.data.runId}`
+        );
+        return;
+      }
+
+      // If this is a result, and it's for the current run, use it
+      if (event.type === 'PluginResult') {
+        this.handlePluginResult((event.data as PluginResultEventData).result);
+      }
+
+      // If this is a plugin update (for the current run), if the loading dialog isn't open, open it
+      if (event.type === 'PluginUpdate') {
+        if (this.loadingDialog?.getState() !== MatDialogState.OPEN) {
+          // The dialog won't know what message we just got, so we initialize it.
+          const update = event.data as PluginUpdateEventData;
+          let initialState;
+          if (update.updateType === 'progress') {
+            initialState = { progress: update.data as number };
+          } else if (update.updateType === 'status') {
+            initialState = { status: update.data as string };
+          }
+
+          this.openLoadingDialog(initialState);
+        }
+      }
+    });
+  }
+  ngOnInit(): void {}
+
+  setLanguage(_$event: any, key: string) {
+    const model = this.editorComponent.editor.getModel();
+    if (model) {
+      monaco.editor.setModelLanguage(model, key);
+    }
+  }
+
+  getThemeIcon() {
+    return this.colorMode === 'dark' ? 'dark_mode' : 'light_mode';
+  }
+
+  switchColorMode() {
+    if (this.colorMode === 'dark') {
+      this.colorMode = 'light';
+    } else {
+      this.colorMode = 'dark';
+    }
+    localStorage.setItem('colorscheme', this.colorMode);
+    this.setTheme(this.getTheme());
+  }
+
+  getTheme() {
+    return this.colorMode === 'dark' ? 'vs-dark' : 'vs';
+  }
+
+  setTheme(key: string) {
+    monaco.editor.setTheme(key);
+  }
+
+  closePalette() {
+    this.paletteDialog?.close();
+    this.paletteDialog = undefined;
+  }
+
+  togglePalette() {
+    // If the palette is open, we should close it
+    if (this.paletteDialog?.getState() === MatDialogState.OPEN) {
+      this.paletteDialog.close();
+      this.paletteDialog = undefined;
+      return;
+    }
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '700px';
+    dialogConfig.height = '500px';
+    dialogConfig.position = {
+      top: '70px',
+    };
+
+    this.paletteDialog = this.dialog.open(PaletteComponent, dialogConfig);
+
+    this.paletteDialog
+      .afterClosed()
+      .subscribe((result) => result && this.runPlugin(result));
+  }
+
+  runPlugin(pluginId: string) {
+    const originalValue = this.getModel().getValue();
+
+    this.lockEditor();
+
+    this.currentRunId = uuid.v4();
+
+    this.websocketService.events.next({
+      type: 'RunPlugin',
+      data: {
+        pluginId: pluginId,
+        data: originalValue,
+        runId: this.currentRunId,
+      },
+    } as any);
+
+    // ensure we open the loading dialog if we (a) haven't received a response and (b) it's been more than 500ms
+    sleep(700).then(() => {
+      if (!!this.currentRunId) {
+        this.openLoadingDialog();
+      }
+    });
+  }
+
+  private handlePluginResult(result: PluginResult) {
+    const text = result?.text;
+
+    console.log('Got result: ' + text);
+
+    if (text) {
+      this.replaceAllContent(text);
+    } else {
+      this.unlockEditor();
+    }
+
+    this.currentRunId = undefined;
+
+    // If the loading dialog is open, close it.
+    if (this.loadingDialog?.getState() === MatDialogState.OPEN) {
+      console.log('closing dialog');
+      this.loadingDialog.close();
+      this.loadingDialog = undefined;
+    }
+
+    if (result?.message) {
+      this.snackBar.openFromComponent(PluginResultSnackbarComponent, {
+        data: result.message,
+        panelClass: [`${result.message.level}-snackbar`],
+        duration: 10000,
+      });
+    }
+  }
+
+  private openLoadingDialog(initialState?: {
+    progress?: number;
+    status?: string;
+  }) {
+    // Don't open the dialog if it's already open
+    if (this.loadingDialog?.getState() === MatDialogState.OPEN) {
+      return;
+    }
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.width = '500px';
+    dialogConfig.data = { runId: this.currentRunId, initial: initialState };
+
+    this.loadingDialog = this.dialog.open(LoadingDialogComponent, dialogConfig);
+  }
+
+  private replaceAllContent(newContent: string): void {
+    this.unlockEditor();
+    const editor = this.getEditor();
+
+    // Ensure the current state is in the undo stack (so we don't undo too much when we undo).
+    editor.pushUndoStop();
+    editor.executeEdits('pluginResult', [
+      { range: this.getModel().getFullModelRange(), text: newContent },
+    ]);
+
+    editor.setPosition(this.getModel().getFullModelRange().getEndPosition());
+  }
+
+  private lockEditor() {
+    this.getEditor().updateOptions({ readOnly: true });
+  }
+
+  private unlockEditor() {
+    this.getEditor().updateOptions({ readOnly: false });
+  }
+
+  private getEditor(): monaco.editor.IStandaloneCodeEditor {
+    return this.editorComponent.editor;
+  }
+
+  private getModel(): monaco.editor.ITextModel {
+    return this.getEditor().getModel()!;
+  }
+}
+
+function sleep(time: number): Promise<void> {
+  return new Promise((res) => setTimeout(res, time));
+}

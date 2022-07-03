@@ -1,0 +1,49 @@
+<div id="breadcrumbs"><a href="/">Swish</a> &gt; <a href="/custom-plugins">Custom Plugins</a> &gt; Manage Node Modules</div>
+
+<div id="container">
+  <mat-card class="card">
+    <mat-card-title>⚠️ Warning</mat-card-title>
+    <mat-card-content>
+      <p>
+        When used safely, Node Modules can be incredibly useful - doing a lot of work for your plugin, but if you install the wrong one they might cause problems.
+      </p>
+      <p>
+        Take care when installing modules, and consider the following before installing:
+      </p>
+      <ul>
+        <li>Are many other people using it?</li>
+        <li>Has it been around for a while, or is it new?</li>
+        <li>Is it from a trusted source?</li>
+        <li>Do other popular modules use it?</li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="section" id="install-module">
+    <h1>Install Module</h1>
+
+    <div id="install-plugin-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Module</mat-label>
+        <input matInput [(ngModel)]="moduleToInstall">
+        <mat-icon matPrefix>inventory</mat-icon>
+        <mat-hint>
+          Find modules on <a href="https://npmjs.com" target="_blank">NPM</a>.
+          You can enter a package name to install the latest version ("<code>uuid</code>"), or pin to a specific version ("<code>node-fetch@2</code>")
+        </mat-hint>
+      </mat-form-field>
+      <button mat-raised-button color="accent" (click)="install()">Install</button>
+    </div>
+  </div>
+
+  <div class="section" id="installed-modules">
+    <h1>
+      Installed Modules
+    </h1>
+
+    <p>There are {{installedModules.length}} modules currently installed:</p>
+
+    <div *ngFor="let module of installedModules">{{module}} <button mat-button color="warn" (click)="uninstall(module)"><mat-icon>remove_circle</mat-icon>Uninstall</button></div>
+  </div>
+
+</div>

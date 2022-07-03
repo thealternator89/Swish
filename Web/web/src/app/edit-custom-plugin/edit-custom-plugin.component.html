@@ -1,0 +1,18 @@
+<div id="breadcrumbs"><a href="/">Swish</a> &gt; <a href="/custom-plugins">Custom Plugins</a> &gt; Edit Plugin</div>
+
+<div id="container">
+  <h1>Edit a plugin</h1>
+
+  <div id="filename">
+    File Name: {{filename}}
+  </div>
+
+  <!-- I have no idea why it needs to be 50%, but I'm ignoring it for now -->
+  <nu-monaco-editor [options]="editorOptions" height="450px" width="50%" (event)="showEvent($event)"></nu-monaco-editor>
+
+  <div id="buttons">
+    <button mat-raised-button color="primary" (click)="save()"><mat-icon>upload</mat-icon> Save</button>
+    &nbsp;
+    <button mat-raised-button color="warn" (click)="delete()"><mat-icon>delete</mat-icon> Delete</button>
+  </div>
+</div>

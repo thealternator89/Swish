@@ -6,7 +6,7 @@ Developers often get data in weird, unreadable formats. Often it's tempting to f
 
 Instead - Just Swish It!
 
-Swish is built with **Node**, **Electron** and **Angular**.
+Swish is built with Node, Electron, and Angular.
 
 ## Repo
 
@@ -20,6 +20,8 @@ The Swish repo contains the following:
   The most basic Swish experience. Run in your terminal, pipe the data from any app through Swish to transform it before you use it.
 * [**Gui**](Gui)  
   The full-featured GUI for Swish.
+* [**Web**](Web)
+  A hosted web interface for Swish. Host it somewhere you trust and you can Swish without even installing it!
 
 ### Backend
 
@@ -46,9 +48,11 @@ flowchart
   Clip[Clip]
   Core[Core]
   Gui[GUI]
+  Web[Web]
   
-  P --> B
-  B --> Clip
-  B --> Core
-  B --> Gui
+  Clip --> B
+  Core --> B
+  Gui --> B
+  Web --> B
+  B --> P
 ```

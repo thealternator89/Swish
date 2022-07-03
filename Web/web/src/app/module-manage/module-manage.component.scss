@@ -1,0 +1,44 @@
+#container {
+  margin-left: 35px;
+  margin-right: 35px;
+  margin-top: 15px;
+}
+
+#mat-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+#install-plugin-container {
+  display: flex;
+
+  mat-form-field {
+    flex-grow: 1;
+    margin-bottom: 15px;
+
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+
+  button {
+    width: 80px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 39px;
+  }
+}
+
+.card {
+  background-color: #996633;
+}
+
+.section {
+  margin-top: 15px;
+}
+
+a:hover {
+  text-decoration: underline;
+}

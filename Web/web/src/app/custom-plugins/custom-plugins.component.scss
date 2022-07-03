@@ -1,0 +1,32 @@
+#container {
+  margin-left: 35px;
+  margin-right: 35px;
+  margin-top: 15px;
+}
+
+#buttons {
+  margin-bottom: 30px;
+}
+
+.custom-plugin {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.plugin-name {
+  margin-right: 15px;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+mat-icon {
+  margin-right: 7px;
+}

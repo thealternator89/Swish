@@ -1,0 +1,12 @@
+<div mat-dialog-title id="text-entry">
+  <input
+  #search
+  type="text"
+  class="full-width"
+  (input)="searchModified($event, search.value)"
+  (keydown)="onKeyDown($event)"
+  placeholder="Start typing...">
+</div>
+<div mat-dialog-content id="plugin-list">
+  <app-palette-plugin-item [plugin]="plugin" *ngFor="let plugin of plugins"></app-palette-plugin-item>
+</div>

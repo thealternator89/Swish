@@ -1,0 +1,17 @@
+<div id="breadcrumbs"><a href="/">Swish</a> &gt; Custom Plugins</div>
+
+<div id="container">
+  <h1>Custom Plugins</h1>
+
+  <div id="buttons">
+    <a mat-raised-button href="/custom-plugins/new" color="primary"><mat-icon>add</mat-icon>Create a new plugin</a>
+    &nbsp;
+    <a mat-raised-button href="/modules"><mat-icon>inventory</mat-icon>Manage Node Modules</a>
+  </div>
+
+  <p>You have {{files.length}} custom plugins:</p>
+
+  <div class="custom-plugin" *ngFor="let plugin of files">
+    <mat-icon>description</mat-icon> <a class="plugin-name" href="/custom-plugins/edit/{{plugin}}">{{plugin}}</a> <a mat-icon-button href="/custom-plugins/edit/{{plugin}}" color="accent"><mat-icon>edit</mat-icon></a> <button mat-icon-button color="warn" (click)="delete(plugin)"><mat-icon>delete</mat-icon></button>
+  </div>
+</div>

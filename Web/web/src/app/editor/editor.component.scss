@@ -1,0 +1,28 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.status-bar {
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+}
+
+.version {
+  margin: 10px;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+mat-label {
+  padding: 0px;
+  margin: 10px;
+}
+
+select {
+  padding: 0px;
+  margin: 10px;
+}

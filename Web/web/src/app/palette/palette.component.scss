@@ -1,0 +1,33 @@
+#text-entry {
+  padding-bottom: 5px;
+  border-bottom: thin solid white;
+}
+
+#plugin-list {
+  margin: 0px;
+  padding: 0px;
+  height: calc(100% - 70px);
+}
+
+#plugin-list::-webkit-scrollbar {
+  display: none;
+}
+
+.full-width {
+  width: 100%;
+}
+
+app-palette-plugin-item {
+  width: 100%;
+}
+
+input {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 20pt;
+}
+
+input:focus {
+  border: none;
+}

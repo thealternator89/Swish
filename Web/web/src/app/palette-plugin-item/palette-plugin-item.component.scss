@@ -1,0 +1,42 @@
+.plugin-icon {
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
+  margin-left: 15px;
+  margin-right: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.plugin-name {
+  font-weight: bold;
+  font-size: 14pt;
+  margin-bottom: 5px;
+}
+
+.plugin-description {
+  font-size: 10pt;
+}
+
+.plugin-id {
+  font-family: monospace;
+  font-size: 6pt;
+  text-align: right;
+  margin-right: 15px;
+}
+
+.content {
+  flex-grow: 1;
+}
+
+:host {
+  display: flex;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+:host.active {
+  background-color: #c2185b;
+}
