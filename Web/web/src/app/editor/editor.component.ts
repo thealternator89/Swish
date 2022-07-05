@@ -250,7 +250,8 @@ export class EditorComponent implements OnInit {
       { range: this.getModel().getFullModelRange(), text: newContent },
     ]);
 
-    editor.setPosition(this.getModel().getFullModelRange().getEndPosition());
+    editor.setScrollPosition({scrollTop: 0, scrollLeft: 0});
+    editor.setPosition(this.getModel().getFullModelRange().getStartPosition());
   }
 
   private lockEditor() {
