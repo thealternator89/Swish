@@ -3,10 +3,15 @@
   border-bottom: thin solid white;
 }
 
+#search:focus {
+  outline: none;
+}
+
 #plugin-list {
   margin: 0px;
   padding: 0px;
   height: calc(100% - 70px);
+  scrollbar-width: none;
 }
 
 #plugin-list::-webkit-scrollbar {
