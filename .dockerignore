@@ -1,0 +1,7 @@
+*/node_modules
+*/src*
+*/web*
+*/tsconfig.json
+*/README.MD
+*/jest.config.js
+*.spec.js

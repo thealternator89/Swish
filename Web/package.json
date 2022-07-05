@@ -19,7 +19,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "require-from-string": "^2.0.2",
-    "swish-base": "file:swish-base-1.5.0.tgz",
+    "swish-base": "file:../Base",
     "winston": "^3.8.1",
     "ws": "^8.8.0"
   },

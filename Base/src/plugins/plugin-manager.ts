@@ -84,7 +84,6 @@ class PluginManager {
     }
 
     private loadPluginSet(directory: string): PluginDefinition[] {
-        console.log('Loading plugins from: ' + directory);
         const resolvedDirectory = resolvePath(directory);
 
         if (!existsSync(resolvedDirectory)) {

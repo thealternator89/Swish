@@ -1,6 +1,6 @@
 {
   "name": "swish",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Swish is an offline data transformation tool, heavily influenced by the Mac tool [Boop](https://boop.okat.best).",
   "scripts": {
     "build": "npm run build:plugins && npm run build:base && npm run build:core && npm run build:gui",
