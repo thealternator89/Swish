@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
 
 @Component({
   selector: 'app-editor',
@@ -8,6 +9,9 @@ import { Component } from '@angular/core';
 export class EditorComponent {
   content: string = '';
   editorOptions: any;
+
+  @ViewChild(NuMonacoEditorComponent)
+  editorComponent: NuMonacoEditorComponent;
 
   constructor() {
     const editorConfig = (window as any).config.editor;
@@ -28,10 +32,40 @@ export class EditorComponent {
   }
 
   get text() {
-    return this.content;
+    return this.getModel().getValue();
   }
 
   set text(newContent: string) {
-    this.content = newContent;
+    this.replaceAllContent(newContent);
+  }
+
+  private replaceAllContent(newContent: string): void {
+    this.unlockEditor();
+    const editor = this.getEditor();
+
+    // Ensure the current state is in the undo stack (so we don't undo too much when we undo).
+    editor.pushUndoStop();
+    editor.executeEdits('', [
+      { range: this.getModel().getFullModelRange(), text: newContent },
+    ]);
+
+    editor.setPosition(this.getModel().getFullModelRange().getEndPosition());
+  }
+
+  public lockEditor() {
+    this.getEditor().updateOptions({ readOnly: true });
+  }
+
+  public unlockEditor() {
+    this.getEditor().updateOptions({ readOnly: false });
+  }
+
+  private getEditor(): monaco.editor.IStandaloneCodeEditor {
+    return this.editorComponent.editor;
+  }
+
+  private getModel(): monaco.editor.ITextModel {
+    return this.getEditor().getModel()!;
   }
 }
+

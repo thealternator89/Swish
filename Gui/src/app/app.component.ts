@@ -79,12 +79,15 @@ export class AppComponent {
         'info',
         false
       );
+
+      // prevent edits while we run the plugin
+      this.editorComponent.lockEditor();
       const pluginResult = await this.ipc.runPlugin({
         plugin: selectedPlugin.id,
         data: this.editorComponent.text,
         requestId: currentPluginRunId,
       });
-
+      this.editorComponent.unlockEditor();
       this.statusComponent.clearCurrentPluginRun();
       this.statusComponent.clearProgressAndStatus();
 
