@@ -8,8 +8,6 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
 
-import * as uuid from 'uuid';
-
 import { PluginResult } from 'swish-base';
 
 import { HotkeyService } from '../hotkey.service';
@@ -34,34 +32,34 @@ export class EditorComponent implements OnInit {
   editorComponent!: NuMonacoEditorComponent;
 
   languages = [
-    { key: "plaintext", name: "Plain Text" },
-    { key: "bat", name: "Batch" },
-    { key: "c", name: "C" },
-    { key: "csharp", name: "C#" },
-    { key: "cpp", name: "C++" },
-    { key: "css", name: "CSS" },
-    { key: "fsharp", name: "F#" },
-    { key: "go", name: "Go" },
-    { key: "graphql", name: "GraphQL" },
-    { key: "handlebars", name: "Handlebars" },
-    { key: "html", name: "HTML" },
-    { key: "ini", name: "Ini" },
-    { key: "java", name: "Java" },
-    { key: "javascript", name: "JavaScript" },
-    { key: "json", name: "JSON" },
-    { key: "kotlin", name: "Kotlin" },
-    { key: "markdown", name: "Markdown" },
-    { key: "objective-c", name: "Objective-C" },
-    { key: "powershell", name: "PowerShell" },
-    { key: "python", name: "Python" },
-    { key: "rust", name: "Rust" },
-    { key: "shell", name: "Shell" },
-    { key: "sql", name: "SQL" },
-    { key: "swift", name: "Swift" },
-    { key: "typescript", name: "TypeScript" },
-    { key: "vb", name: "Visual Basic" },
-    { key: "xml", name: "XML" },
-    { key: "yaml", name: "YAML" },
+    { key: 'plaintext', name: 'Plain Text' },
+    { key: 'bat', name: 'Batch' },
+    { key: 'c', name: 'C' },
+    { key: 'csharp', name: 'C#' },
+    { key: 'cpp', name: 'C++' },
+    { key: 'css', name: 'CSS' },
+    { key: 'fsharp', name: 'F#' },
+    { key: 'go', name: 'Go' },
+    { key: 'graphql', name: 'GraphQL' },
+    { key: 'handlebars', name: 'Handlebars' },
+    { key: 'html', name: 'HTML' },
+    { key: 'ini', name: 'Ini' },
+    { key: 'java', name: 'Java' },
+    { key: 'javascript', name: 'JavaScript' },
+    { key: 'json', name: 'JSON' },
+    { key: 'kotlin', name: 'Kotlin' },
+    { key: 'markdown', name: 'Markdown' },
+    { key: 'objective-c', name: 'Objective-C' },
+    { key: 'powershell', name: 'PowerShell' },
+    { key: 'python', name: 'Python' },
+    { key: 'rust', name: 'Rust' },
+    { key: 'shell', name: 'Shell' },
+    { key: 'sql', name: 'SQL' },
+    { key: 'swift', name: 'Swift' },
+    { key: 'typescript', name: 'TypeScript' },
+    { key: 'vb', name: 'Visual Basic' },
+    { key: 'xml', name: 'XML' },
+    { key: 'yaml', name: 'YAML' },
   ];
 
   // Dialog reference for palette
@@ -194,7 +192,7 @@ export class EditorComponent implements OnInit {
 
     this.lockEditor();
 
-    this.currentRunId = uuid.v4();
+    this.currentRunId = crypto.randomUUID();
 
     this.websocketService.events.next({
       type: 'RunPlugin',
@@ -270,7 +268,7 @@ export class EditorComponent implements OnInit {
       { range: this.getModel().getFullModelRange(), text: newContent },
     ]);
 
-    editor.setScrollPosition({scrollTop: 0, scrollLeft: 0});
+    editor.setScrollPosition({ scrollTop: 0, scrollLeft: 0 });
     editor.setPosition(this.getModel().getFullModelRange().getStartPosition());
   }
 
