@@ -7,7 +7,6 @@ import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
   styleUrls: ['./editor.component.scss'],
 })
 export class EditorComponent {
-  content: string = '';
   editorOptions: any;
 
   @ViewChild(NuMonacoEditorComponent)
