@@ -9,7 +9,6 @@ export = {
     tags: ['base64', 'decode', 'json'],
     swishVersion: '1.0.0',
     icon: 'code',
-    group: 'Cryptography',
     usableFrom: ['core', 'clip', 'gui'],
     process: (args: ProvidedPluginArgument) => {
         return runPlugins(

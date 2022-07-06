@@ -9,7 +9,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'fingerprint',
     tags: ['SHA256', 'crypto', 'hash'],
-    group: 'Cryptography',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return SHA256(args.textContent).toString();

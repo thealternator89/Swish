@@ -21,7 +21,6 @@ export = [
     swishVersion: '1.3.0',
     icon: 'attach_money',
     tags: ['shell', 'dev', source.toLowerCase(), target.toLowerCase()],
-    group: 'Dev',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) =>
         args.textContent.replace(inputRegex, replacement),

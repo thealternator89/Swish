@@ -9,7 +9,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'code',
     tags: ['camelcase', 'dev'],
-    group: 'Dev',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return convertWordCaseToCamelCase(args.textContent);

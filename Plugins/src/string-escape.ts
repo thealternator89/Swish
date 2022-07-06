@@ -8,7 +8,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'format_quote',
     tags: ['escape', 'dev'],
-    group: 'Dev',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         // JSON Stringify, then remove the quotes that got pre/postfixed to the text

@@ -15,7 +15,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'lock_open',
     tags: ['rot13', 'crypto'],
-    group: 'Cryptography',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return args.textContent.split('').map(rotate13).join('');

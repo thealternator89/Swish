@@ -19,7 +19,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'sort',
     tags: ['sort', 'natural'],
-    group: 'Text',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return args.textContent

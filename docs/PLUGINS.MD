@@ -18,7 +18,6 @@ interface PluginDefinition {
   icon?: string;
   swishVersion: string;
   hidden?: boolean;
-  group?: string;
   usableFrom?: string[];
   process: (args: PluginArgument) => Promise<string>;
 }
@@ -36,7 +35,6 @@ interface PluginDefinition {
 - **`hidden`**: _(optional, defaults to `false`)_ Whether this plugin should be hidden.
   This is useful for hiding inbuilt plugins by defining a plugin which has the same ID but is marked as hidden.
   _This is in the process of being replaced with `usableFrom` and may be removed in future._
-- **`group`**: _(optional)_ The group to display the plugin in - currently only used by **Swish-Clip**.
 - **`usableFrom`**: _(optional)_ Which Swish apps which should be able to see and use this plugin. This allows more granular hiding, so plugins which don't make sense from certain applications don't clog things up. This is an array which can contain any subset of `['clip', 'core', 'gui']`. If you don't provide this, your plugin will be available from all Swish apps.
 - **`process`**: The function which is invoked to process data. See below for how this works.
 

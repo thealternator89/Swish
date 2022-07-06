@@ -9,7 +9,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'public_off',
     tags: ['html', 'web', 'unescape'],
-    group: 'Web',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return unescape(args.textContent);

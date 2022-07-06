@@ -9,7 +9,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'loop',
     tags: ['uuid', 'random', 'generate'],
-    group: 'UUID',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (_args: ProvidedPluginArgument) => {
         return v4();

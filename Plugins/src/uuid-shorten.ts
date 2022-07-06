@@ -8,7 +8,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'content_cut',
     tags: ['uuid', 'shorten'],
-    group: 'UUID',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return args.textContent.replace(

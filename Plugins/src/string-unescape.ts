@@ -8,7 +8,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'format_quote',
     tags: ['unescape', 'dev'],
-    group: 'Dev',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const text = args.textContent;

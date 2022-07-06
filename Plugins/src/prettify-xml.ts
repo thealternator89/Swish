@@ -10,7 +10,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'expand',
     tags: ['xml', 'prettify', 'beautify', 'format', 'dev'],
-    group: 'Data',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return format(args.textContent, { collapseContent: true });

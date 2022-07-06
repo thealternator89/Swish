@@ -9,7 +9,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'fingerprint',
     tags: ['MD5', 'crypto', 'hash'],
-    group: 'Cryptography',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return MD5(args.textContent).toString();

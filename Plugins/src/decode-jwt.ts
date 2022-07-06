@@ -11,7 +11,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'view_agenda',
     tags: ['jwt', 'auth0'],
-    group: 'Cryptography',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const [headerB64, payloadB64, signature] = args.textContent.split('.');

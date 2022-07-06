@@ -9,7 +9,6 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     tags: ['yaml', 'json', 'dev'],
-    group: 'Data',
     usableFrom: ['core', 'clip', 'gui'],
     process: (args: ProvidedPluginArgument) => {
         const parsed = yaml.parse(args.textContent);

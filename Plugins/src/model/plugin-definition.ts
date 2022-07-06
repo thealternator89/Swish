@@ -12,7 +12,6 @@ export interface PluginDefinition {
     swishVersion: string;
     icon: string;
     hidden?: boolean;
-    group?: string;
     usableFrom?: SwishApplication[];
     process: (args: ProvidedPluginArgument) => Promise<string | PluginResult>;
 }

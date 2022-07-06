@@ -9,7 +9,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'swap_vert',
     tags: ['reverse', 'text'],
-    group: 'Text',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return args.textContent

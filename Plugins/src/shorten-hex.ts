@@ -8,7 +8,6 @@ export = {
     swishVersion: '1.0.0',
     icon: 'palette',
     tags: ['shorten', 'hex', 'color', 'web', 'css'],
-    group: 'Web',
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const hex = args.textContent;
