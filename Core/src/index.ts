@@ -5,7 +5,7 @@ import { program } from 'commander';
 import * as stdin from 'get-stdin';
 import * as tabula from 'tabula';
 
-import { configManager, pluginManager, PluginDefinition } from 'swish-base';
+import { pluginManager, PluginDefinition } from 'swish-base';
 
 import { StatusUpdatePrinter } from './status-update-printer';
 
@@ -24,9 +24,7 @@ program
 
 program.parse(process.argv);
 
-if (configManager.config.userPlugins) {
-    pluginManager.reloadUserPlugins();
-}
+pluginManager.reloadUserPlugins();
 
 if (program.list) {
     pluginList('user', pluginManager.getUserPlugins());
