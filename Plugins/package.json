@@ -1,6 +1,6 @@
 {
   "name": "swish-plugins",
-  "version": "1.5.0",
+  "version": "1.5.3",
   "description": "Official plugins for the Swish platform",
   "main": "index.js",
   "scripts": {
