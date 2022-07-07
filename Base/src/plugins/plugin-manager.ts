@@ -22,26 +22,6 @@ const SEARCH_KEYS = ['name', 'description', 'tags'];
 
 const LocaleComparePluginDefinition = (a, b) => a.name.localeCompare(b.name);
 
-const BASE_SWISH_PLUGINS_LOCATION = path.join(
-    __dirname,
-    '..',
-    '..',
-    '..',
-    '..',
-    'node_modules',
-    'swish-plugins',
-    'dist'
-);
-
-const DEPENDENT_SWISH_PLUGINS_LOCATION = path.join(
-    __dirname,
-    '..',
-    '..',
-    'node_modules',
-    'swish-plugins',
-    'dist'
-);
-
 class PluginManager {
     private readonly systemPlugins: LoadedPlugin[] = [];
     private userPlugins: LoadedPlugin[] = [];
@@ -56,7 +36,14 @@ class PluginManager {
     }[] = [];
 
     public constructor() {
-        const systemPluginPath = getBasePluginsDirectory();
+        const systemPluginPath = path.join(
+            __dirname,
+            '..',
+            '..',
+            'node_modules',
+            'swish-plugins',
+            'dist'
+        );
         this.systemPlugins = this.loadPluginSet(systemPluginPath).map(
             (plugin) => ({
                 ...plugin,
@@ -350,20 +337,6 @@ function resolvePath(origPath: string) {
     }
 
     return path.join(homedir(), origPath.substring(1));
-}
-
-/**
- * When running in a stripped-down mode, the swish-plugins package exists directly in node_modules.
- * When in a more expanded mode, the package exists within the swish-base dependency.
- * This method attempts to resolve for either.
- * @returns The appropriate base directory for builtin plugins
- */
-function getBasePluginsDirectory(): string {
-    if (existsSync(BASE_SWISH_PLUGINS_LOCATION)) {
-        return BASE_SWISH_PLUGINS_LOCATION;
-    } else {
-        return DEPENDENT_SWISH_PLUGINS_LOCATION;
-    }
 }
 
 export const pluginManager = new PluginManager();
