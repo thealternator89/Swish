@@ -192,7 +192,16 @@ class PluginManager {
         const plugin = this.getPluginById(id, type);
 
         if (!plugin) {
-            throw new PluginNotFoundError(`Plugin with ID '${id}' not found!`);
+            // If type is 'user' or 'system' this becomes 'user plugin'/'system plugin'
+            // Otherwise it is just 'plugin'
+            let pluginType = type + ' plugin';
+            if (type === 'default' || !type) {
+                pluginType = 'plugin';
+            }
+
+            throw new PluginNotFoundError(
+                `Failed to find ${pluginType} with ID '${id}'!`
+            );
         }
 
         const pluginDef = {
