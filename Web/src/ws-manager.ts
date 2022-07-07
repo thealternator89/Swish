@@ -50,12 +50,20 @@ class WsManager {
         return this.server;
     }
 
+    public closeAllClients() {
+        const clients = this.server.clients;
+        logger.info(`WS: Closing all client connections...`);
+        clients.forEach((client) => client.terminate());
+    }
+
     private sendMessageToClient(
         socket: ws.WebSocket,
         message: OutgoingWsMessage
     ) {
         const data = JSON.stringify(message);
-        logger.info('WS: Sending message: ' + data);
+        logger.info(
+            `WS: Sending message: ${message.type} ${message.data.runId}`
+        );
         socket.send(data);
     }
 
@@ -105,10 +113,11 @@ class WsManager {
             return;
         }
 
-        const parsed = parseResult.result as IncomingWsMessage;
+        const parsed = parseResult.result;
 
-        // Re-stringify the message so we get a minified version in the log
-        logger.info('WS: Received message: ' + JSON.stringify(parsed));
+        logger.info(
+            `WS: Received message: ${parsed.type} ${parsed.data?.runId}`
+        );
 
         if (parsed.type === 'RunPlugin') {
             const request = parsed.data;
@@ -141,7 +150,7 @@ export const wsManager = new WsManager();
 function tryParse(data: string) {
     try {
         return {
-            result: JSON.parse(data),
+            result: JSON.parse(data) as IncomingWsMessage,
             success: true,
         };
     } catch (error) {

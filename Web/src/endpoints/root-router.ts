@@ -11,6 +11,8 @@ const loadClient = (_req: Request, res: Response) => {
 
 router.use('/api', apiRouter);
 
+router.get('/health', (_req, res) => res.send('Healthy'));
+
 // Everything not already defined will return the client
 router.get('/*', loadClient);
 

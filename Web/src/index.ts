@@ -40,12 +40,26 @@ const server = app.listen(portNumber, () => {
 });
 
 // Handle WS upgrades (for sending progress/status updates)
+const wsServer = wsManager.getServer();
 server.on('upgrade', (request, socket, head) => {
-    const wsServer = wsManager.getServer();
     wsServer.handleUpgrade(request, socket, head, (socket) => {
         wsServer.emit('connection', socket, request);
     });
 });
+
+// Set up triggers on SIGTERM and SIGINT to close the servers
+// Debounce to prevent triggers in quick succession.
+process.on('SIGTERM', () => closeServers('TERM'));
+process.on('SIGINT', () => closeServers('INT'));
+
+function closeServers(signal: string) {
+    logger.info(`Received ${signal} signal - Shutting Down`);
+    wsManager.closeAllClients();
+    wsServer.close((err) => logServerClose(err, 'WS'));
+    server.close((err) => logServerClose(err, 'HTTP'));
+}
+
+// ------------
 
 function getPort(): number {
     const port = configManager.getConfig().web.port;
@@ -61,4 +75,14 @@ function getPort(): number {
         return DEFAULT_PORT;
     }
     return Number(port);
+}
+
+function logServerClose(err: Error, server: 'HTTP' | 'WS') {
+    if (/is not running/i.test(err?.message)) {
+        logger.info(`${server} server is not running`);
+    } else if (err) {
+        logger.error(`Error closing ${server} server`, err);
+    } else {
+        logger.info(`Successfully closed ${server} server`);
+    }
 }
