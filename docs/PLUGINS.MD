@@ -4,38 +4,48 @@ It's incredibly easy to extend the functionality of Swish with your own custom p
 
 Swish will automatically pick up any plugins in a directory you specify - see [CONFIGURATION.MD](CONFIGURATION.MD) for how to specify a directory you will store your plugins in.
 
+## Table of Contents
+
+* [Building a Swish plugin](#building-a-swish-plugin)
+  * [Process Function](#process-function)
+  * [Returning a result](#returning-a-result)
+  * [Error Handling](#error-handling)
+  * [Progress/Status updates to the user](#progressstatus-updates-to-the-user)
+  * [A note on Line Endings](#a-note-on-line-endings)
+  * [NPM Packages](#npm-packages)
+  * [Preventing a JS file being loaded as a plugin](#preventing-a-js-file-being-loaded-as-a-plugin)
+  * [Limitations](#limitations)
+* [Building on top of other plugins](#building-on-top-of-other-plugins)
+
 ## Building a Swish plugin
 
-Swish plugins are standard commonjs modules. You can build them in vanilla javascript or use something like TypeScript (all the built-in plugins are built with TypeScript). Your module should export an object with the following shape:
+Swish plugins are standard commonjs modules. You can build them in vanilla JavaScript or use a language which transpiles to JavaScript, like TypeScript to  (all the built-in plugins are built with TypeScript). Your module should export an object with the following shape:
 
 ```typescript
 interface PluginDefinition {
   name: string;
   id?: string;
-  description: string;
-  author: string;
+  description?: string;
+  author?: string;
   tags?: string[];
   icon?: string;
-  swishVersion: string;
+  swishVersion?: string;
   hidden?: boolean;
-  usableFrom?: string[];
   process: (args: PluginArgument) => Promise<string>;
 }
 ```
 
 - **`name`**: Your plugin name which is displayed in the UI. This should be short and obvious.
-- **`id`**: _(optional)_ Your plugin ID. If not provided, your plugin's filename _(excluding the `.js`)_ is used.
+- **`id`**: _(optional)_ Your plugin ID. If not provided, Swish will generate one based on the plugin's filename.
 - **`description`**: A longer description of your plugin.
 - **`author`**: Your name.
-- **`tags`**: Words to help filtering your plugin. See below for ideas for what you can put here.
+- **`tags`**: Words or phrases to help filtering your plugin.
 - **`icon`**: The icon to use in Swish beside your plugin.  
-   Swish contains [Material Design Icons](https://material.io/resources/icons/?style=baseline). Select an icon and use the name of it here.
+   Swish contains [Material Design Icons](https://material.io/icons). Select an icon and use the name of it here.
 - **`swishVersion`**: The version of Swish-Base which your plugin targets.  
-  Swish will only load plugins which target the current major version, and the current or a previous minor version.
+  If provided, Swish will only load this plugin if it targets the current major version, and the current or a previous minor version.
 - **`hidden`**: _(optional, defaults to `false`)_ Whether this plugin should be hidden.
   This is useful for hiding inbuilt plugins by defining a plugin which has the same ID but is marked as hidden.
-  _This is in the process of being replaced with `usableFrom` and may be removed in future._
-- **`usableFrom`**: _(optional)_ Which Swish apps which should be able to see and use this plugin. This allows more granular hiding, so plugins which don't make sense from certain applications don't clog things up. This is an array which can contain any subset of `['clip', 'core', 'gui']`. If you don't provide this, your plugin will be available from all Swish apps.
 - **`process`**: The function which is invoked to process data. See below for how this works.
 
 ### Process function
@@ -80,7 +90,7 @@ interface PluginResult {
   rtf?: string;
   message?: {
     text: string;
-    status: 'info' | 'warn' | 'error' | 'success';
+    level: 'info' | 'warn' | 'error' | 'success';
   };
 }
 ```
@@ -90,12 +100,13 @@ interface PluginResult {
 - **`rtf`**: The resulting text in RTF format - _only for Swish-Clip_
 - **`message`**:
   - **`text`**: Text of the message to display to the user
-  - **`status`**: The status of the message - used to colour the message.
+  - **`level`**: The status of the message - used to colour the message.
 
-Note that no part of the object is **required**, but you should at least return either `text` or the `message`.  
+Note that **no part of the object is required**, but you should at least return either `text` or the `message`.  
 This is useful to allow you to build a plugin which provides feedback on the input without modifying the text.
 
 #### Text, HTML and RTF?
+> :warning: this is only relevant for **Swish-Clip**
 
 Plugins can output Text, HTML and RTF if required.  
 The default response (when you just return a string from your plugin) is 'text' - this is used by all versions of Swish.
@@ -110,7 +121,7 @@ Since HTML and RTF are only available from Swish-Clip, you should _always_ retur
 
 ### Error Handling
 
-If your plugin experiences any issues which cannot be resolved, you should reject the promise with an error. If you write this as an async/await function, you can just `throw` an error to reject the promise. The message property of the thrown error object is used to display the problem to the user, so be as specific as you can about what has gone wrong.
+If your plugin experiences any issues which cannot be resolved, you should reject the promise with an error. If you write this as an async function, you can just `throw` an error to reject the promise. The message property of the thrown error object is used to display the problem to the user, so be as specific as you can about what has gone wrong.
 
 ### Progress/Status updates to the user
 
@@ -118,12 +129,12 @@ If your plugin takes time to process the user input, you should keep the user in
 
 These functions may be used together to provide a richer experience to the user.
 
-**Note: Status Updates are currntly not supported in Swish-Clip**
+**Note: Status and Progress updates are not supported in Swish-Clip**
 
 #### Progress Update
 
 To display a simple progress bar to the user, call `progressUpdate` passing a percentage value to be displayed.
-This value may be an integer or floating-point, but **must** be in the range `0 < X < 100` (where "X" is the value passed). If the passed value is less than 0 or greater than 100, it will be coerced into this range.
+This value may be an integer or floating-point, but **must** be in the range `0 <= X <= 100` (where "X" is the value passed). If the passed value is less than 0 or greater than 100, it will be coerced into this range.
 
 #### Status Update
 
@@ -131,8 +142,8 @@ If your plugin does its work in multiple phases, and you would like to keep the 
 
 ### A note on Line Endings
 
-When data is passed to your plugin, Swish will convert any line endings to `LF` (`\n`).
-Swish will automatically convert the line endings in the result to match the input. The line endings used by your plugin will not be preserved.
+When data is passed to your plugin, Swish will automatically convert any line endings to **`LF`** (`\n`).
+Swish will automatically convert the line endings in your result to match the input. :warning: **The line endings used by your plugin will not be preserved.**
 
 ### NPM Packages
 
@@ -141,34 +152,34 @@ Your plugin doesn't have to do everything on its own. You can use external NPM p
 ### Preventing a JS file being loaded as a plugin
 
 If you prefix the filename of a JS file in the plugins directory with an underscore, Swish will ignore it.
-This is useful for having common code in, for example, a `_util.js` file.
+This is useful for having common code in, for example, a `_util.js` file, or for hiding plugins you don't need right now.
 
 ### Limitations
 
 Swish currently loads all plugins synchronously on launch. If your plugin does a lot of work outside of the `process` function, you can easily increase the amount of time it takes for Swish to launch.
 
-Because of how JavaScript and CommonJS modules work, plugins aren't sandboxed, and can be doing things even when you don't explicitly run them. If you have a JS file in your plugins directory it could be doing anything at any time that Swish is running. If you want to bring a plugin in, make sure you understand what it is doing.
+Because of how JavaScript and CommonJS modules work, plugins aren't sandboxed, and can be doing things even when you don't explicitly run them. If you have a JS file in your plugins directory it could be doing anything at any time that Swish is running. If you want to bring a plugin or module in, make sure you understand what it is doing.
 
 ## Building on top of other plugins
 
-One cool feature of Swish is that you don't have to keep reinventing the wheel when you want to make something happen.
+One awesome feature of Swish is that you don't have to keep reinventing the wheel when you want to make something happen.
 
-The arguments passed to your plugin includes a `runPlugin` function. If you call this, Swish will run the specified plugin with the data provided and returns a promise which will resolve to the result.
+One thing included in the arguments passed to your plugin is a `runPlugin` function. If you call this, Swish will run the specified plugin with the data provided and returns a promise which will resolve to the result.
 
 Example usage:
 
 ```js
-const result = await args.runPlugin('noop', args.textContent, 'user');
+const result = await args.runPlugin('base64-decode', args.textContent);
 ```
 
 ### Gotchas
 
 #### Plugin Selection
 
-By default, if there is both an inbuilt and a user plugin with the ID specified in the `runPlugin` function call, Swish will use the **inbuilt** plugin. Note that this is the opposite of the standard behaviour of Swish. 
+By default, the `runPlugin` function will attempt to use an **inbuilt** plugin, and will fail if it can't find one.
 
 This is for a couple of reasons:
-1. If you bring in an external plugin, it will still work as expected even if you've overridden a plugin it depends on
+1. If you bring in an external plugin, it will still work as expected even if you've created a custom plugin which overrides a plugin it depends on
 2. You can write a plugin to override an inbuilt plugin, and build on top of whatever the existing plugin does, by pre- or post-processing the data.
 
 If you want to explicitly use your own version of a plugin rather than the inbuilt one, you can pass an optional 3rd argument to the `runPlugin` function, e.g.:
@@ -177,18 +188,50 @@ If you want to explicitly use your own version of a plugin rather than the inbui
 return args.runPlugin('noop', args.textContent, 'user');
 ```
 
-## Example
+#### Infinite Loop detection
 
-The below example shows the absolute minimum required to build a plugin.
-This plugin does absolutely nothing, it just returns whatever text content it was given.
+Swish contains a rudimentary infinite loop detection mechanism, to prevent you accidentally entering an infinite loop, by calling the same plugin with the same data repeatedly, and crashing the entire application.
+
+This is built on 2 assumptions:
+  1. Plugins should be deterministic - if a plugin is passed a certain value it will always follow the same logic
+  2. Plugins are run sequentially
+
+Therefore, if Swish detects that a single plugin has been launched with the same input twice, it assumes that the plugin has entered an infinite loop and it will refuse to continue.
+
+You can trigger a false-positive detection of an infinite loop by:
+  1. Running multiple instances of the same plugin in parallel by not awaiting the promise before starting the next instance, and
+  2. Passing the same data to each instance of the plugin
+
+See the below example:
 
 ```js
 module.exports = {
-    name: 'NO-OP',
-    description: 'A basic plugin which does nothing.',
-    id: 'noop',
-    author: 'thealternator89',
-    swishVersion: '1.0.0',
-    process: async (args) => args.textContent
-};
+  name: "Infinite Loop",
+  id: "infinite-loop",
+  description: "Cause a false-positive detection of an infinite loop",
+  process: async(args) => {
+    const promises = args.textContent.split('\n').map(() => args.runPlugin('uuid-generate-v4', ''));
+    const resolved = await Promise.all(promises);
+    return resolved.join('\n');
+  }
+}
 ```
+
+This plugin is just attempting to generate a UUID for every line which was passed to the plugin,
+but because we aren't either (a) waiting for the promise from `runPlugin` to resolve, or
+(b) passing unique data to the plugin, Swish will assume that we have gotten into an infinite loop
+if we try to generate more than 1 UUID.
+
+We can fix the above example by replacing  
+`() => args.runPlugin('uuid-generate-v4', '')` with  
+``(_, i) => args.runPlugin('uuid-generate-v4', `${i}`)``
+
+This will pass the index of each line to the `uuid-generate-v4` plugin, meaning it will always get a unique input, and not be falsly detected as entering an infinite loop.
+
+## Examples
+
+Check out the examples in the [Plugin-Examples](../Plugin-Examples) directory. There are several good examples of the following:
+* The minimum plugin you need
+* A slow plugin which keeps the user informed what is happening
+* A plugin which runs another plugin as part of its work
+* A plugin which recursively calls itself to reach a result
