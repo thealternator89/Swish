@@ -1,14 +1,14 @@
 # Swish Configuration
 
-There are two ways to configure how Swish works; Environment variables and your `.swishrc` file
+There are two ways to configure Swish; Environment variables and your `.swishrc` file
 
-- If a property is present in the `.swishrc` file, it will take precedent
-- The environment variables are used if the _specific_ configuration isn't set in the `.swishrc`
+Environment variables take priority - if the value is set in both `.swishrc` and the environment, the value from the environment variable will be used.
 
 ## Environment Variables
 
 - **`SWISH_PLUGIN_PATH`** - The path to the directory containing your user plugins. This should be the <u>absolute</u> path to your plugins.
 * **`SWISH_CLIP_HOTKEY`** - The hotkey to use to display Swish Clip (only for Swish-Clip). This should match the Electron [Accelerator](https://www.electronjs.org/docs/latest/api/accelerator) definition.
+* **`SWISH_WEB_PORT`** - The port for the HTTP and WebSocket servers to bind to
 
 ## .swishrc
 
@@ -29,6 +29,9 @@ Create a file named `.swishrc` in your home directory:
   "clip": {
     "hotkey": "Control+Alt+Space",
     "iconMode": "light"
+  },
+  "web": {
+    "port": 3000
   }
 }
 ```
@@ -40,5 +43,8 @@ Create a file named `.swishrc` in your home directory:
 - **`clip`**: _(These options are only used by Swish-Clip)_
   - **`hotkey`**: The hotkey to use to activate Swish-Clip - This should match the Electron [Accelerator](https://www.electronjs.org/docs/latest/api/accelerator) definition
   - **`iconMode`**: The color (`dark` or `light`) for the icon. If not set, we attempt to set the color based on the state of the OS, however this isn't always accurate - particularly if you use different color schemes for the taskbar and windows.
+- **`web`**: _(These options are only used by Swish-Web)_
+  - **`port`**: The port for the HTTP and WebSocket servers to bind to. This can be set as either a (numeric) string, or a number
 
-Note that `~` can be used as part of the `userPlugins` path on Windows as well as Linux and Mac. On Windows it refers to `%USERPROFILE%`.
+## Notes
+When defining the `userPlugins` property in `.swishrc`, or the `SWISH_PLUGIN_PATH` environment variable, you can prefix the path with `~` on Windows as well as Linux/Mac. On Windows `~` is automatically mapped to `%USERPROFILE%`.
