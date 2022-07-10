@@ -13,7 +13,7 @@ Environment variables take priority - if the value is set in both `.swishrc` and
 * **`SWISH_CLIP_HOTKEY`** - The hotkey to use to display the UI This should match the Electron [Accelerator](https://www.electronjs.org/docs/latest/api/accelerator) definition.
 
 ### Swish-Web
-* **`SWISH_WEB_PORT`** - The port for the HTTP and WebSocket servers to bind to
+* **`SWISH_WEB_PORT`** - The port for the HTTP and WebSocket servers to bind to.
 
 ## .swishrc
 
@@ -54,6 +54,10 @@ Create a file named `.swishrc` in your home directory:
 - **Swish-Web**:
   - **`web`**:
     - **`port`**: The port for the HTTP and WebSocket servers to bind to. This can be set as either a (numeric) string, or a number
+
+## Defaults
+
+* `SWISH_WEB_PORT` defaults to `3000` if not set, or the configured value isn't a number
 
 ## Notes
 When defining the `userPlugins` property in `.swishrc`, or the `SWISH_PLUGIN_PATH` environment variable, you can prefix the path with `~` on Windows as well as Linux/Mac. On Windows `~` is automatically mapped to `%USERPROFILE%`.
