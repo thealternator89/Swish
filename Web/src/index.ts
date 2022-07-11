@@ -13,7 +13,8 @@ const DEFAULT_PORT = 3000;
 
 // Define environment variables to parse (in addition to default - SWISH_PLUGINS_PATH)
 configManager.parseEnvironment('web', {
-    SWISH_WEB_PORT: 'port',
+    PORT: 'port',
+    SWISH_WEB_PORT: 'port', // take SWISH_WEB_PORT if set rather than PORT
 });
 
 const portNumber = getPort();
