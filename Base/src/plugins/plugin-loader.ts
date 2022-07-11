@@ -16,9 +16,10 @@ export function loadCjsPlugin(
             .map((plugin, index) => {
                 const baseId = filename.substring(0, filename.length - 3); // remove js extension
                 const idSuffix = index > 0 ? `-${index}` : '';
+                const id = !!plugin.id ? plugin.id : `${baseId}${idSuffix}`;
                 return {
-                    id: `${baseId}${idSuffix}`,
-                    ...plugin, // If plugin includes an 'id' property, this will be used
+                    ...plugin,
+                    id: id,
                 };
             })
     );
