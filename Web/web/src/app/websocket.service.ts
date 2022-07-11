@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, Observer, Subject } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { PluginResult } from 'swish-base';
 
@@ -29,13 +28,15 @@ export interface PluginUpdateEventData {
   providedIn: 'root',
 })
 export class WebsocketService {
-  // TODO figure out how to use the current URL host
-  private readonly websocketUrl = `ws://${window.location.host}`;
+  private readonly websocketUrl;
 
   //null assertion as this is set in 'connect' called from constructor so we know it will be there.
   public events: WebSocketSubject<MessageEvent>;
 
   constructor() {
+    const proto = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    this.websocketUrl = `${proto}://${window.location.host}`;
+
     this.events = webSocket(this.websocketUrl);
   }
 }
