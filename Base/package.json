@@ -1,6 +1,6 @@
 {
   "name": "swish-base",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "Swish Base lib - provides the base plugin functionality to be used by each Swish application",
   "main": "dist/index.js",
   "scripts": {
