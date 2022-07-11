@@ -36,16 +36,16 @@ export class CreateCustomPluginComponent {
   readonly initialContent = `'use strict';
 
 module.exports = {
-  name: '',         // Give your plugin a name
-  id: '',           // (Optional) Give your plugin an ID - this is mainly useful if you're overriding a builtin plugin
-  description: '',  // (Optional) Describe what your plugin does
-  author: '',       // (Optional) Put your name in here
-  tags: [],         // (Optional) Tag your plugin with useful words to help it be easier to find
-  icon: '',         // (Optional) Find an icon at https://material.io/icons to make your plugin more identifiable
-  process: async (args) => {
-      // Do stuff!
-      return args.textContent; // <- this just returns whatever was in the editor when we started
-  }
+    name: '',         // Give your plugin a name
+    id: '',           // (Optional) Give your plugin an ID - this is mainly useful if you're overriding a builtin plugin
+    description: '',  // (Optional) Describe what your plugin does
+    author: '',       // (Optional) Put your name in here
+    tags: [],         // (Optional) Tag your plugin with useful words to help it be easier to find
+    icon: '',         // (Optional) Find an icon at https://material.io/icons to make your plugin more identifiable
+    process: async (args) => {
+        // Do stuff!
+        return args.textContent; // <- this just returns whatever was in the editor when we started
+    }
 }` as any;
 
   filenameControl = new FormControl('', [
