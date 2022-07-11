@@ -72,6 +72,8 @@ export class EditorComponent implements OnInit {
 
   colorMode = 'dark';
 
+  hotkey: string;
+
   constructor(
     private dialog: MatDialog,
     hotkeyService: HotkeyService,
@@ -79,6 +81,7 @@ export class EditorComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {
     this.colorMode = localStorage.getItem('colorscheme') ?? 'dark';
+    this.hotkey = hotkeyService.paletteHotkey;
 
     hotkeyService.onTogglePalette().subscribe(() => this.togglePalette());
     hotkeyService.onClosePalette().subscribe(() => this.closePalette());

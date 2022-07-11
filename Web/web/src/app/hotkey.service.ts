@@ -10,6 +10,8 @@ export class HotkeyService {
   togglePaletteSubject = new Subject<void>();
   closePaletteSubject = new Subject<void>();
 
+  public paletteHotkey = `${isMac ? '⌘' : 'Ctrl'} + P`;
+
   private hotkeys = [
     {
       condition: (evt: KeyboardEvent) =>
