@@ -24,10 +24,11 @@ module.exports = {
         }
 
         if (parsed > 1) {
-            const next = await args.runPlugin('factorial', {
-                ...args,
-                textContent: `${parsed - 1n}`,
-            });
+            const next = await args.runPlugin(
+                'factorial',
+                `${parsed - 1n}`,
+                'user'
+            );
             const nextInt = BigInt(next);
             return `${parsed * nextInt}`;
         }
