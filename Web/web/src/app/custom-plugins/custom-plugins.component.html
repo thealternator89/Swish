@@ -3,15 +3,37 @@
 <div id="container">
   <h1>Custom Plugins</h1>
 
-  <div id="buttons">
-    <a mat-raised-button href="/custom-plugins/new" color="primary"><mat-icon>add</mat-icon>Create a new plugin</a>
-    &nbsp;
-    <a mat-raised-button href="/modules"><mat-icon>inventory</mat-icon>Manage Node Modules</a>
-  </div>
+  <div *ngIf="demoMode; then demoCard; else pluginList"></div>
 
-  <p>You have {{files.length}} custom plugins:</p>
+  <ng-template #demoCard>
+    <mat-card class="card">
+      <mat-card-title><mat-icon>warning</mat-icon> Demo Mode</mat-card-title>
+      <mat-card-content>
+        <p>
+          We're currently running in Demo Mode, so custom plugins aren't supported.
+        </p>
+        <p>
+          Swish is already pretty awesome, but custom plugins make it ✨AMAZING✨.<br>
+          Host it somewhere you trust and you can write your own plugins to do whatever you want.
+        </p>
+        <p class="card-hint">
+          If you're seeing this in your Swish instance, make sure that you have set a plugin directory in your configuration. See <a href="https://github.com/thealternator89/Swish/blob/main/docs/CONFIGURATION.MD" target="_blank">the docs</a> for more info.
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
 
-  <div class="custom-plugin" *ngFor="let plugin of files">
-    <mat-icon>description</mat-icon> <a class="plugin-name" href="/custom-plugins/edit/{{plugin}}">{{plugin}}</a> <a mat-icon-button href="/custom-plugins/edit/{{plugin}}" color="accent"><mat-icon>edit</mat-icon></a> <button mat-icon-button color="warn" (click)="delete(plugin)"><mat-icon>delete</mat-icon></button>
-  </div>
+  <ng-template #pluginList>
+    <div id="buttons">
+      <a mat-raised-button href="/custom-plugins/new" color="primary"><mat-icon>add</mat-icon>Create a new plugin</a>
+      &nbsp;
+      <a mat-raised-button href="/modules"><mat-icon>inventory</mat-icon>Manage Node Modules</a>
+    </div>
+
+    <p>You have {{files.length}} custom plugins:</p>
+
+    <div class="custom-plugin" *ngFor="let plugin of files">
+      <mat-icon>description</mat-icon> <a class="plugin-name" href="/custom-plugins/edit/{{plugin}}">{{plugin}}</a> <a mat-icon-button href="/custom-plugins/edit/{{plugin}}" color="accent"><mat-icon>edit</mat-icon></a> <button mat-icon-button color="warn" (click)="delete(plugin)"><mat-icon>delete</mat-icon></button>
+    </div>
+  </ng-template>
 </div>

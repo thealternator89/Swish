@@ -11,6 +11,10 @@ export class BackendService {
 
   constructor(private http: HttpClient) {}
 
+  getConfig(): Observable<{ userPlugins?: string }> {
+    return this.http.get<{ userPlugins?: string }>(`${this.apiUrl}/config`);
+  }
+
   searchPlugins(keyword: string): Observable<LoadedPlugin[]> {
     const query = keyword ? '?q=' + encodeURIComponent(keyword) : '';
     return this.http.get<LoadedPlugin[]>(`${this.apiUrl}/plugin${query}`);

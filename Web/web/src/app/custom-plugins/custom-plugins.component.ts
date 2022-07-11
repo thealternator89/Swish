@@ -16,6 +16,7 @@ export class CustomPluginsComponent implements OnInit {
     this.listPluginFiles();
   }
 
+  demoMode: boolean = false;
   files: string[] = [];
 
   ngOnInit(): void {}
@@ -38,6 +39,13 @@ export class CustomPluginsComponent implements OnInit {
   }
 
   listPluginFiles() {
+    this.backendService.getConfig().subscribe((res) => {
+      console.dir(res);
+      if (!res.userPlugins || res.userPlugins.trim() === '') {
+        this.demoMode = true;
+      }
+    });
+
     this.backendService
       .listCustomPlugins()
       .subscribe((files) => (this.files = files));
