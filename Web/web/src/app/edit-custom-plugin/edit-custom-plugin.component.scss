@@ -13,3 +13,26 @@
   padding-bottom: 30px;
   text-align: center;
 }
+
+#float {
+  float: right;
+  display: flex;
+  align-items: center;
+
+  margin-right: 35px;
+  margin-top: 10px;
+  color: #ccc;
+
+  mat-icon {
+    margin-right: 5px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
