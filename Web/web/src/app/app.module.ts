@@ -30,7 +30,6 @@ import { PluginResultSnackbarComponent } from './plugin-result-snackbar/plugin-r
 import { PalettePluginItemComponent } from './palette-plugin-item/palette-plugin-item.component';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
 import { CustomPluginsComponent } from './custom-plugins/custom-plugins.component';
-import { CreateCustomPluginComponent } from './create-custom-plugin/create-custom-plugin.component';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { ModuleManageComponent } from './module-manage/module-manage.component';
 import { EditCustomPluginComponent } from './edit-custom-plugin/edit-custom-plugin.component';
@@ -44,7 +43,6 @@ import { EditCustomPluginComponent } from './edit-custom-plugin/edit-custom-plug
     PalettePluginItemComponent,
     LoadingDialogComponent,
     CustomPluginsComponent,
-    CreateCustomPluginComponent,
     DeleteDialogComponent,
     ModuleManageComponent,
     EditCustomPluginComponent,
