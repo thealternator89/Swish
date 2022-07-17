@@ -62,4 +62,19 @@ export class SettingsService {
   set editorLigatures(value: boolean) {
     localStorage.setItem(KEY_EDITOR_LIGATURES, String(value));
   }
+
+  get paletteHotkey(): 'sublime' | 'vs' | 'jb' {
+    const hotkey = localStorage.getItem(KEY_PALETTE_HOTKEY);
+
+    if (hotkey === 'vs' || hotkey === 'jb') {
+      return hotkey;
+    }
+
+    // Default to Sublime
+    return 'sublime';
+  }
+
+  set paletteHotkey(value: 'sublime' | 'vs' | 'jb') {
+    localStorage.setItem(KEY_PALETTE_HOTKEY, value);
+  }
 }

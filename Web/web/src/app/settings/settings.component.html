@@ -23,5 +23,14 @@
     <mat-checkbox color="primary" [(ngModel)]="ligatures">Enable Ligatures (if available in your selected font and browser)</mat-checkbox>
   </div>
 
+  <div class="setting-item">
+    Palette Hotkey:
+    <select [(ngModel)]="hotkey">
+      <option value="sublime">Atom, Sublime Text, VS Code - {{commandOrControl()}} + P</option>
+      <option value="vs">Visual Studio - Ctrl + ,</option>
+      <option value="jb">JetBrains - Double Shift</option>
+    </select>
+  </div>
+
   <button mat-raised-button color="primary" (click)="save()">Save</button>
 </div>

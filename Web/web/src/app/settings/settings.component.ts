@@ -15,15 +15,23 @@ export class SettingsComponent {
 
   ligatures: boolean = false;
 
+  hotkey: 'sublime' | 'jb' | 'vs';
+
   constructor(private settingsService: SettingsService) {
     this.font = settingsService.editorFont;
     this.fontsize = settingsService.editorFontSize;
     this.ligatures = settingsService.editorLigatures;
+    this.hotkey = settingsService.paletteHotkey;
   }
 
   save(): void {
     this.settingsService.editorFont = this.font;
     this.settingsService.editorFontSize = this.fontsize;
     this.settingsService.editorLigatures = this.ligatures;
+    this.settingsService.paletteHotkey = this.hotkey;
+  }
+
+  commandOrControl(): string {
+    return isMac ? '⌘' : 'Ctrl';
   }
 }
