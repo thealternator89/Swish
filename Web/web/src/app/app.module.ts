@@ -7,6 +7,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -33,6 +34,7 @@ import { CustomPluginsComponent } from './custom-plugins/custom-plugins.componen
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { ModuleManageComponent } from './module-manage/module-manage.component';
 import { EditCustomPluginComponent } from './edit-custom-plugin/edit-custom-plugin.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import { EditCustomPluginComponent } from './edit-custom-plugin/edit-custom-plug
     DeleteDialogComponent,
     ModuleManageComponent,
     EditCustomPluginComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +60,7 @@ import { EditCustomPluginComponent } from './edit-custom-plugin/edit-custom-plug
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
+    MatCheckboxModule,
     MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,

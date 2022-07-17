@@ -31,7 +31,7 @@ module.exports = {
   templateUrl: './edit-custom-plugin.component.html',
   styleUrls: ['./edit-custom-plugin.component.scss'],
 })
-export class EditCustomPluginComponent implements OnInit {
+export class EditCustomPluginComponent {
   editorOptions: any = {
     theme: 'vs-dark',
     language: 'javascript',
@@ -63,8 +63,6 @@ export class EditCustomPluginComponent implements OnInit {
     this.filename = route.snapshot.params['filename'];
     this.create = !this.filename;
   }
-
-  ngOnInit(): void {}
 
   showEvent(e: NuMonacoEditorEvent): void {
     if (e.type === 'init') {

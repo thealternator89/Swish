@@ -1,0 +1,27 @@
+<div id="breadcrumbs"><a href="/">Swish</a> &gt; Settings</div>
+
+<div id="container">
+  <h1>Settings</h1>
+  <h2>Main Editor</h2>
+  <div class="hint-text">Note these settings only affect the main editor. They don't affect the Custom Plugin Editor.</div>
+
+  <div class="setting-item">
+    Font:
+    <mat-form-field appearance="fill">
+      <mat-label>Font Family</mat-label>
+      <input matInput placeholder="Default" [(ngModel)]="font">
+      <mat-icon matSuffix>text_fields</mat-icon>
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field appearance="fill">
+      <mat-label>Font size</mat-label>
+      <input matInput type="number" placeholder="Ex. 12" min="10" [(ngModel)]="fontsize">
+      <span matSuffix>px</span>
+    </mat-form-field>
+  </div>
+  <div class="setting-item">
+    <mat-checkbox color="primary" [(ngModel)]="ligatures">Enable Ligatures (if available in your selected font and browser)</mat-checkbox>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="save()">Save</button>
+</div>

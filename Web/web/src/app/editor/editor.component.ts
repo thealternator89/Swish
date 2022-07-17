@@ -6,7 +6,10 @@ import {
   MatDialogState,
 } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
+import {
+  NuMonacoEditorComponent,
+  NuMonacoEditorEvent,
+} from '@ng-util/monaco-editor';
 
 import { PluginResult } from 'swish-base';
 
@@ -14,6 +17,7 @@ import { HotkeyService } from '../hotkey.service';
 import { LoadingDialogComponent } from '../loading-dialog/loading-dialog.component';
 import { PaletteComponent } from '../palette/palette.component';
 import { PluginResultSnackbarComponent } from '../plugin-result-snackbar/plugin-result-snackbar.component';
+import { SettingsService } from '../settings.service';
 import {
   PluginResultEventData,
   PluginUpdateEventData,
@@ -25,7 +29,7 @@ import {
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss'],
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent {
   editorOptions: any;
 
   @ViewChild(NuMonacoEditorComponent)
@@ -70,31 +74,28 @@ export class EditorComponent implements OnInit {
 
   currentRunId?: string;
 
-  colorMode = 'dark';
-
   hotkey: string;
 
   constructor(
     private dialog: MatDialog,
     hotkeyService: HotkeyService,
     private websocketService: WebsocketService,
+    private settingsService: SettingsService,
     private snackBar: MatSnackBar
   ) {
-    this.colorMode = localStorage.getItem('colorscheme') ?? 'dark';
     this.hotkey = hotkeyService.paletteHotkey;
 
     hotkeyService.onTogglePalette().subscribe(() => this.togglePalette());
     hotkeyService.onClosePalette().subscribe(() => this.closePalette());
 
     this.editorOptions = {
-      theme: this.getTheme(),
       language: 'plaintext',
       scrollBeyondLastLine: false,
       selectionHighlight: false,
       occurrencesHighlight: false,
       renderLineHighlight: 'none',
-      // fontFamily: editorConfig.font,
-      // fontLigatures: editorConfig.ligatures,
+      fontFamily: settingsService.editorFont,
+      fontLigatures: settingsService.editorLigatures,
       matchBrackets: 'never',
       minimap: {
         enabled: false,
@@ -131,7 +132,6 @@ export class EditorComponent implements OnInit {
       }
     });
   }
-  ngOnInit(): void {}
 
   setLanguage(_$event: any, key: string) {
     const model = this.editorComponent.editor.getModel();
@@ -141,24 +141,25 @@ export class EditorComponent implements OnInit {
   }
 
   getThemeIcon() {
-    return this.colorMode === 'dark' ? 'dark_mode' : 'light_mode';
+    return this.settingsService.editorColorScheme === 'dark'
+      ? 'dark_mode'
+      : 'light_mode';
   }
 
   switchColorMode() {
-    if (this.colorMode === 'dark') {
-      this.colorMode = 'light';
-    } else {
-      this.colorMode = 'dark';
-    }
-    localStorage.setItem('colorscheme', this.colorMode);
-    this.setTheme(this.getTheme());
+    this.settingsService.editorColorScheme = this.invertColor(
+      this.settingsService.editorColorScheme
+    );
+    this.setTheme();
   }
 
-  getTheme() {
-    return this.colorMode === 'dark' ? 'vs-dark' : 'vs';
+  invertColor(color: 'light' | 'dark'): 'light' | 'dark' {
+    return color === 'light' ? 'dark' : 'light';
   }
 
-  setTheme(key: string) {
+  setTheme() {
+    const key =
+      this.settingsService.editorColorScheme === 'light' ? 'vs' : 'vs-dark';
     monaco.editor.setTheme(key);
   }
 
@@ -214,10 +215,20 @@ export class EditorComponent implements OnInit {
     });
   }
 
+  showEvent(e: NuMonacoEditorEvent) {
+    if (e.type === 'init') {
+      this.setTheme();
+
+      this.getEditor().updateOptions({
+        fontFamily: this.settingsService.editorFont,
+        fontSize: this.settingsService.editorFontSize,
+        fontLigatures: this.settingsService.editorLigatures,
+      });
+    }
+  }
+
   private handlePluginResult(result: PluginResult) {
     const text = result?.text;
-
-    console.log('Got result: ' + text);
 
     if (text) {
       this.replaceAllContent(text);
@@ -229,7 +240,6 @@ export class EditorComponent implements OnInit {
 
     // If the loading dialog is open, close it.
     if (this.loadingDialog?.getState() === MatDialogState.OPEN) {
-      console.log('closing dialog');
       this.loadingDialog.close();
       this.loadingDialog = undefined;
     }

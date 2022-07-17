@@ -4,6 +4,7 @@ import { CustomPluginsComponent } from './custom-plugins/custom-plugins.componen
 import { EditCustomPluginComponent } from './edit-custom-plugin/edit-custom-plugin.component';
 import { EditorComponent } from './editor/editor.component';
 import { ModuleManageComponent } from './module-manage/module-manage.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: EditorComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
     component: EditCustomPluginComponent,
   },
   { path: 'modules', component: ModuleManageComponent },
+  { path: 'settings', component: SettingsComponent },
 ];
 
 @NgModule({
