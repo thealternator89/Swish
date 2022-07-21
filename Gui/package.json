@@ -1,7 +1,7 @@
 {
   "name": "swish-gui",
   "productName": "Swish",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "scripts": {
     "build": "npm run build:ng && npm run build:electron",
     "build:ng": "ng build --base-href ./",
