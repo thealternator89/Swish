@@ -1,7 +1,11 @@
-import * as winston from 'winston';
+import { createLogger, format, transports } from 'winston';
+const { combine, timestamp, printf } = format;
 
-export const logger = winston.createLogger({
-    format: winston.format.simple(),
-    level: 'info',
-    transports: [new winston.transports.Console()],
+const logFormat = printf(({ level, message, timestamp }) => {
+    return `${timestamp} ${level}: ${message}`;
+});
+
+export const logger = createLogger({
+    format: combine(timestamp(), logFormat),
+    transports: [new transports.Console()],
 });
