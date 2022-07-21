@@ -40,9 +40,15 @@ class WsManager {
         this.server = new ws.Server({ noServer: true });
         this.server.on('connection', (socket) => {
             logger.info('WS: New Connection');
-            socket.on('message', (message) =>
-                this.handleMessage(socket, message)
-            );
+            socket.on('message', (message) => {
+                if (JSON.parse(message.toString()) === 'ping') {
+                    return;
+                }
+                this.handleMessage(socket, message);
+            });
+            socket.on('close', () => {
+                logger.info('WS: Connection closed by client');
+            });
         });
     }
 

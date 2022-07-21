@@ -102,35 +102,47 @@ export class EditorComponent {
       },
     };
 
-    websocketService.events.subscribe((event) => {
-      if (event.data.runId !== this.currentRunId) {
-        console.warn(
-          `Received update with unexpected RunId ${event.data.runId}`
-        );
-        return;
-      }
-
-      // If this is a result, and it's for the current run, use it
-      if (event.type === 'PluginResult') {
-        this.handlePluginResult((event.data as PluginResultEventData).result);
-      }
-
-      // If this is a plugin update (for the current run), if the loading dialog isn't open, open it
-      if (event.type === 'PluginUpdate') {
-        if (this.loadingDialog?.getState() !== MatDialogState.OPEN) {
-          // The dialog won't know what message we just got, so we initialize it.
-          const update = event.data as PluginUpdateEventData;
-          let initialState;
-          if (update.updateType === 'progress') {
-            initialState = { progress: update.data as number };
-          } else if (update.updateType === 'status') {
-            initialState = { status: update.data as string };
-          }
-
-          this.openLoadingDialog(initialState);
-        }
-      }
+    websocketService.events.subscribe({
+      next: (event) => this.handleMessage(event),
+      error: (err) => this.handleWebsocketError(err),
+      complete: () => this.handleWebsocketComplete(),
     });
+  }
+
+  handleWebsocketComplete() {
+    console.log('WebSocket Closed');
+  }
+
+  handleWebsocketError(err: any) {
+    alert('Error communicating with the server. Please reload.');
+  }
+
+  handleMessage(event: MessageEvent<any>) {
+    if (event.data.runId !== this.currentRunId) {
+      console.warn(`Received update with unexpected RunId ${event.data.runId}`);
+      return;
+    }
+
+    // If this is a result, and it's for the current run, use it
+    if (event.type === 'PluginResult') {
+      this.handlePluginResult((event.data as PluginResultEventData).result);
+    }
+
+    // If this is a plugin update (for the current run), if the loading dialog isn't open, open it
+    if (event.type === 'PluginUpdate') {
+      if (this.loadingDialog?.getState() !== MatDialogState.OPEN) {
+        // The dialog won't know what message we just got, so we initialize it.
+        const update = event.data as PluginUpdateEventData;
+        let initialState;
+        if (update.updateType === 'progress') {
+          initialState = { progress: update.data as number };
+        } else if (update.updateType === 'status') {
+          initialState = { status: update.data as string };
+        }
+
+        this.openLoadingDialog(initialState);
+      }
+    }
   }
 
   setLanguage(_$event: any, key: string) {
