@@ -1,9 +1,31 @@
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, contextBridge } from 'electron';
 import { configManager } from 'swish-base';
 
-process.once('loaded', () => {
-  const win = window as any;
-  win.ipcRenderer = ipcRenderer;
-  win.platform = process.platform;
-  win.config = configManager.config;
+contextBridge.exposeInMainWorld('app', {
+  search: async (terms: string) => {
+    return ipcRenderer.invoke('pluginSearch', terms);
+  },
+  runPlugin: (request: any) => {
+    ipcRenderer.send('runPlugin', request);
+
+    return new Promise((resolve, reject) => {
+      ipcRenderer.once('pluginResult', (_event, arg: any) => {
+        resolve(arg);
+      });
+    });
+  },
+  hideWindow: () => {
+    ipcRenderer.send('hideWindow');
+  },
+  registerProgressUpdate: (callback) => {
+    ipcRenderer.on('pluginProgress', (_event, arg) => callback(arg));
+  },
+  registerStatusUpdate: (callback) => {
+    ipcRenderer.on('pluginStatus', (_event, arg) => callback(arg));
+  },
+  registerMenuCommands: (callback) => {
+    ipcRenderer.on('menuCommand', (_event, arg) => callback(arg));
+  },
+  platform: process.platform,
+  config: configManager.config,
 });

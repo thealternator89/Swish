@@ -21,20 +21,18 @@ class IPCHandler {
   }
 
   public registerSearch() {
-    ipcMain.on(IPC_CHANNELS.PLUGIN_SEARCH.REQ, (_event, arg: string) => {
+    ipcMain.handle(IPC_CHANNELS.PLUGIN_SEARCH.REQ, (_event, arg: string) => {
       const matching = swishBackend.search(arg);
-      this.sendSearchResult(
-        matching.map(
-          // Filter out everything we don't want to send.
-          ({ id, name, description, author, tags, icon }) => ({
-            id,
-            name,
-            description,
-            author,
-            tags,
-            icon,
-          })
-        )
+      return matching.map(
+        // Filter out everything we don't want to send.
+        ({ id, name, description, author, tags, icon }) => ({
+          id,
+          name,
+          description,
+          author,
+          tags,
+          icon,
+        })
       );
     });
   }

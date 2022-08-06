@@ -13,7 +13,7 @@ export class EditorComponent {
   editorComponent: NuMonacoEditorComponent;
 
   constructor() {
-    const editorConfig = (window as any).config.editor;
+    const editorConfig = window['app'].config.editor;
     this.editorOptions = {
       theme: 'vs-dark',
       language: 'plaintext',
