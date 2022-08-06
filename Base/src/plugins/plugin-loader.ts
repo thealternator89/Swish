@@ -1,4 +1,5 @@
 import { PluginDefinition } from 'swish-plugins/dist/model';
+import { runPlugins } from '../util/text-utils';
 
 export function loadCjsPlugin(
     filename: string,
@@ -12,6 +13,14 @@ export function loadCjsPlugin(
             .filter((plugin) => validatePlugin(plugin, fullPath))
             // Filter out plugins which don't meet condition
             .filter(condition)
+            // Handle 'aggregate' plugins by converting them to a standard plugin
+            .map((plugin) => {
+                if (plugin.type === 'aggregate') {
+                    return translateAggregatePluginToStandardPlugin(plugin);
+                } else {
+                    return plugin;
+                }
+            })
             // Add the plugin id
             .map((plugin, index) => {
                 const baseId = filename.substring(0, filename.length - 3); // remove js extension
@@ -28,14 +37,14 @@ export function loadCjsPlugin(
 function safeRequire(path: string): PluginDefinition[] {
     try {
         // Remove the module from the cache (if present)
-        // This forces node to fully reload the module from disk. Dependencies will still come from the cache though.
+        // This forces node to reload the module from disk. Dependencies will still come from the cache though.
         delete require.cache[require.resolve(path)];
         const module = require(path);
-        // If the module is an object, wrap it in an array, otherwise return the array.
-        if (Object.prototype.toString.call(module) === '[object Object]') {
-            return [module];
-        } else {
+        // If the module is an array just return it, otherwise wrap it in an array to simplify handling.
+        if (Array.isArray(module)) {
             return module;
+        } else {
+            return [module];
         }
     } catch (err) {
         console.error(`Error loading plugin at ${path}: ${err.message}`);
@@ -44,13 +53,48 @@ function safeRequire(path: string): PluginDefinition[] {
 }
 
 function validatePlugin(plugin: any, path: string): boolean {
-    if (!plugin.hidden && (!plugin.name || !plugin.process)) {
-        console.error(
-            `Plugin ${
-                plugin.id ?? plugin.name
-            } (${path}) missing required properties. 'name' and 'process' are required. - Ignoring`
-        );
-        return false;
+    // If it's hidden, we can ignore it since it could just be hiding another inbuilt plugin
+    if (plugin.hidden) {
+        return true;
     }
-    return true;
+
+    const errors = [];
+
+    if (!plugin.name) {
+        errors.push('Non-hidden plugins must have a name');
+    }
+
+    if (plugin.type === 'aggregate') {
+        if (!plugin.plugins || plugin.plugins.length < 1) {
+            errors.push(
+                "Aggregate plugin must have a 'plugins' property containing at least one plugin ID"
+            );
+        }
+    } else {
+        // Plugin isn't an aggregate type
+        if (!plugin.process) {
+            errors.push("Plugins must contain a 'process' function");
+        }
+    }
+
+    if (errors.length) {
+        const identifier = plugin.id ?? plugin.name;
+        console.error(
+            `Plugin ${identifier} (${path}) has validation errors:\n\t- ${errors.join(
+                '\n\t- '
+            )}`
+        );
+    }
+
+    return errors.length === 0;
+}
+
+function translateAggregatePluginToStandardPlugin(
+    plugin: PluginDefinition
+): PluginDefinition {
+    return {
+        ...plugin,
+        process: (args) =>
+            runPlugins(args.textContent, plugin.plugins, args.runPlugin),
+    };
 }

@@ -13,5 +13,7 @@ export interface PluginDefinition {
     icon: string;
     hidden?: boolean;
     usableFrom?: SwishApplication[];
+    type?: 'standard' | 'aggregate';
     process: (args: ProvidedPluginArgument) => Promise<string | PluginResult>;
+    plugins?: string[];
 }

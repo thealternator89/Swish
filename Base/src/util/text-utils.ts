@@ -18,3 +18,31 @@ export function unifyLineEndings(
     const unified = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
     return unified.replace(/\n/g, lineEndingChar);
 }
+
+export async function runPlugins(
+    input: string,
+    plugins: string[],
+    runPluginFunc: (
+        pluginId: string,
+        args: string,
+        type?: string
+    ) => Promise<string>
+): Promise<string> {
+    let currentValue = input;
+
+    for (const plugin of plugins) {
+        const [pluginType, pluginId] = plugin.split(':');
+
+        if (pluginType === 'user' || pluginType === 'system') {
+            currentValue = await runPluginFunc(
+                pluginId,
+                currentValue,
+                pluginType
+            );
+        } else {
+            currentValue = await runPluginFunc(plugin, currentValue);
+        }
+    }
+
+    return currentValue;
+}
