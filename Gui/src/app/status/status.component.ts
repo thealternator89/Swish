@@ -104,6 +104,7 @@ export class StatusComponent implements OnInit {
 }
 
 function buildDefaultStatusText() {
-  const cmdOrCtrl = (window as any).platform === 'darwin' ? '⌘' : 'Ctrl';
+  const isMac = window.navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+  const cmdOrCtrl = isMac ? '⌘' : 'Ctrl';
   return `Press ${cmdOrCtrl} + Shift + P to get started`;
 }

@@ -26,6 +26,5 @@ contextBridge.exposeInMainWorld('app', {
   registerMenuCommands: (callback) => {
     ipcRenderer.on('menuCommand', (_event, arg) => callback(arg));
   },
-  platform: process.platform,
   config: configManager.config,
 });
