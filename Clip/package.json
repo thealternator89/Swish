@@ -1,6 +1,6 @@
 {
   "name": "swish-clip",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "description": "A minimal Swish GUI",
   "main": "main.js",
   "scripts": {
