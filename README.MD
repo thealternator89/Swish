@@ -20,7 +20,7 @@ The Swish repo contains the following:
   The most basic Swish experience. Run in your terminal, pipe the data from any app through Swish to transform it before you use it.
 * [**Gui**](Gui)  
   The full-featured GUI for Swish.
-* [**Web**](Web)
+* [**Web**](Web)  
   A hosted web interface for Swish. Host it somewhere you trust and you can Swish without even installing it!
 
 ### Backend

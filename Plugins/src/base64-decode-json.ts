@@ -4,7 +4,7 @@ export = {
     id: 'base64-decode-json',
     author: 'thealternator89',
     tags: ['base64', 'decode', 'json'],
-    swishVersion: '1.5.8',
+    swishVersion: '1.6.0',
     icon: 'code',
     usableFrom: ['core', 'clip', 'gui'],
     type: 'aggregate',
