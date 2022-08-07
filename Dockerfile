@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:18-alpine
 
 # Declare that we are running in production mode to reduce dependencies
 ENV NODE_ENV=production
