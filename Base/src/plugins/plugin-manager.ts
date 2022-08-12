@@ -18,7 +18,7 @@ const BEEP_BASE_VERSION = require('../../package.json')
     .version.split('.')
     .map((n: string) => parseInt(n));
 
-const SEARCH_KEYS = ['name', 'description', 'tags'];
+const SEARCH_KEYS = ['name', 'tags'];
 
 const LocaleComparePluginDefinition = (a, b) => a.name.localeCompare(b.name);
 
@@ -79,9 +79,10 @@ class PluginManager {
 
         const plugins = readdirSync(resolvedDirectory).filter(
             (file) =>
-                file.endsWith('.js') && //find JS files
+                (file.endsWith('.js') || file.endsWith('.json')) && //find JS or JSON files
                 !file.endsWith('.spec.js') && // which aren't specs
-                !file.startsWith('_') // and don't start with '_'
+                !file.startsWith('_') && // and don't start with '_'
+                !/package(-lock)?\.json/.test(file) // not package.json or package-lock.json
         );
 
         let pluginObjs: PluginDefinition[] = [];

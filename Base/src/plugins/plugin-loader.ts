@@ -72,7 +72,8 @@ function validatePlugin(plugin: any, path: string): boolean {
         }
     } else {
         // Plugin isn't an aggregate type
-        if (!plugin.process) {
+        // Must contain a 'process' property which is a function
+        if (!plugin.process || typeof plugin.process !== 'function') {
             errors.push("Plugins must contain a 'process' function");
         }
     }
