@@ -8,6 +8,28 @@ import * as url from 'url';
 
 const APP_NAME = 'Swish';
 
+const platformWindowOptions = () => {
+  // Hide the titlebar and
+  switch (process.platform) {
+    case 'darwin': return {
+      frame: false,
+      titleBarStyle: 'hiddenInset',
+    }
+    case 'win32': return {
+      frame: false,
+      titleBarStyle: 'hidden',
+      titleBarOverlay: {
+        color: '#1976d2',
+        symbolColor: '#fff',
+        height: 40
+      }
+    }
+    default: return {
+      titleBarStyle: 'default',
+    }
+  }
+}
+
 let win: BrowserWindow;
 
 app.on('ready', () => {
@@ -23,9 +45,9 @@ app.on('activate', () => {
 
 function createWindow() {
   win = new BrowserWindow({
+    ...(platformWindowOptions() as any),
     width: 800,
     height: 400,
-    titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
