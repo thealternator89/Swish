@@ -1,34 +1,42 @@
 .plugin-icon {
-  position: absolute;
-  top: 10px;
-  left: 0px;
+  font-size: 30px;
   width: 30px;
   height: 30px;
-}
-
-.plugin-text {
-  position: absolute;
-  top: 5px;
-  right: 0px;
-  bottom: 0px;
-  left: 40px;
+  margin-left: 15px;
+  margin-right: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
 .plugin-name {
-  display: block;
-  height: 15pt;
-  text-overflow: ellipsis;
   font-weight: bold;
+  font-size: 14pt;
+  margin-bottom: 5px;
 }
 
 .plugin-description {
-  display: block;
-  font-size: 8pt;
-  height: 15pt;
+  font-size: 10pt;
 }
 
-.ellipsis {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+.plugin-id {
+  font-family: monospace;
+  font-size: 6pt;
+  text-align: right;
+  margin-right: 15px;
+}
+
+.content {
+  flex-grow: 1;
+}
+
+:host {
+  display: flex;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+:host.active {
+  background-color: #c2185b;
 }
