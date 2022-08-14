@@ -62,7 +62,7 @@ export class AppComponent {
       height: '300px',
       width: '600px',
       position: {
-        top: '5px',
+        top: '55px',
       },
     });
 
