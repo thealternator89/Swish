@@ -1,6 +1,6 @@
 {
   "name": "swish-web",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Hosted web for Swish",
   "main": "dist/index.js",
   "private": true,

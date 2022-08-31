@@ -1,6 +1,6 @@
 {
   "name": "swish-core",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Basic data manipulation CLI",
   "main": "dist/index.js",
   "bin": {
