@@ -12,6 +12,7 @@ import {
 } from '@ng-util/monaco-editor';
 
 import { PluginResult } from 'swish-base';
+import { BackendService } from '../backend.service';
 
 import { HotkeyService } from '../hotkey.service';
 import { LoadingDialogComponent } from '../loading-dialog/loading-dialog.component';
@@ -76,9 +77,12 @@ export class EditorComponent {
 
   hotkey: string;
 
+  versionNumber: string = '';
+
   constructor(
     private dialog: MatDialog,
     hotkeyService: HotkeyService,
+    private backendService: BackendService,
     private websocketService: WebsocketService,
     private settingsService: SettingsService,
     private snackBar: MatSnackBar
@@ -107,6 +111,8 @@ export class EditorComponent {
       error: (err) => this.handleWebsocketError(err),
       complete: () => this.handleWebsocketComplete(),
     });
+
+    this.getVersion();
   }
 
   handleWebsocketComplete() {
@@ -156,6 +162,12 @@ export class EditorComponent {
     return this.settingsService.editorColorScheme === 'dark'
       ? 'dark_mode'
       : 'light_mode';
+  }
+
+  getVersion() {
+    this.backendService
+      .getVersion()
+      .subscribe((res) => (this.versionNumber = `v${res}`));
   }
 
   switchColorMode() {

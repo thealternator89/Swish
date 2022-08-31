@@ -39,11 +39,8 @@ export class CustomPluginsComponent implements OnInit {
   }
 
   listPluginFiles() {
-    this.backendService.getConfig().subscribe((res) => {
-      console.dir(res);
-      if (!res.userPlugins || res.userPlugins.trim() === '') {
-        this.demoMode = true;
-      }
+    this.backendService.getMode().subscribe((res) => {
+      this.demoMode = res === 'DEMO';
     });
 
     this.backendService

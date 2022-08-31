@@ -11,8 +11,12 @@ export class BackendService {
 
   constructor(private http: HttpClient) {}
 
-  getConfig(): Observable<{ userPlugins?: string }> {
-    return this.http.get<{ userPlugins?: string }>(`${this.apiUrl}/config`);
+  getMode(): Observable<string> {
+    return this.http.get<string>(`${this.apiUrl}/mode`);
+  }
+
+  getVersion(): Observable<string> {
+    return this.http.get<string>(`${this.apiUrl}/version`);
   }
 
   searchPlugins(keyword: string): Observable<LoadedPlugin[]> {
