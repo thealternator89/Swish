@@ -62,7 +62,12 @@ class ConfigManager {
                 configSection[configKey] = configValue;
             }
         }
-        this.envConfig = config;
+
+        // Set the env config from the base, plus the parsed config
+        this.envConfig = {
+            ...this.getEnvConfig(),
+            ...config,
+        };
     }
 
     private readFileConfig(): Partial<SwishConfig> {
