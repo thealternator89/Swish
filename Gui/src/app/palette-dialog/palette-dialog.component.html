@@ -3,16 +3,10 @@
     type="text"
     class="full-width"
     (input)="onSearchChange($event.target.value)"
+    (keydown)="onKeyDown($event)"
     placeholder="Start typing..."
   />
 </div>
 <div mat-dialog-content id="plugin-list">
-  <mat-action-list>
-    <mat-list-item
-      *ngFor="let plugin of plugins"
-      (click)="selectPlugin(plugin)"
-    >
-      <app-palette-plugin-item [plugin]="plugin"></app-palette-plugin-item>
-    </mat-list-item>
-  </mat-action-list>
+  <app-palette-plugin-item [plugin]="plugin" *ngFor="let plugin of plugins"></app-palette-plugin-item>
 </div>

@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
 
+const theme = (colorMode) => colorMode === 'light' ? 'vs' : 'vs-dark';
+
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
@@ -15,7 +17,7 @@ export class EditorComponent {
   constructor() {
     const editorConfig = window['app'].config.editor;
     this.editorOptions = {
-      theme: 'vs-dark',
+      theme: theme(editorConfig.theme),
       language: 'plaintext',
       scrollBeyondLastLine: false,
       selectionHighlight: false,
