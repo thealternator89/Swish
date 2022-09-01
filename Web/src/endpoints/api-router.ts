@@ -18,12 +18,12 @@ router.use('/internal', internalRouter);
 router.get('/mode', (_req, res) => {
     const pluginsPath = configManager.getConfig().userPlugins;
 
-    // If the user plugin path is set, exists, and is a directory, mode is FULL, otherwise DEMO
-    if (
-        !!pluginsPath &&
-        fs.existsSync(pluginsPath) &&
-        fs.lstatSync(pluginsPath).isDirectory()
-    ) {
+    // If the user plugin path is set, mode is FULL, otherwise DEMO.
+    // TODO: Check
+    //  * Exists
+    //  * Is Directory
+    //  * Has write permissions
+    if (pluginsPath) {
         res.json('FULL');
     } else {
         res.json('DEMO');
