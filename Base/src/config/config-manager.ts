@@ -139,6 +139,9 @@ export function mergeDeep(target, ...sources) {
 
     if (isObject(target) && isObject(source)) {
         for (const key in source) {
+            if (typeof source[key] === 'undefined') {
+                continue;
+            }
             if (isObject(source[key])) {
                 if (!target[key]) Object.assign(target, { [key]: {} });
                 mergeDeep(target[key], source[key]);
