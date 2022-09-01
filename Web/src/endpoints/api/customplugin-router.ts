@@ -124,10 +124,21 @@ function validatePlugin(definition: string) {
         module = [module];
     }
 
-    const invalid = module.filter(
-        (item: PluginDefinition) =>
-            !item.hidden && (!item.name || !item.process)
-    );
+    const invalid = module.filter((item: PluginDefinition) => {
+        if (item.hidden) {
+            return false;
+        }
+
+        if (!item.name) {
+            return true;
+        }
+
+        if (item.type === 'aggregate') {
+            return !item.plugins?.length;
+        }
+
+        return !item.process;
+    });
 
     if (invalid.length !== 0) {
         throw new Error(
