@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
@@ -220,7 +220,7 @@ export class EditorComponent {
 
     this.lockEditor();
 
-    this.currentRunId = crypto.randomUUID();
+    this.currentRunId = this.getPluginRunId();
 
     this.websocketService.events.next({
       type: 'RunPlugin',
@@ -237,6 +237,31 @@ export class EditorComponent {
         this.openLoadingDialog();
       }
     });
+  }
+
+  getPluginRunId(): string {
+    // If crypto.randomUUID exists, use it to generate a plugin run ID
+    // Otherwise we just generate a string of 32 random characters.
+    if (typeof crypto?.randomUUID === 'function') {
+      return crypto.randomUUID();
+    } else {
+      const charsBetween = (start: number, end: number) =>
+        new Array(end - start + 1)
+          .join('.')
+          .split('.')
+          .map((_v, i) => String.fromCharCode(start + i));
+
+      const availableChars = [
+        ...charsBetween('a'.charCodeAt(0), 'z'.charCodeAt(0)),
+        ...charsBetween('A'.charCodeAt(0), 'Z'.charCodeAt(0)),
+        ...charsBetween('0'.charCodeAt(0), '9'.charCodeAt(0)),
+      ];
+
+      const randomChar = () =>
+        availableChars[Math.trunc(Math.random() * availableChars.length)];
+
+      return new Array(32).join('.').split('.').map(randomChar).join('');
+    }
   }
 
   showEvent(e: NuMonacoEditorEvent) {
