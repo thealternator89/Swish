@@ -25,6 +25,8 @@ export class PalettePluginItemComponent
   @Input('disabled')
   public disabled?: boolean | undefined;
 
+  public mouseOverEnable: boolean = true;
+
   private _isActive = false;
 
   @HostBinding('class.active') get isActive() {
@@ -37,9 +39,11 @@ export class PalettePluginItemComponent
   ) {}
 
   ngOnInit(): void {
-    fromEvent(this.elRef.nativeElement, 'mouseover').subscribe(() =>
-      this.parent.focusPlugin(this)
-    );
+    fromEvent(this.elRef.nativeElement, 'mouseover').subscribe(() => {
+      if (this.mouseOverEnable) {
+        this.parent.focusPlugin(this);
+      }
+    });
 
     fromEvent(this.elRef.nativeElement, 'click').subscribe(() =>
       this.parent.selectPlugin(this)

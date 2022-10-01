@@ -55,8 +55,19 @@ export class PaletteComponent {
     if (event.key === 'Enter') {
       this.selectPlugin(this.keyManager?.activeItem!);
     }
+
+    this.disableMouseOver();
     this.keyManager?.onKeydown(event);
+    this.enableMouseOver();
   }
+
+  disableMouseOver() {
+    this.pluginComponents.forEach((comp) => (comp.mouseOverEnable = false));
+  }
+
+  enableMouseOver = debounce(() =>
+    this.pluginComponents.forEach((comp) => (comp.mouseOverEnable = true))
+  );
 
   focusPlugin(item: PalettePluginItemComponent) {
     this.keyManager?.setActiveItem(item);
@@ -65,4 +76,16 @@ export class PaletteComponent {
   selectPlugin(item?: PalettePluginItemComponent) {
     this.dialogRef.close(item?.plugin.id);
   }
+}
+
+function debounce(this: any, func: Function, timeout = 300) {
+  let timer: any;
+  return (...args: any[]) => {
+    console.log('debouncing');
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      console.log('actioning');
+      func.apply(this, args);
+    }, timeout);
+  };
 }
