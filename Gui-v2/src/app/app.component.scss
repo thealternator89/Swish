@@ -1,0 +1,9 @@
+$titlebarHeight: 40px;
+
+app-home {
+  position: absolute;
+  top: $titlebarHeight;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

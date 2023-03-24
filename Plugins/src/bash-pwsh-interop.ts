@@ -14,7 +14,7 @@ export = [
         replacement: '\\\n',
     },
 ].map(({ source, target, inputRegex, replacement }) => ({
-    name: `Convert ${source} escaped newlines for ${target}`,
+    name: `${source} to ${target}`,
     description: `Make a ${source} command work in ${target}`,
     id: `${source}-to-${target}`.toLowerCase(),
     author: 'thealternator89',

@@ -1,0 +1,73 @@
+:host {
+  border: thin solid #ababab;
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 0px 5px 10px 5px;
+  width: calc(25% - 40px);
+  min-width: 200px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: black;
+  color: white;
+  padding: 5px;
+}
+
+.title.system-plugin {
+  background-color: #1976d2;
+}
+
+.title.user-plugin {
+  background-color: #4caf50;
+}
+
+.plugin-name {
+  flex: 1 1 auto;
+  font-weight: bold;
+  font-size: 13pt;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  height: 20px;
+}
+
+.description {
+  color: #666;
+  font-style: oblique;
+  font-size: 9pt;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 40px;
+}
+
+.material-icons {
+  font-size: 30px;
+  margin-right: 5px;
+}
+
+.tags {
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.tag {
+  background-color: #e0e0e0;
+  color: #666;
+  margin: 0px 2px;
+  padding: 0px 5px;
+  border-radius: 5px;
+  font-size: 8pt;
+}
+

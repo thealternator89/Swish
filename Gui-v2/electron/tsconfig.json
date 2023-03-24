@@ -1,0 +1,17 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "declaration": false,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "target": "es2015",
+    "module": "commonjs",
+    "lib": [
+      "es2018",
+      "dom"
+    ]
+  }
+}

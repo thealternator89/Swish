@@ -1,0 +1,77 @@
+#title{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border: thin solid #ddd;
+  border-radius: 15px;
+  background-color: #ccc;
+  margin: 5px;
+  padding: 5px;
+}
+
+#icon {
+  user-select: none;
+}
+
+#icon .material-icons {
+  margin-left: 5px;
+  font-size: 50px;
+}
+
+#pluginDetails {
+  margin-left: 10px;
+}
+
+#pluginName {
+  font-weight: bold;
+  font-size: 15pt;
+  margin-top: 5px;
+}
+
+#pluginDescription {
+  font-size: 10pt;
+  margin-top: 3px;
+  color: #444;
+}
+
+.tag {
+  font-size: 8pt;
+  margin: 3px 3px 3px 0px;
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  padding: 2px 5px;
+}
+
+#pluginId {
+  font-family: monospace;
+  font-size: 8pt;
+  background-color: #eee;
+  border-radius: 5px;
+  margin: 3px 3px 3px 0px;
+  padding: 2px 5px;
+}
+
+#editors {
+  display: flex;
+}
+
+#input {
+  width: 50%;
+  padding: 10px;
+}
+
+#output {
+  width: 50%;
+  padding: 10px;
+}
+
+#buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+h1 {
+  margin-bottom: 5px;
+}

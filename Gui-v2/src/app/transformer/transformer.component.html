@@ -1,0 +1,36 @@
+<div *ngIf="plugin" >
+  <div id="title">
+    <div id="icon">
+      <span class="material-icons">{{getIcon()}}</span>
+    </div>
+    <div id="pluginDetails">
+      <div id="pluginName">{{plugin.name}}</div>
+      <div id="pluginDescription">{{plugin.description}}</div>
+      <div><span class="tag" *ngFor="let tag of plugin.tags">{{tag}}</span> <span id="pluginId">{{plugin.id}}</span></div>
+    </div>
+  </div>
+  <div id="editors">
+    <div id="input">
+      <h1>Input</h1>
+      <nu-monaco-editor
+        #inputEditor
+        [options]="inputEditorOptions"
+        height="450px"
+        width="100%"
+        (event)="inputShowEvent($event)"
+      ></nu-monaco-editor>
+      <div id="buttons">
+        <button mat-raised-button (click)="runPlugin()">Transform</button>
+      </div>
+    </div>
+    <div id="output">
+      <h1>Output</h1>
+      <nu-monaco-editor
+        #outputEditor
+        [options]="outputEditorOptions"
+        height="450px"
+        width="100%"
+      ></nu-monaco-editor>
+    </div>
+  </div>
+</div>

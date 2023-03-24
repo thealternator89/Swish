@@ -1,0 +1,17 @@
+<div (click)="click();">
+  <div [class]="'title ' + getTitleClass()">
+    <div class="plugin-icon">
+      <span class="material-icons">{{getIcon()}}</span>
+    </div>
+    <div class="plugin-name">{{plugin.name}}</div>
+    <div class="custom-icon">
+      <span class="material-icons" *ngIf="!plugin.systemPlugin">star</span>
+    </div>
+  </div>
+  <div class="description">
+    {{plugin.description}}
+  </div>
+  <div class="tags">
+      <div class="tag" *ngFor="let tag of plugin.tags">{{tag}}</div>
+  </div>
+</div>

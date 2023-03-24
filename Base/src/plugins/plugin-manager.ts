@@ -10,6 +10,7 @@ import {
 } from 'swish-plugins/dist/model';
 import { InfiniteLoopError, PluginNotFoundError } from '../errors';
 import { identifyLineEndingChar, unifyLineEndings } from '../util/text-utils';
+import { backgroundManager } from '../util/background-manager';
 import { configManager } from '../config/config-manager';
 import { loadCjsPlugin } from './plugin-loader';
 import { LoadedPlugin } from './LoadedPlugin';
@@ -36,6 +37,8 @@ class PluginManager {
     }[] = [];
 
     public constructor() {
+        // Monkey patch setTimeout and setInterval to allow us to track them and clear them when the plugin finishes
+        backgroundManager.initialize();
         const systemPluginPath = path.join(
             __dirname,
             '..',
@@ -270,6 +273,11 @@ class PluginManager {
             };
         } finally {
             this.pluginStack.pop();
+
+            // If the stack is empty, we are at the end of the plugin chain, so we should ensure that any background tasks from the plugin are killed
+            if (this.pluginStack.length === 0) {
+                backgroundManager.killActiveBackgroundTasks();
+            }
         }
     }
 

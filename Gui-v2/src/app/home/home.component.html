@@ -1,0 +1,22 @@
+
+<form id="search-form">
+  <mat-form-field class="search-box">
+    <input #search matInput placeholder="Transformer Search" (input)="searchModified($event, search.value)">
+  </mat-form-field>
+</form>
+
+<div id="fav-plugins-container">
+  <div id="fav-plugins">
+    <app-fav-plugin-item *ngFor="let plugin of favPlugins" [plugin]="plugin"></app-fav-plugin-item>
+  </div>
+  <div id="no-fav-plugins" *ngIf="favPlugins.length === 0">
+    <div id="no-fav-plugins-heading">No favorite transformers</div>
+    <div id="no-fav-plugins-hint">Add a transformer to your favorites by clicking the star icon from the transformer page</div>
+  </div>
+</div>
+
+<div id="plugin-container">
+  <div id="plugins">
+    <app-plugin-item *ngFor="let plugin of plugins" [plugin]="plugin"></app-plugin-item>
+  </div>
+</div>

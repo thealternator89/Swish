@@ -2,7 +2,7 @@ import { NEWLINE_CHAR } from './lib/text-util';
 import { ProvidedPluginArgument } from './model';
 
 export = {
-    name: 'Deduplicate lines (content only)',
+    name: 'Deduplicate content',
     description:
         'Removes all duplicate lines, excluding surrounding whitespace and capitalization',
     id: 'dedup-lines-content',

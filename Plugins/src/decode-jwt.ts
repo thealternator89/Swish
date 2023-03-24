@@ -4,8 +4,8 @@ import { NEWLINE_CHAR, runPlugins } from './lib/text-util';
 const PLUGINS = ['base64-decode', 'prettify-json'];
 
 export = {
-    name: 'Decode JSON Web Token (JWT)',
-    description: 'Decodes a JWT and makes it human-readable',
+    name: 'Decode JWT',
+    description: 'Decodes a JSON Web Token (JWT) and makes it human-readable',
     id: 'decode-jwt',
     author: 'thealternator89',
     swishVersion: '1.0.0',
