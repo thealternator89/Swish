@@ -1,8 +1,12 @@
-import { Component, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
 import { LoadedPlugin } from 'src/models/LoadedPlugin';
 import { IpcService } from '../ipc.service';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { ResultSnackbarComponent } from './result-snackbar/result-snackbar.component';
 
 // Base editor options for both the input and output editors
 const BASE_EDITOR_OPTIONS = {
@@ -16,6 +20,7 @@ const BASE_EDITOR_OPTIONS = {
   minimap: {
     enabled: false,
   },
+  wordWrap: true,
 }
 
 @Component({
@@ -42,7 +47,12 @@ export class TransformerComponent {
   @ViewChild('outputEditor')
   outputEditor: NuMonacoEditorComponent;
 
-  constructor(private ipc: IpcService, route: ActivatedRoute) {
+  constructor(
+    private ipc: IpcService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    route: ActivatedRoute
+    ) {
     const id = route.snapshot.params['id'];
     this.ipc.getPlugin(id).then((plugin) => {
       this.plugin = plugin;
@@ -96,7 +106,25 @@ export class TransformerComponent {
       data: this.getText('input'),
     });
 
+    if (result.message) {
+      this.handlePluginMessage(result.message);
+    }
+
     this.setText('output', result.text);
+  }
+
+  private handlePluginMessage(message: {level: 'info'|'warn'|'error'|'success', text: string}) {
+    if (message.level === 'error') {
+      this.dialog.open(ErrorDialogComponent, {
+        data: message,
+      });
+    } else {
+      this.snackBar.openFromComponent(ResultSnackbarComponent, {
+        data: message,
+        panelClass: [`${message.level}-snackbar`],
+        duration: 5000,
+      });
+    }
   }
 
   private editorIsLocked(editor: 'input'|'output') {

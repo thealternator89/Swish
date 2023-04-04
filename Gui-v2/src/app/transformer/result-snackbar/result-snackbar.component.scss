@@ -1,0 +1,13 @@
+:host {
+    color: black;
+}
+
+.snackbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.snackbar-message{
+    margin-left: 10px;
+}

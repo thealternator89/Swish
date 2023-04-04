@@ -15,3 +15,20 @@ body {
 mat-dialog-container {
   overflow: hidden !important;
 }
+
+/* Styles for snackbar*/
+.error-snackbar {
+  background-color: rgb(236, 123, 123);
+}
+
+.warn-snackbar {
+  background-color: rgb(236, 204, 124);
+}
+
+.info-snackbar {
+  background-color: white;
+}
+
+.success-snackbar {
+  background-color: rgb(120, 234, 120);
+}

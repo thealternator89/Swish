@@ -35,18 +35,18 @@ export = {
 function getMessage(
     original: string,
     shortened: string
-): { text: string; status: 'warn' | 'info' } {
+): { text: string; level: 'warn' | 'info' } {
     if (shortened === original) {
         if (/^#?([0-9a-f]){3}$/i.test(original)) {
             return {
                 text: 'Hex is already short',
-                status: 'info',
+                level: 'info',
             };
         }
         if (/^#?([0-9a-f]){6}$/i.test(original)) {
             return {
                 text: `Hex couldn't be shortened`,
-                status: 'warn',
+                level: 'warn',
             };
         }
     }

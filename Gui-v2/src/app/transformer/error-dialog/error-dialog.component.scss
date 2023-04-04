@@ -1,0 +1,15 @@
+.dialog-body-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.dialog-body-content-text {
+    margin-left: 10px;
+}
+
+.dialog-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
