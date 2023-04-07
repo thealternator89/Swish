@@ -30,42 +30,13 @@ class BackgroundManager {
             return;
         }
 
-        this.originalSetTimeout = global.setTimeout;
-        this.originalSetInterval = global.setInterval;
-        this.originalClearTimeout = global.clearTimeout;
-        this.originalClearInterval = global.clearInterval;
-
         // Monkey patch global functions:
-
-        // setTimeout - to allow us to record the timeout and force it to be cleared when the plugin finishes
         this.patchSetTimeout();
-
-        // setInterval - to allow us to record the interval and force it to be cleared when the plugin finishes
         this.patchSetInterval();
-
-        // clearTimeout - to allow us to remove the timeout from the list of timeouts so we don't have to clear it later
         this.patchClearTimeout();
-
-        // clearInterval - to allow us to remove the interval from the list of intervals so we don't have to clear it later
         this.patchClearInterval();
 
         this.initialized = true;
-    }
-
-    /**
-     * Unpatched setTimeout
-     * This is useful for internal purposes, as this allows us to manage the timeouts and intervals ourselves, without having to worry about being cleared unexpectedly.
-     */
-    setTimeout(callback: (...args: any[]) => void, ms: number, ...args: any[]) {
-        return this.originalSetTimeout(callback, ms, ...args);
-    }
-
-    /**
-     * Unpatched setInterval
-     * This is useful for internal purposes, as this allows us to manage the timeouts and intervals ourselves, without having to worry about being cleared unexpectedly.
-     */
-    setInterval(callback: (...args: any[]) => void, ms: number, ...args: any[]) {
-        return this.originalSetInterval(callback, ms, ...args);
     }
 
     dispose(killRemaining?: boolean) {
@@ -90,6 +61,22 @@ class BackgroundManager {
         global.clearInterval = this.originalClearInterval;
 
         this.initialized = false;
+    }
+
+    /**
+     * Unpatched setTimeout
+     * This is useful for internal purposes, as this allows us to manage the timeouts and intervals ourselves, without having to worry about being cleared unexpectedly.
+     */
+    setTimeout(callback: (...args: any[]) => void, ms: number, ...args: any[]) {
+        return this.originalSetTimeout(callback, ms, ...args);
+    }
+
+    /**
+     * Unpatched setInterval
+     * This is useful for internal purposes, as this allows us to manage the timeouts and intervals ourselves, without having to worry about being cleared unexpectedly.
+     */
+    setInterval(callback: (...args: any[]) => void, ms: number, ...args: any[]) {
+        return this.originalSetInterval(callback, ms, ...args);
     }
 
     /**
@@ -130,6 +117,7 @@ class BackgroundManager {
      * Patch clearInterval to remove the interval from the list of intervals
      */
     private patchClearInterval() {
+        this.originalClearInterval = global.clearInterval;
         (global.clearInterval as any) = (id: NodeJS.Timeout) => {
             this.originalClearInterval(id);
             this.intervals = this.intervals.filter(x => x !== id);
@@ -140,6 +128,7 @@ class BackgroundManager {
      * Patch clearTimeout to remove the timeout from the list of timeouts
      */
     private patchClearTimeout() {
+        this.originalClearTimeout = global.clearTimeout;
         (global.clearTimeout as any) = (id: NodeJS.Timeout) => {
             this.originalClearTimeout(id);
             this.timeouts = this.timeouts.filter(x => x !== id);
@@ -150,6 +139,7 @@ class BackgroundManager {
      * Patch setInterval to record the interval so we can clear it later
      */
     private patchSetInterval() {
+        this.originalSetInterval = global.setInterval;
         (global.setInterval as any) = (callback: any, delay: number, ...args: any[]) => {
             const id = this.originalSetInterval(() => {
                 // We don't remove the interval from the list of intervals, since it's still active until clearInterval is called
@@ -164,6 +154,7 @@ class BackgroundManager {
      * Patch setTimeout to record the timeout so we can clear it later
      */
     private patchSetTimeout() {
+        this.originalSetTimeout = global.setTimeout;
         (global.setTimeout as any) = (callback: any, delay: number, ...args: any[]) => {
             const id = this.originalSetTimeout(() => {
                 // Remove the timeout from the list of timeouts after it has been called (since it's no longer active)
