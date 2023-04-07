@@ -23,6 +23,8 @@ import { FavPluginItemComponent } from './home/fav-plugin-item/fav-plugin-item.c
 import { TransformerComponent } from './transformer/transformer.component';
 import { ErrorDialogComponent } from './transformer/error-dialog/error-dialog.component';
 import { ResultSnackbarComponent } from './transformer/result-snackbar/result-snackbar.component';
+import { OutputMessageComponent } from './transformer/output-message/output-message.component';
+import { OutputPlaceholderComponent } from './transformer/output-placeholder/output-placeholder.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { ResultSnackbarComponent } from './transformer/result-snackbar/result-sn
     TransformerComponent,
     ErrorDialogComponent,
     ResultSnackbarComponent,
+    OutputMessageComponent,
+    OutputPlaceholderComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -10,14 +10,26 @@ export = {
     icon: 'check_circle',
     tags: ['json', 'validate', 'dev'],
     usableFrom: ['core', 'clip', 'gui'],
+    input: { syntax: 'json'},
     process: async (args: ProvidedPluginArgument) => {
-        JSON.parse(args.textContent);
+        try {
+            JSON.parse(args.textContent);
+        } catch (error) {
+            return {
+                message: {
+                    text: error.message,
+                    level: 'error',
+                },
+                render: 'message',
+            };
+        }
 
         return {
             message: {
                 text: 'JSON is valid',
                 level: 'success',
             },
+            render: 'message'
         };
     },
 };

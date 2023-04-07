@@ -50,6 +50,7 @@ class IPCHandler {
         tags: plugin.tags,
         icon: plugin.icon,
         systemPlugin: plugin.systemPlugin,
+        input: plugin.input
       }
     });
   }

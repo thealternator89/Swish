@@ -1,0 +1,43 @@
+:host {
+    user-select: none;
+}
+
+#container {
+    border: thin solid black;
+    border-radius: 10px;
+    padding: 15px;
+    height: calc(100% - 120px);
+}
+
+#container.success {
+    background-color: rgba(0, 255, 0, 0.2);
+    border-color: green;
+}
+
+#container.error {
+    background-color: rgba(255, 0, 0, 0.2);
+    border-color: red;
+}
+
+#container.warn {
+    background-color: rgba(255, 255, 0, 0.2);
+    border-color: orange;
+}
+
+#container.info {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: lightgray;
+}
+
+#icon {
+    text-align: center;
+}
+
+#icon .material-icons {
+    font-size: 50px;
+    text-align: center;
+}
+
+#message {
+    text-align: center;
+}

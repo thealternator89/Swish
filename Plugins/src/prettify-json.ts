@@ -9,6 +9,7 @@ export = {
     icon: 'expand',
     tags: ['json', 'prettify', 'beautify', 'format', 'dev'],
     usableFrom: ['core', 'clip', 'gui'],
+    input: {syntax: 'json'},
     process: async (args: ProvidedPluginArgument) => {
         const prettified = JSON.stringify(
             JSON.parse(args.textContent),
@@ -18,6 +19,8 @@ export = {
 
         return {
             text: prettified,
+            render: 'text',
+            syntax: 'json'
         };
     },
 };

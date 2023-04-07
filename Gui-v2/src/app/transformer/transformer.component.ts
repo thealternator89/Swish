@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -7,6 +7,7 @@ import { LoadedPlugin } from 'src/models/LoadedPlugin';
 import { IpcService } from '../ipc.service';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { ResultSnackbarComponent } from './result-snackbar/result-snackbar.component';
+import { OutputMessageComponent } from './output-message/output-message.component';
 
 // Base editor options for both the input and output editors
 const BASE_EDITOR_OPTIONS = {
@@ -35,6 +36,9 @@ export class TransformerComponent {
   autoRun = false;
   autoRunOnPaste = true;
 
+  outputType = 'none';
+  outputText = '';
+
   inputEditorOptions = BASE_EDITOR_OPTIONS;
   outputEditorOptions = {
     ...BASE_EDITOR_OPTIONS,
@@ -47,10 +51,14 @@ export class TransformerComponent {
   @ViewChild('outputEditor')
   outputEditor: NuMonacoEditorComponent;
 
+  @ViewChild('outputMessage')
+  outputMessage: OutputMessageComponent;
+
   constructor(
     private ipc: IpcService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
+    private changeDetector: ChangeDetectorRef,
     route: ActivatedRoute
     ) {
     const id = route.snapshot.params['id'];
@@ -87,15 +95,19 @@ export class TransformerComponent {
 
   inputShowEvent(e: Event) {
     if (e.type === 'init') {
-      let lastLength = 0;
-      this.inputEditor.registerOnChange((change) => {
-        if (change.length - lastLength > 1 && this.autoRunOnPaste) {
+      if (this.plugin?.input?.syntax) {
+        this.setLanguage('input', this.plugin.input.syntax);
+      }
+
+      if (this.autoRunOnPaste) {
+        this.getEditor('input').onDidPaste(() => {
           this.runPlugin();
-        } else if (this.autoRun) {
+        });
+      } else if (this.autoRun) {
+        this.inputEditor.registerOnChange(() => {
           this.runPlugin();
-        }
-        lastLength = change.length;
-      });
+        });
+      }
     }
   }
 
@@ -106,11 +118,39 @@ export class TransformerComponent {
       data: this.getText('input'),
     });
 
-    if (result.message) {
+    if (result.render === 'message') {
+      this.setOutputType('message');
+      this.outputMessage.setMessage(result.message);
+      return;
+    } else if (result.message) {
       this.handlePluginMessage(result.message);
     }
 
-    this.setText('output', result.text);
+    // If we had some message, but no text, don't show the empty output
+    if (!result.text && result.message) {
+      this.setOutputType('none');
+      return;
+    }
+
+    this.setOutputType('code');
+    this.outputText = result.text;
+    this.setLanguage('output', result.syntax);
+  }
+
+  private setLanguage(editor: 'input'|'output', language: string) {
+    const model = this.getModel(editor);
+    if (model) {
+      monaco.editor.setModelLanguage(model, language ?? 'plaintext');
+    }
+  }
+
+  /**
+   * Set the output type and force angular to detect changes
+   * @param type 'none'|'message'|'code'
+   */
+  private setOutputType(type: 'none'|'message'|'code') {
+    this.outputType = type;
+    this.changeDetector.detectChanges();
   }
 
   private handlePluginMessage(message: {level: 'info'|'warn'|'error'|'success', text: string}) {

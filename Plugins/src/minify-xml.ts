@@ -11,10 +11,15 @@ export = {
     icon: 'compress',
     tags: ['xml', 'minify'],
     usableFrom: ['core', 'clip', 'gui'],
+    input: { syntax: 'xml'},
     process: async (args: ProvidedPluginArgument) => {
-        return format(args.textContent, {
-            lineSeparator: '',
-            indentation: '',
-        });
+        return {
+            text: format(args.textContent, {
+                    lineSeparator: '',
+                    indentation: '',
+                }),
+            render: 'text',
+            syntax: 'xml',
+        }
     },
 };

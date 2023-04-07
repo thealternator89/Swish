@@ -9,9 +9,14 @@ export = {
     icon: 'widgets',
     tags: ['evaluate', 'javascript', 'execute', 'run'],
     usableFrom: ['core', 'clip', 'gui'],
+    input: { syntax: 'javascript'},
     process: async (args: ProvidedPluginArgument) => {
         const text = args.textContent;
         let js: string;
+
+        if (text.trim().length === 0) {
+            throw new Error('No input provided');
+        }
 
         if (text.indexOf('return') !== -1) {
             js = `(()=>{${text}})()`;

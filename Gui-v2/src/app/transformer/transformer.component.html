@@ -20,16 +20,20 @@
         (event)="inputShowEvent($event)"
       ></nu-monaco-editor>
       <div id="buttons">
-        <button mat-stroked-button color="primary" (click)="runPlugin()">Transform</button>
+        <button mat-stroked-button color="primary" (click)="runPlugin()"><span class="material-icons">bolt</span> Run</button>
       </div>
     </div>
     <div id="output">
       <h1>Output</h1>
+      <app-output-placeholder *ngIf="outputType === 'none'"></app-output-placeholder>
+      <app-output-message #outputMessage *ngIf="outputType === 'message'"></app-output-message>
       <nu-monaco-editor
         #outputEditor
         [options]="outputEditorOptions"
+        [(ngModel)]="outputText"
         height="450px"
         width="100%"
+        *ngIf="outputType === 'code'"
       ></nu-monaco-editor>
     </div>
   </div>

@@ -9,7 +9,12 @@ export = {
     icon: 'compress',
     tags: ['json', 'minify'],
     usableFrom: ['core', 'clip', 'gui'],
+    input: { syntax: 'json'},
     process: async (args: ProvidedPluginArgument) => {
-        return JSON.stringify(JSON.parse(args.textContent));
+        return {
+            text: JSON.stringify(JSON.parse(args.textContent)),
+            render: 'text',
+            syntax: 'json',
+        }
     },
 };

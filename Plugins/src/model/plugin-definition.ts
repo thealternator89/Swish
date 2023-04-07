@@ -16,4 +16,5 @@ export interface PluginDefinition {
     type?: 'standard' | 'aggregate';
     process: (args: ProvidedPluginArgument) => Promise<string | PluginResult>;
     plugins?: string[];
+    input?: {syntax?: string}
 }

@@ -11,7 +11,12 @@ export = {
     icon: 'expand',
     tags: ['xml', 'prettify', 'beautify', 'format', 'dev'],
     usableFrom: ['core', 'clip', 'gui'],
+    input: { syntax: 'xml'},
     process: async (args: ProvidedPluginArgument) => {
-        return format(args.textContent, { collapseContent: true });
+        return {
+            text: format(args.textContent, { collapseContent: true }),
+            render: 'text',
+            syntax: 'xml',
+        }
     },
 };

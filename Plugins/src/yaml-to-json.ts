@@ -10,9 +10,15 @@ export = {
     swishVersion: '1.0.0',
     tags: ['yaml', 'json', 'dev'],
     usableFrom: ['core', 'clip', 'gui'],
-    process: (args: ProvidedPluginArgument) => {
+    input: { syntax: 'yaml'},
+    process: async (args: ProvidedPluginArgument) => {
         const parsed = yaml.parse(args.textContent);
         const json = JSON.stringify(parsed);
-        return args.runPlugin('prettify-json', json);
+        const prettified =  await args.runPlugin('prettify-json', json);
+        return {
+            text: prettified,
+            render: 'text',
+            syntax: 'json',
+        };
     },
 };

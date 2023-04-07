@@ -22,6 +22,10 @@ export = [
     icon: 'attach_money',
     tags: ['shell', 'dev', source.toLowerCase(), target.toLowerCase()],
     usableFrom: ['core', 'clip', 'gui'],
-    process: async (args: ProvidedPluginArgument) =>
-        args.textContent.replace(inputRegex, replacement),
+    input: { syntax: source.toLowerCase() },
+    process: async (args: ProvidedPluginArgument) => ({
+        text: args.textContent.replace(inputRegex, replacement),
+        render: 'text',
+        syntax: target.toLowerCase(),
+    }),
 }));
