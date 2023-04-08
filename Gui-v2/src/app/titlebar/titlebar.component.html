@@ -12,18 +12,35 @@
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="reloadCustomPlugins();">
-        <span class="material-icons">sync</span>
-        <span>Reload custom plugins</span>
+        <div class="button-content">
+          <div class="button-icon">
+            <span class="material-icons">sync</span>
+          </div>
+          <div class="button-text">
+            <span>Reload custom plugins</span>
+          </div>
+        </div>
       </button>
-      <hr>
       <button mat-menu-item disabled>
-        <span class="material-icons">settings</span>
-        <span>Settings</span>
+        <div class="button-content">
+          <div class="button-icon">
+            <span class="material-icons">settings</span>
+          </div>
+          <div class="button-text">
+            <span>Settings</span>
+          </div>
+        </div>
       </button>
       <hr>
       <button mat-menu-item (click)="showAbout();">
-        <span class="material-icons">info</span>
-        <span>About</span>
+        <div class="button-content">
+          <div class="button-icon">
+            <span class="material-icons">info</span>
+          </div>
+          <div class="button-text">
+            <span>About {{title}}</span>
+          </div>
+        </div>
       </button>
     </mat-menu>
   </div>
