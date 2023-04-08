@@ -27,6 +27,10 @@ export class TitlebarComponent {
     this._router.navigateByUrl('/');
   }
 
+  showAbout(): void {
+    this._router.navigateByUrl('/about');
+  }
+
   async reloadCustomPlugins(): Promise<void> {
     await window['app'].reloadUserPlugins();
     this._notifier.pluginsWereReloaded();

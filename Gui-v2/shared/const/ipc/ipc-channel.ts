@@ -16,4 +16,7 @@ export const IPC_CHANNELS = {
   RELOAD_USER_PLUGINS: {
     REQ: 'reloadUserPlugins',
   },
+  GET_APP_VERSION: {
+    REQ: 'getAppVersion',
+  },
 };

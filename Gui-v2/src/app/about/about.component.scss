@@ -1,0 +1,50 @@
+#heading {
+    margin-top: 50px;
+    text-align: center;
+}
+
+#app-name {
+    font-size: 50px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+#app-version {
+    font-size: 12px;
+}
+
+#prerelease-warning {
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 10px;
+    text-align: center;
+    color: red;
+}
+
+#description {
+    margin-top: 30px;
+    text-align: center;
+}
+
+#swish-versions {
+    margin-top: 50px;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#deprecation-notice {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 12px;
+    font-style: italic;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 10px;
+}

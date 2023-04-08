@@ -2,7 +2,7 @@ import { ipcRenderer, contextBridge } from 'electron';
 import { configManager } from 'swish-base';
 
 contextBridge.exposeInMainWorld('app', {
-  search: async (terms: string) => {
+  search: (terms: string) => {
     return ipcRenderer.invoke('pluginSearch', terms);
   },
   runPlugin: (request: any) => {
@@ -14,7 +14,7 @@ contextBridge.exposeInMainWorld('app', {
       });
     });
   },
-  getPlugin: async (id: string) => {
+  getPlugin: (id: string) => {
     return ipcRenderer.invoke('getPlugin', id);
   },
   hideWindow: () => {
@@ -29,8 +29,11 @@ contextBridge.exposeInMainWorld('app', {
   registerMenuCommands: (callback) => {
     ipcRenderer.on('menuCommand', (_event, arg) => callback(arg));
   },
-  reloadUserPlugins: async () => {
+  reloadUserPlugins: () => {
     return ipcRenderer.invoke('reloadUserPlugins');
+  },
+  getAppVersion: () => {
+    return ipcRenderer.invoke('getAppVersion');
   },
   os: process.platform,
   config: configManager.config,

@@ -1,4 +1,4 @@
-import { PluginDefinition, PluginResult, pluginManager, LoadedPlugin } from 'swish-base';
+import { PluginResult, pluginManager, LoadedPlugin } from 'swish-base';
 import { ipcHandler } from './ipc-handler';
 
 class SwishBackend {
@@ -32,6 +32,10 @@ class SwishBackend {
 
   public async reloadUserPlugins(): Promise<void> {
     await pluginManager.reloadUserPlugins();
+  }
+
+  public getAppVersion(): string {
+    return require('../../../package.json').version;
   }
 }
 

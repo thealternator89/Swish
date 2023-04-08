@@ -49,4 +49,8 @@ export class IpcService {
   reloadUserPlugins(): Promise<void> {
     return window['app'].reloadUserPlugins();
   }
+
+  getAppVersion(): Promise<string> {
+    return window['app'].getAppVersion();
+  }
 }

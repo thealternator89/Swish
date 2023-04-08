@@ -25,6 +25,7 @@ import { ErrorDialogComponent } from './transformer/error-dialog/error-dialog.co
 import { ResultSnackbarComponent } from './transformer/result-snackbar/result-snackbar.component';
 import { OutputMessageComponent } from './transformer/output-message/output-message.component';
 import { OutputPlaceholderComponent } from './transformer/output-placeholder/output-placeholder.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { OutputPlaceholderComponent } from './transformer/output-placeholder/out
     ResultSnackbarComponent,
     OutputMessageComponent,
     OutputPlaceholderComponent,
+    AboutComponent,
   ],
   imports: [
     AppRoutingModule,

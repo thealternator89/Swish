@@ -3,7 +3,6 @@ import { BrowserWindow, ipcMain } from 'electron';
 import { PluginResult } from 'swish-base';
 
 import { swishBackend } from './swish-backend';
-import { IPCPluginResult } from './model/ipc/plugin';
 
 import { MenuCommand } from '../shared/const/ipc/menu-command';
 import { IPC_CHANNELS } from '../shared/const/ipc/ipc-channel';
@@ -16,6 +15,7 @@ class IPCHandler {
     this.registerSearch();
     this.registerGetPlugin();
     this.registerReloadUserPlugins();
+    this.registerGetAppVersion();
   }
 
   public setWindow(window: BrowserWindow) {
@@ -79,6 +79,12 @@ class IPCHandler {
   public registerReloadUserPlugins() {
     ipcMain.handle(IPC_CHANNELS.RELOAD_USER_PLUGINS.REQ, () => {
       return swishBackend.reloadUserPlugins();
+    });
+  }
+
+  public registerGetAppVersion() {
+    ipcMain.handle(IPC_CHANNELS.GET_APP_VERSION.REQ, () => {
+      return swishBackend.getAppVersion();
     });
   }
 
