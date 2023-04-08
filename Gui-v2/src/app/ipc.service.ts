@@ -11,6 +11,8 @@ import { PluginDefinition, PluginResult } from 'swish-base';
   providedIn: 'root',
 })
 export class IpcService {
+  platform = window['app'].os;
+  
   registerMenuCommands(): Observable<string> {
     return new Observable((observer) => {
       window['app'].registerMenuCommands((data) => observer.next(data));

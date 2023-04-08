@@ -27,9 +27,27 @@ button:hover {
   margin-left: 10px;
 }
 
+/** 
+  Mac specific styles
+  Space for the traffic lights
+*/
 #titleBarContent.mac {
   margin-left: 70px;
 }
+
+/**
+  Windows specific styles
+  Space for the window controls
+*/
+#titleBarContent.win {
+  margin-left: 0px;
+  margin-right: 120px; // Initial margin TODO: set to the correct value
+}
+
+/**
+  No linux specific styles
+  Window will have a separate title bar so no need to add space
+*/
 
 .spacer {
   flex: 1 1 auto;

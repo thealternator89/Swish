@@ -2,7 +2,7 @@
   <div id="titlebarTitle">
     {{title}}
   </div>
-  <div id="titleBarContent" class="mac">
+  <div id="titleBarContent" [class]="getPlatformClass()">
     <button mat-icon-button aria-label="Go Back" *ngIf="showHomeButton()" (click)="goHome();">
       <span class="material-icons">home</span>
     </button>

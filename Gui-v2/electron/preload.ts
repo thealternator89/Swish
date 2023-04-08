@@ -32,5 +32,6 @@ contextBridge.exposeInMainWorld('app', {
   reloadUserPlugins: async () => {
     return ipcRenderer.invoke('reloadUserPlugins');
   },
+  os: process.platform,
   config: configManager.config,
 });

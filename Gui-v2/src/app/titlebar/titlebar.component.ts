@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotifierService } from '../notifier.service';
+import { IpcService } from '../ipc.service';
 
 @Component({
   selector: 'app-titlebar',
@@ -10,8 +11,11 @@ import { NotifierService } from '../notifier.service';
 export class TitlebarComponent {
 
   title = 'Swish';
+  platform: string;
 
-  constructor(private _router: Router, private _notifier: NotifierService) { }
+  constructor(private _router: Router, private _notifier: NotifierService, ipc: IpcService) {
+    this.platform = ipc.platform;
+  }
 
   // Show the back button if the current URL is not the same as the referrer
   showHomeButton = () => new URL(document.URL).pathname !== '/';
@@ -26,6 +30,14 @@ export class TitlebarComponent {
   async reloadCustomPlugins(): Promise<void> {
     await window['app'].reloadUserPlugins();
     this._notifier.pluginsWereReloaded();
+  }
+
+  getPlatformClass(): string {
+    switch (this.platform) {
+      case 'win32': return 'win';
+      case 'darwin': return 'mac';
+      default: return 'linux';
+    }
   }
 
 }
