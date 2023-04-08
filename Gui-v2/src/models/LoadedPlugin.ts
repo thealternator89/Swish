@@ -6,4 +6,7 @@ export type LoadedPlugin = {
   tags: string[];
   icon: string;
   systemPlugin: boolean;
+  input: {
+    syntax: string;
+  };
 };

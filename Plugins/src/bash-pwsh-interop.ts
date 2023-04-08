@@ -6,14 +6,18 @@ export = [
         target: 'PowerShell',
         inputRegex: /(\\\n)/g,
         replacement: '`\n',
+        sourceSyntax: 'shell',
+        targetSyntax: 'powershell',
     },
     {
         source: 'PowerShell',
         target: 'Bash',
         inputRegex: /(`\n)/g,
         replacement: '\\\n',
+        sourceSyntax: 'powershell',
+        targetSyntax: 'shell',
     },
-].map(({ source, target, inputRegex, replacement }) => ({
+].map(({ source, target, inputRegex, replacement, sourceSyntax, targetSyntax }) => ({
     name: `${source} to ${target}`,
     description: `Make a ${source} command work in ${target}`,
     id: `${source}-to-${target}`.toLowerCase(),
@@ -22,10 +26,10 @@ export = [
     icon: 'attach_money',
     tags: ['shell', 'dev', source.toLowerCase(), target.toLowerCase()],
     usableFrom: ['core', 'clip', 'gui'],
-    input: { syntax: source.toLowerCase() },
+    input: { syntax: sourceSyntax },
     process: async (args: ProvidedPluginArgument) => ({
         text: args.textContent.replace(inputRegex, replacement),
         render: 'text',
-        syntax: target.toLowerCase(),
+        syntax: targetSyntax,
     }),
 }));

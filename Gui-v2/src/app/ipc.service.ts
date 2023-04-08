@@ -43,4 +43,8 @@ export class IpcService {
   runPlugin(runPluginRequest: RunPluginRequest): Promise<PluginResult> {
     return window['app'].runPlugin(runPluginRequest);
   }
+
+  reloadUserPlugins(): Promise<void> {
+    return window['app'].reloadUserPlugins();
+  }
 }

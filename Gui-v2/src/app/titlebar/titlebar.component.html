@@ -1,16 +1,17 @@
 <div class="titleBar" role="banner">
+  <div id="titlebarTitle">
+    {{title}}
+  </div>
   <div id="titleBarContent" class="mac">
     <button mat-icon-button aria-label="Go Back" *ngIf="showHomeButton()" (click)="goHome();">
       <span class="material-icons">home</span>
     </button>
-    <div id="titleBarTitle">
-      {{title}}
-    </div>
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+    <div class="spacer"></div>
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu" *ngIf="showSettingsButton()">
       <span class="material-icons">more_vert</span>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
+      <button mat-menu-item (click)="reloadCustomPlugins();">
         <span class="material-icons">sync</span>
         <span>Reload custom plugins</span>
       </button>

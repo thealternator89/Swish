@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { PluginDefinition } from 'swish-base';
 import { IpcService } from '../ipc.service';
+import { NotifierService } from '../notifier.service';
 
 @Component({
   selector: 'app-home',
@@ -13,10 +14,22 @@ export class HomeComponent {
 
   favPlugins: PluginDefinition[] = [];
 
-  constructor(private ipc: IpcService) {
+  @ViewChild('search')
+  search: any; // TODO: type this
+
+  constructor(private ipc: IpcService, private notifier: NotifierService) {
     this.ipc.searchPlugins('').then((results: PluginDefinition[]) => {
       this.plugins = results;
-      this.favPlugins = results.slice(0, 5);
+
+      // Temporarily display 5 random plugins as favorites until we support UI and storage of favorites
+      const temp = JSON.parse(JSON.stringify(results));
+      this.favPlugins = temp.sort(() => Math.random() - 0.5).slice(0, 5);
+    });
+
+    this.notifier.onPluginsReloaded().subscribe(() => {
+      this.ipc.searchPlugins(this.search.value).then((results: PluginDefinition[]) => {
+        this.plugins = results;
+      });
     });
   }
 

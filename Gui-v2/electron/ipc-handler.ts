@@ -15,6 +15,7 @@ class IPCHandler {
     this.registerRunPlugin();
     this.registerSearch();
     this.registerGetPlugin();
+    this.registerReloadUserPlugins();
   }
 
   public setWindow(window: BrowserWindow) {
@@ -72,6 +73,12 @@ class IPCHandler {
       }
 
       this.safeSend(IPC_CHANNELS.RUN_PLUGIN.RES, response);
+    });
+  }
+
+  public registerReloadUserPlugins() {
+    ipcMain.handle(IPC_CHANNELS.RELOAD_USER_PLUGINS.REQ, () => {
+      return swishBackend.reloadUserPlugins();
     });
   }
 

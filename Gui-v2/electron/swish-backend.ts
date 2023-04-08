@@ -29,6 +29,10 @@ class SwishBackend {
   public getPlugin(id: string): LoadedPlugin {
     return pluginManager.getPluginById(id);
   }
+
+  public async reloadUserPlugins(): Promise<void> {
+    await pluginManager.reloadUserPlugins();
+  }
 }
 
 export const swishBackend = new SwishBackend();

@@ -29,5 +29,8 @@ contextBridge.exposeInMainWorld('app', {
   registerMenuCommands: (callback) => {
     ipcRenderer.on('menuCommand', (_event, arg) => callback(arg));
   },
+  reloadUserPlugins: async () => {
+    return ipcRenderer.invoke('reloadUserPlugins');
+  },
   config: configManager.config,
 });
