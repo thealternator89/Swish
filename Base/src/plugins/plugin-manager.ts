@@ -292,7 +292,7 @@ class PluginManager {
         id: string,
         args: string | PluginArgument,
         type: 'system' | 'user' | 'default' = 'system'
-    ): Promise<string> {
+    ): Promise<PluginResult> {
         let anyArgs;
 
         if (typeof args === 'string') {
@@ -314,14 +314,14 @@ class PluginManager {
         const result = await this.runPlugin(id, unifiedArgs, type);
 
         if (typeof result === 'string') {
-            return result;
+            return {text: result};
         }
 
         if (!result) {
-            return '';
+            return {};
         }
 
-        return result.text;
+        return result;
     }
 
     private rebuildUserSelectablePlugins(): void {

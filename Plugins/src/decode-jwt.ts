@@ -1,4 +1,4 @@
-import { ProvidedPluginArgument } from './model';
+import { PluginResult, ProvidedPluginArgument } from './model';
 import { NEWLINE_CHAR, runPlugins } from './lib/text-util';
 
 const PLUGINS = ['base64-decode', 'prettify-json'];
@@ -21,8 +21,11 @@ export = {
             );
         }
 
-        const header = await base64DecodeJson(headerB64, args.runPlugin);
-        const payload = await base64DecodeJson(payloadB64, args.runPlugin);
+        const {text: header} = await args.runPlugin('base64-decode-json', headerB64);
+        const {text: payload} = await args.runPlugin('base64-decode-json', payloadB64);
+
+        //const header = await base64DecodeJson(headerB64, args.runPlugin);
+        //const payload = await base64DecodeJson(payloadB64, args.runPlugin);
 
         return [
             'HEADER:',
@@ -37,11 +40,12 @@ export = {
     },
 };
 
-function base64DecodeJson(
+async function base64DecodeJson(
     data: string,
-    runPluginFunc: (pluginId: string, args: string) => Promise<string>
+    runPluginFunc: (pluginId: string, args: string) => Promise<PluginResult>
 ): Promise<string> {
-    return runPlugins(data, PLUGINS, runPluginFunc);
+    const {text} = await runPlugins(data, PLUGINS, runPluginFunc);
+    return text;
 }
 
 function indentLines(text: string, spaces: number): string {

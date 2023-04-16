@@ -1,3 +1,5 @@
+import { PluginResult } from "../model";
+
 export const NEWLINE_CHAR = '\n';
 
 /**
@@ -10,12 +12,12 @@ export const NEWLINE_CHAR = '\n';
 export async function runPlugins(
     input: string,
     plugins: string[],
-    runPluginFunc: (pluginId: string, args: string) => Promise<string>
+    runPluginFunc: (pluginId: string, args: string) => Promise<PluginResult>
 ) {
-    let value = input;
+    let value: PluginResult = {text: input};
 
     for (const plugin of plugins) {
-        value = await runPluginFunc(plugin, value);
+        value = await runPluginFunc(plugin, value.text);
     }
 
     return value;

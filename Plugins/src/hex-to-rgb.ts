@@ -10,7 +10,7 @@ export = {
     tags: ['hex', 'rgb', 'color', 'web', 'css'],
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
-        const genericHex = await args.runPlugin(
+        const {text: genericHex} = await args.runPlugin(
             'lengthen-hex',
             args.textContent
         );

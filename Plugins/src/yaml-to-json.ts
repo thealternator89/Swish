@@ -14,11 +14,6 @@ export = {
     process: async (args: ProvidedPluginArgument) => {
         const parsed = yaml.parse(args.textContent);
         const json = JSON.stringify(parsed);
-        const prettified =  await args.runPlugin('prettify-json', json);
-        return {
-            text: prettified,
-            render: 'text',
-            syntax: 'json',
-        };
+        return args.runPlugin('prettify-json', json);
     },
 };

@@ -1,3 +1,5 @@
+import { PluginResult } from "swish-plugins/dist/model";
+
 export function identifyLineEndingChar(text: string): '\r\n' | '\r' | '\n' {
     const lineEndings = [
         { char: '\r\n', freq: (text.match(/\r\n/g) ?? []).length },
@@ -26,9 +28,9 @@ export async function runPlugins(
         pluginId: string,
         args: string,
         type?: string
-    ) => Promise<string>
-): Promise<string> {
-    let currentValue = input;
+    ) => Promise<PluginResult>
+): Promise<PluginResult> {
+    let currentValue: PluginResult = {text: input};
 
     for (const plugin of plugins) {
         const [pluginType, pluginId] = plugin.split(':');
@@ -36,11 +38,11 @@ export async function runPlugins(
         if (pluginType === 'user' || pluginType === 'system') {
             currentValue = await runPluginFunc(
                 pluginId,
-                currentValue,
+                currentValue.text,
                 pluginType
             );
         } else {
-            currentValue = await runPluginFunc(plugin, currentValue);
+            currentValue = await runPluginFunc(plugin, currentValue.text);
         }
     }
 
