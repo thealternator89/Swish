@@ -24,9 +24,6 @@ export = {
         const {text: header} = await args.runPlugin('base64-decode-json', headerB64);
         const {text: payload} = await args.runPlugin('base64-decode-json', payloadB64);
 
-        //const header = await base64DecodeJson(headerB64, args.runPlugin);
-        //const payload = await base64DecodeJson(payloadB64, args.runPlugin);
-
         return [
             'HEADER:',
             indentLines(header, 4),
@@ -39,14 +36,6 @@ export = {
         ].join(NEWLINE_CHAR);
     },
 };
-
-async function base64DecodeJson(
-    data: string,
-    runPluginFunc: (pluginId: string, args: string) => Promise<PluginResult>
-): Promise<string> {
-    const {text} = await runPlugins(data, PLUGINS, runPluginFunc);
-    return text;
-}
 
 function indentLines(text: string, spaces: number): string {
     return text
