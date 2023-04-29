@@ -4,6 +4,10 @@
  * This is useful for plugins that need to run code in the background, but we want to make sure they don't continue to run after they return.
  */
 
+function pluralize(word: string, count: number): string {
+    return count === 1 ? word : word + 's';
+}
+
 class BackgroundManager {
     private originalSetTimeout: ((callback: (...args: any[]) => void, ms: number, ...args: any[]) => NodeJS.Timeout) & typeof setTimeout;
     private originalSetInterval: ((callback: (...args: any[]) => void, ms: number, ...args: any[]) => NodeJS.Timeout) & {
@@ -89,28 +93,35 @@ class BackgroundManager {
             return;
         }
 
-        const activeTimeouts = this.timeouts.length;
-        const activeIntervals = this.intervals.length;
+        const killedIntervals = this.killActiveIntervals();
+        const killedTimeouts = this.killActiveTimeouts();
 
-        if (!activeTimeouts && !activeIntervals){
-            return;
+        if (killedIntervals > 0 || killedTimeouts > 0){
+            console.warn('Timeouts and/or intervals were left over after a plugin finished executing and have been killed.')
+            console.warn('This is a sign that a plugin is not properly cleaning up after itself. Please report this to the plugin author.');
         }
-
-        console.warn(`Killing ${this.timeouts.length} remaining timeouts and ${this.intervals.length} intervals.`);
-        console.warn('This is a sign that a plugin is not properly cleaning up after itself. Please report this to the plugin author.');
-
-        this.killActiveIntervals();
-        this.killActiveTimeouts();
     }
 
-    killActiveIntervals() {
+    killActiveIntervals(): number {
+        const numIntervals = this.intervals.length;
         this.intervals.forEach(x => this.originalClearInterval(x));
         this.intervals = [];
+        if (numIntervals > 0){
+            console.warn(`Killed ${numIntervals} ${pluralize('interval', numIntervals)}.`);
+        }
+
+        return numIntervals;
     }
 
-    killActiveTimeouts() {
+    killActiveTimeouts(): number {
+        const numTimeouts = this.timeouts.length;
         this.timeouts.forEach(x => this.originalClearTimeout(x));
         this.timeouts = [];
+        if (numTimeouts > 0){
+            console.warn(`Killed ${numTimeouts} ${pluralize('timeout', numTimeouts)}.`);
+        }
+        
+        return numTimeouts;
     }
 
     /**
