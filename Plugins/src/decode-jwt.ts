@@ -1,7 +1,7 @@
-import { PluginResult, ProvidedPluginArgument } from './model';
-import { NEWLINE_CHAR, runPlugins } from './lib/text-util';
+import { ProvidedPluginArgument } from './model';
+import { NEWLINE_CHAR } from './lib/text-util';
 
-const PLUGINS = ['base64-decode', 'prettify-json'];
+const CODE_BLOCK = '```';
 
 export = {
     name: 'Decode JWT',
@@ -24,16 +24,14 @@ export = {
         const {text: header} = await args.runPlugin('base64-decode-json', headerB64);
         const {text: payload} = await args.runPlugin('base64-decode-json', payloadB64);
 
-        return [
-            'HEADER:',
-            indentLines(header, 4),
-            ,
-            'PAYLOAD:',
-            indentLines(payload, 4),
-            ,
-            'SIGNATURE:',
-            indentLines(signature, 4),
-        ].join(NEWLINE_CHAR);
+        const text = buildText(header, payload, signature);
+        const markdown = buildMarkdown(header, payload, signature);
+
+        return {
+            text,
+            markdown,
+            render: 'markdown',
+        }
     },
 };
 
@@ -43,3 +41,36 @@ function indentLines(text: string, spaces: number): string {
         .map((line) => new Array(spaces + 1).join(' ') + line)
         .join(NEWLINE_CHAR);
 }
+
+function buildText (header, payload, signature) {
+    return [
+        'HEADER:',
+        indentLines(header, 4),
+        ,
+        'PAYLOAD:',
+        indentLines(payload, 4),
+        ,
+        'SIGNATURE:',
+        indentLines(signature, 4),
+    ].join(NEWLINE_CHAR)
+}
+
+function buildMarkdown (header, payload, signature) {
+    return [
+        '**Header:**',
+        ...(buildMarkdownCodeBlock(header, 'json')),
+        '**Payload:**',
+        ...(buildMarkdownCodeBlock(payload, 'json')),
+        '**Signature:**',
+        ...(buildMarkdownCodeBlock(signature, 'text')),
+    ].join(NEWLINE_CHAR);
+}
+
+function buildMarkdownCodeBlock (text, lang) {
+    return [
+        CODE_BLOCK + lang,
+        text,
+        CODE_BLOCK,
+    ];
+}
+

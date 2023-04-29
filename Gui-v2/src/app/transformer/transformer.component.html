@@ -27,14 +27,7 @@
       <h1>Output</h1>
       <app-output-placeholder *ngIf="outputType === 'none'"></app-output-placeholder>
       <app-output-message #outputMessage *ngIf="outputType === 'message'"></app-output-message>
-      <nu-monaco-editor
-        #outputEditor
-        [options]="outputEditorOptions"
-        [(ngModel)]="outputText"
-        height="450px"
-        width="100%"
-        *ngIf="outputType === 'code'"
-      ></nu-monaco-editor>
+      <app-output-markdown #outputMarkdown [outputText]="outputText" *ngIf="outputType === 'markdown'"></app-output-markdown>
     </div>
   </div>
 </div>

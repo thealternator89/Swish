@@ -26,6 +26,8 @@ import { ResultSnackbarComponent } from './transformer/result-snackbar/result-sn
 import { OutputMessageComponent } from './transformer/output-message/output-message.component';
 import { OutputPlaceholderComponent } from './transformer/output-placeholder/output-placeholder.component';
 import { AboutComponent } from './about/about.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { OutputMarkdownComponent } from './transformer/output-markdown/output-markdown.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { AboutComponent } from './about/about.component';
     OutputMessageComponent,
     OutputPlaceholderComponent,
     AboutComponent,
+    OutputMarkdownComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -57,6 +60,7 @@ import { AboutComponent } from './about/about.component';
     NuMonacoEditorModule.forRoot({
       baseUrl: `lib`,
     }),
+    MarkdownModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

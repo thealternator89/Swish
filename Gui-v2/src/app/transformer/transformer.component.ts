@@ -48,9 +48,6 @@ export class TransformerComponent {
   @ViewChild('inputEditor')
   inputEditor: NuMonacoEditorComponent;
 
-  @ViewChild('outputEditor')
-  outputEditor: NuMonacoEditorComponent;
-
   @ViewChild('outputMessage')
   outputMessage: OutputMessageComponent;
 
@@ -71,11 +68,11 @@ export class TransformerComponent {
     return this.plugin?.icon ?? 'extension';
   }
 
-  getText(editor: 'input'|'output') {
+  getText(editor: 'input') {
     return this.getModel(editor).getValue();
   }
 
-  setText(editor: 'input'|'output', newContent: string) {
+  setText(editor: 'input', newContent: string) {
     const waslocked = this.editorIsLocked(editor);
     this.unlockEditor(editor);
 
@@ -132,12 +129,11 @@ export class TransformerComponent {
       return;
     }
 
-    this.setOutputType('code');
-    this.outputText = result.text;
-    this.setLanguage('output', result.syntax);
+    this.setOutputType('markdown');
+    this.outputText = (result as any).markdown ?? result.text;
   }
 
-  private setLanguage(editor: 'input'|'output', language: string) {
+  private setLanguage(editor: 'input', language: string) {
     const model = this.getModel(editor);
     if (model) {
       monaco.editor.setModelLanguage(model, language ?? 'plaintext');
@@ -148,7 +144,7 @@ export class TransformerComponent {
    * Set the output type and force angular to detect changes
    * @param type 'none'|'message'|'code'
    */
-  private setOutputType(type: 'none'|'message'|'code') {
+  private setOutputType(type: 'none'|'message'|'code'|'markdown') {
     this.outputType = type;
     this.changeDetector.detectChanges();
   }
@@ -167,15 +163,15 @@ export class TransformerComponent {
     }
   }
 
-  private editorIsLocked(editor: 'input'|'output') {
+  private editorIsLocked(editor: 'input') {
     return this.getEditor(editor).getOption(monaco.editor.EditorOption.readOnly);
   }
 
-  private lockEditor(editor: 'input'|'output') {
+  private lockEditor(editor: 'input') {
     this.getEditor(editor).updateOptions({ readOnly: true });
   }
 
-  private unlockEditor(editor: 'input'|'output') {
+  private unlockEditor(editor: 'input') {
     this.getEditor(editor).updateOptions({ readOnly: false });
   }
 
@@ -205,14 +201,13 @@ export class TransformerComponent {
     }
   }
 
-  private getEditor(editor: 'input'|'output'): monaco.editor.IStandaloneCodeEditor {
+  private getEditor(editor: 'input'): monaco.editor.IStandaloneCodeEditor {
     switch (editor) {
       case 'input': return this.inputEditor.editor;
-      case 'output': return this.outputEditor.editor;
     }
   }
 
-  private getModel(editor: 'input'|'output'): monaco.editor.ITextModel {
+  private getModel(editor: 'input'): monaco.editor.ITextModel {
     return this.getEditor(editor).getModel()!;
   }
 }
