@@ -12,7 +12,7 @@ import { PluginDefinition, PluginResult } from 'swish-base';
 })
 export class IpcService {
   platform = window['app'].os;
-  
+
   registerMenuCommands(): Observable<string> {
     return new Observable((observer) => {
       window['app'].registerMenuCommands((data) => observer.next(data));
@@ -52,5 +52,9 @@ export class IpcService {
 
   getAppVersion(): Promise<string> {
     return window['app'].getAppVersion();
+  }
+
+  getLogs(): Promise<any> {
+    return window['app'].getLogs();
   }
 }

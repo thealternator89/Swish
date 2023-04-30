@@ -4,8 +4,10 @@
  * This is useful for plugins that need to run code in the background, but we want to make sure they don't continue to run after they return.
  */
 
-function pluralize(word: string, count: number): string {
-    return count === 1 ? word : word + 's';
+import { logManager } from "./log-manager";
+
+function writeCount(word: string, count: number): string {
+    return `${count} ${count === 1 ? word : word + 's'}`;
 }
 
 class BackgroundManager {
@@ -97,8 +99,7 @@ class BackgroundManager {
         const killedTimeouts = this.killActiveTimeouts();
 
         if (killedIntervals > 0 || killedTimeouts > 0){
-            console.warn('Timeouts and/or intervals were left over after a plugin finished executing and have been killed.')
-            console.warn('This is a sign that a plugin is not properly cleaning up after itself. Please report this to the plugin author.');
+            logManager.writeWarning(`${writeCount('interval', killedIntervals)} and ${writeCount('timeout', killedTimeouts)} were left over after a plugin finished executing and have been killed.`)
         }
     }
 
@@ -107,7 +108,7 @@ class BackgroundManager {
         this.intervals.forEach(x => this.originalClearInterval(x));
         this.intervals = [];
         if (numIntervals > 0){
-            console.warn(`Killed ${numIntervals} ${pluralize('interval', numIntervals)}.`);
+            console.warn(`Killed ${writeCount('interval', numIntervals)}.`);
         }
 
         return numIntervals;
@@ -118,7 +119,7 @@ class BackgroundManager {
         this.timeouts.forEach(x => this.originalClearTimeout(x));
         this.timeouts = [];
         if (numTimeouts > 0){
-            console.warn(`Killed ${numTimeouts} ${pluralize('timeout', numTimeouts)}.`);
+            console.warn(`Killed ${writeCount('timeout', numTimeouts)}.`);
         }
         
         return numTimeouts;

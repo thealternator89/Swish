@@ -1,5 +1,6 @@
 import { PluginDefinition } from 'swish-plugins/dist/model';
 import { runPlugins } from '../util/text-utils';
+import { logManager } from '../util/log-manager';
 
 export function loadCjsPlugin(
     filename: string,
@@ -47,7 +48,7 @@ function safeRequire(path: string): PluginDefinition[] {
             return [module];
         }
     } catch (err) {
-        console.error(`Error loading plugin at ${path}: ${err.message}`);
+        logManager.writeError(`Error loading plugin at ${path}: ${err.message}`);
         return new Array(0);
     }
 }
@@ -80,7 +81,7 @@ function validatePlugin(plugin: any, path: string): boolean {
 
     if (errors.length) {
         const identifier = plugin.id ?? plugin.name;
-        console.error(
+        logManager.writeError(
             `Plugin ${identifier} (${path}) has validation errors:\n\t- ${errors.join(
                 '\n\t- '
             )}`

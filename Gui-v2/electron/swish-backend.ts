@@ -1,5 +1,6 @@
-import { PluginResult, pluginManager, LoadedPlugin } from 'swish-base';
+import { PluginResult, pluginManager, logManager, LoadedPlugin } from 'swish-base';
 import { ipcHandler } from './ipc-handler';
+import { LogMessage } from '../shared/models/log-message';
 
 class SwishBackend {
   constructor() {
@@ -36,6 +37,10 @@ class SwishBackend {
 
   public getAppVersion(): string {
     return require('../../../package.json').version;
+  }
+
+  public getLogs(): LogMessage[] {
+    return logManager.getLogs();
   }
 }
 

@@ -1,0 +1,11 @@
+<div id="header">
+  Swish Application Logs
+</div>
+
+<div id="no-log-message" *ngIf="logs.length == 0">
+  No logs to display.
+</div>
+
+<div id="log-wrapper">
+  <app-logitem [data]="log" *ngFor="let log of logs"></app-logitem>
+</div>

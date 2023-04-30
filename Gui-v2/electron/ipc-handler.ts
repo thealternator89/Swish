@@ -11,11 +11,14 @@ class IPCHandler {
   private win: BrowserWindow;
 
   constructor() {
+    // TODO this is getting long (and it's easy to miss).
+    // Figure out a way to just do this automatically.
     this.registerRunPlugin();
     this.registerSearch();
     this.registerGetPlugin();
     this.registerReloadUserPlugins();
     this.registerGetAppVersion();
+    this.registerGetLogs();
   }
 
   public setWindow(window: BrowserWindow) {
@@ -85,6 +88,12 @@ class IPCHandler {
   public registerGetAppVersion() {
     ipcMain.handle(IPC_CHANNELS.GET_APP_VERSION.REQ, () => {
       return swishBackend.getAppVersion();
+    });
+  }
+
+  public registerGetLogs() {
+    ipcMain.handle(IPC_CHANNELS.GET_LOGS.REQ, () => {
+      return swishBackend.getLogs();
     });
   }
 

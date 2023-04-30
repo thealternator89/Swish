@@ -1,0 +1,23 @@
+#header {
+    padding: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#log-wrapper {
+  max-height: calc(100% - 86px);
+  overflow-y: auto;
+}
+
+#no-log-message {
+  text-align: center;
+  font-style: italic;
+  padding: 10px;
+  border: thin dashed black;
+  border-radius: 5px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+}

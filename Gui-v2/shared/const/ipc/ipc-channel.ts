@@ -19,4 +19,7 @@ export const IPC_CHANNELS = {
   GET_APP_VERSION: {
     REQ: 'getAppVersion',
   },
+  GET_LOGS: {
+    REQ: 'getLogs',
+  }
 };

@@ -28,6 +28,8 @@ import { OutputPlaceholderComponent } from './transformer/output-placeholder/out
 import { AboutComponent } from './about/about.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { OutputMarkdownComponent } from './transformer/output-markdown/output-markdown.component';
+import { LogviewComponent } from './logview/logview.component';
+import { LogitemComponent } from './logview/logitem/logitem.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { OutputMarkdownComponent } from './transformer/output-markdown/output-ma
     OutputPlaceholderComponent,
     AboutComponent,
     OutputMarkdownComponent,
+    LogviewComponent,
+    LogitemComponent,
   ],
   imports: [
     AppRoutingModule,

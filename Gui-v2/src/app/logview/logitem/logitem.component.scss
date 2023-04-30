@@ -1,0 +1,29 @@
+#wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px;
+  border-bottom: thin solid black;
+}
+
+#wrapper.warn {
+  background-color: #f0ad4e;
+}
+
+#wrapper.error {
+  background-color: #d9534f;
+}
+
+#level {
+  padding: 5px;
+}
+
+#time {
+  width: 150px;
+  padding-left: 5px;
+}
+
+#message {
+  padding-left: 5px;
+  white-space: break-spaces;
+}

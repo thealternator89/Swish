@@ -8,7 +8,7 @@ contextBridge.exposeInMainWorld('app', {
   runPlugin: (request: any) => {
     ipcRenderer.send('runPlugin', request);
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       ipcRenderer.once('pluginResult', (_event, arg: any) => {
         resolve(arg);
       });
@@ -34,6 +34,9 @@ contextBridge.exposeInMainWorld('app', {
   },
   getAppVersion: () => {
     return ipcRenderer.invoke('getAppVersion');
+  },
+  getLogs: () => {
+    return ipcRenderer.invoke('getLogs');
   },
   os: process.platform,
   config: configManager.config,
