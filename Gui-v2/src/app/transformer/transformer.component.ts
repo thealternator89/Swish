@@ -131,6 +131,7 @@ export class TransformerComponent {
 
     this.setOutputType('markdown');
     this.outputText = (result as any).markdown ?? result.text;
+    this.changeDetector.detectChanges();
   }
 
   private setLanguage(editor: 'input', language: string) {
