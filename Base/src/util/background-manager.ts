@@ -4,7 +4,9 @@
  * This is useful for plugins that need to run code in the background, but we want to make sure they don't continue to run after they return.
  */
 
-import { logManager } from "./log-manager";
+import { Logger } from "./log-manager";
+
+const logger = new Logger('background-manager');
 
 function writeCount(word: string, count: number): string {
     return `${count} ${count === 1 ? word : word + 's'}`;
@@ -99,7 +101,7 @@ class BackgroundManager {
         const killedTimeouts = this.killActiveTimeouts();
 
         if (killedIntervals > 0 || killedTimeouts > 0){
-            logManager.writeWarning(`${writeCount('interval', killedIntervals)} and ${writeCount('timeout', killedTimeouts)} were left over after a plugin finished executing and have been killed.`)
+            logger.writeWarning(`${writeCount('interval', killedIntervals)} and ${writeCount('timeout', killedTimeouts)} were left over after a plugin finished executing and have been killed.`)
         }
     }
 

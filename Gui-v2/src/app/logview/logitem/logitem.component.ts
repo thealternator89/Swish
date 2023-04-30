@@ -5,6 +5,7 @@ interface LogItem {
   level: string;
   message: string;
   time: string;
+  source: string;
 }
 
 @Component({

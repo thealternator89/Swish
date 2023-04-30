@@ -14,6 +14,7 @@ import { backgroundManager } from '../util/background-manager';
 import { configManager } from '../config/config-manager';
 import { loadCjsPlugin } from './plugin-loader';
 import { LoadedPlugin } from './LoadedPlugin';
+import { Logger } from '../util/log-manager';
 
 const BEEP_BASE_VERSION = require('../../package.json')
     .version.split('.')
@@ -22,6 +23,8 @@ const BEEP_BASE_VERSION = require('../../package.json')
 const SEARCH_KEYS = ['name', 'tags'];
 
 const LocaleComparePluginDefinition = (a, b) => a.name.localeCompare(b.name);
+
+const logger = new Logger('plugin-manager');
 
 class PluginManager {
     private readonly systemPlugins: LoadedPlugin[] = [];
@@ -96,7 +99,7 @@ class PluginManager {
                 resolvedDirectory,
                 (loadedPlugin) =>
                     this.checkPluginVersion(
-                        loadedPlugin.swishVersion,
+                        loadedPlugin,
                         BEEP_BASE_VERSION
                     )
             );
@@ -107,21 +110,28 @@ class PluginManager {
     }
 
     private checkPluginVersion(
-        pluginRequiredVersion: string,
+        plugin: PluginDefinition,
         swishVersion: number[]
     ): boolean {
         // Plugin hasn't specified a version, assume it works.
-        if (!pluginRequiredVersion) {
+        if (!plugin.swishVersion) {
             return true;
         }
 
-        const requiredVersion = pluginRequiredVersion
+        const requiredVersion = plugin.swishVersion
             .split('.')
             .map((n) => parseInt(n));
-        return (
+
+        const versionMatches = (
             requiredVersion[0] === swishVersion[0] && // Major version matches AND
             requiredVersion[1] <= swishVersion[1]
         ); // Minor version is less than or equal
+
+        if (!versionMatches) {
+            logger.writeWarning(`Plugin "${plugin.name}" (id: ${plugin.id}) requires Swish version ${plugin.swishVersion} but we're running ${swishVersion.join('.')}. Skipping.`);
+        }
+
+        return versionMatches;
     }
 
     public getSystemPlugins() {
