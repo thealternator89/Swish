@@ -20,10 +20,6 @@ export class HomeComponent {
   constructor(private ipc: IpcService, private notifier: NotifierService) {
     this.ipc.searchPlugins('').then((results: PluginDefinition[]) => {
       this.plugins = results;
-
-      // Temporarily display 5 random plugins as favorites until we support UI and storage of favorites
-      const temp = JSON.parse(JSON.stringify(results));
-      this.favPlugins = temp.sort(() => Math.random() - 0.5).slice(0, 5);
     });
 
     this.notifier.onPluginsReloaded().subscribe(() => {

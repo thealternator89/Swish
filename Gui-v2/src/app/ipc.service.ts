@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-import { IpcRenderer } from 'electron';
-
 import { Observable } from 'rxjs';
-import { IPC_CHANNELS } from 'shared/const/ipc/ipc-channel';
 import { RunPluginRequest } from 'shared/models/ipc/run-plugin-request';
 import { LoadedPlugin } from 'src/models/LoadedPlugin';
-import { PluginDefinition, PluginResult } from 'swish-base';
+import { PluginResult } from 'swish-base';
 
 @Injectable({
   providedIn: 'root',

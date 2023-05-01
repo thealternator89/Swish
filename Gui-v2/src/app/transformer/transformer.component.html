@@ -11,7 +11,7 @@
   </div>
   <div id="editors">
     <div id="input">
-      <h1>Input</h1>
+      <div class="panel-header">Input</div>
       <nu-monaco-editor
         #inputEditor
         [options]="inputEditorOptions"
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div id="output">
-      <h1>Output</h1>
+      <div class="panel-header">Output</div>
       <app-output-placeholder *ngIf="outputType === 'none'"></app-output-placeholder>
       <app-output-message #outputMessage *ngIf="outputType === 'message'"></app-output-message>
       <app-output-markdown #outputMarkdown [outputText]="outputText" *ngIf="outputType === 'markdown'"></app-output-markdown>
