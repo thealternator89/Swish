@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'fs';
 import { homedir } from 'os';
 import { join } from 'path';
 import { env } from 'process';
+import { Logger } from '../util/log-manager';
 
 const ENV_USER_PLUGINS = 'SWISH_PLUGIN_PATH';
 const ENV_CLIP_HOTKEY = 'SWISH_CLIP_HOTKEY';
@@ -16,6 +17,8 @@ interface SwishConfig {
         hotkey?: string;
     };
 }
+
+const logger = new Logger('config-manager');
 
 class ConfigManager {
     readonly config: object;
@@ -47,6 +50,23 @@ class ConfigManager {
     }
 
     // Specify environment to parse
+    /**
+     * Parse the environment variables into the config based on mapping.
+     * The map is a dictionary of environment variable names to config keys.
+     * e.g. if the below is passed with the section "clip":
+     * {   
+     *   "SWISH_CLIP_HOTKEY": "hotkey"
+     * }
+     * If the environment variable SWISH_CLIP_HOTKEY is set, then the config will be set to:
+     * {
+     *   // ... the rest of the config
+     *   "clip": {
+     *     "hotkey": "<value of SWISH_CLIP_HOTKEY>"
+     *   }
+     * }
+     * @param section The section of the config to store the parsed values in
+     * @param map The mapping from environment variables to keys in the config
+     */
     public parseEnvironment(
         section: string,
         map: { [key: string]: string }
@@ -83,8 +103,8 @@ class ConfigManager {
             const config = JSON.parse(configContents);
             return config;
         } catch (ex) {
-            console.log(
-                `Error loading config file at ${configPath}: ${ex.message}`
+            logger.writeError(
+                `Error loading config file at ${configPath}\n${ex.message}`
             );
         }
     }

@@ -8,8 +8,10 @@ import { Logger } from "./log-manager";
 
 const logger = new Logger('background-manager');
 
-function writeCount(word: string, count: number): string {
-    return `${count} ${count === 1 ? word : word + 's'}`;
+// Switch between a singular and plural word based on the specified count
+// Assumes the plural word should be used for 0 and negative values for count
+function pluralizeWord(singularWord: string, pluralWord: string, count: number) {
+    return count === 1 ? singularWord : pluralWord;
 }
 
 class BackgroundManager {
@@ -91,7 +93,7 @@ class BackgroundManager {
      * Helper function to kill all active timeouts and intervals
      * @param force If true, kill all active timeouts and intervals even if the background manager is not initialized.
      */
-    killActiveBackgroundTasks(force = false) {
+    killActiveBackgroundTasks(pluginId?: string, force = false) {
         if (!force && !this.initialized) {
             console.warn('Background Manager not initialized.');
             return;
@@ -100,8 +102,16 @@ class BackgroundManager {
         const killedIntervals = this.killActiveIntervals();
         const killedTimeouts = this.killActiveTimeouts();
 
-        if (killedIntervals > 0 || killedTimeouts > 0){
-            logger.writeWarning(`${writeCount('interval', killedIntervals)} and ${writeCount('timeout', killedTimeouts)} were left over after a plugin finished executing and have been killed.`)
+        const killed = killedIntervals + killedTimeouts;
+
+        if (killed > 0 && pluginId){
+            const pluralized = {
+                task: pluralizeWord('task', 'tasks', killed),
+                was: pluralizeWord('was', 'were', killed),
+                has: pluralizeWord('has', 'have', killed)
+            }
+
+            logger.writeWarning(`${killed} background ${pluralized.task} ${pluralized.was} left over after a plugin (${pluginId}) finished executing and ${pluralized.has} been killed.\nThis is likely a bug in the plugin - please report it to the plugin author.`)
         }
     }
 
@@ -109,9 +119,6 @@ class BackgroundManager {
         const numIntervals = this.intervals.length;
         this.intervals.forEach(x => this.originalClearInterval(x));
         this.intervals = [];
-        if (numIntervals > 0){
-            console.warn(`Killed ${writeCount('interval', numIntervals)}.`);
-        }
 
         return numIntervals;
     }
@@ -120,9 +127,6 @@ class BackgroundManager {
         const numTimeouts = this.timeouts.length;
         this.timeouts.forEach(x => this.originalClearTimeout(x));
         this.timeouts = [];
-        if (numTimeouts > 0){
-            console.warn(`Killed ${writeCount('timeout', numTimeouts)}.`);
-        }
         
         return numTimeouts;
     }

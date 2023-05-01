@@ -286,7 +286,7 @@ class PluginManager {
 
             // If the stack is empty, we are at the end of the plugin chain, so we should ensure that any background tasks from the plugin are killed
             if (this.pluginStack.length === 0) {
-                backgroundManager.killActiveBackgroundTasks();
+                backgroundManager.killActiveBackgroundTasks(plugin.id);
             }
         }
     }
