@@ -21,17 +21,17 @@ export const convertCamelCaseToWordCase = convertPascalCaseToWordCase;
 
 // FROM: Word
 export const convertWordCaseToCamelCase = (value: string) =>
-    buildCamelCase(value.split(' '));
+    buildCamelCase(sanitize(value).split(' '));
 export const convertWordCaseToConstantCase = (value: string) =>
-    buildConstantCase(value.split(' '));
+    buildConstantCase(sanitize(value).split(' '));
 export const convertWordCaseToKebabCase = (value: string) =>
-    buildKebabCase(value.split(' '));
+    buildKebabCase(sanitize(value).split(' '));
 export const convertWordCaseToPascalCase = (value: string) =>
-    buildPascalCase(value.split(' '));
+    buildPascalCase(sanitize(value).split(' '));
 export const convertWordCaseToSnakeCase = (value: string) =>
-    buildSnakeCase(value.split(' '));
+    buildSnakeCase(sanitize(value).split(' '));
 export const convertWordCaseToTitleCase = (value: string) =>
-    buildTitleCase(value.split(' '));
+    buildTitleCase(sanitize(value).split(' '));
 
 // Builders - takes a set of words and builds a string based on joining rules.
 const buildCamelCase = (words: string[]) =>
@@ -87,13 +87,13 @@ export function splitCamelAndPascalCase(value: string): string[] {
             !(isUpperCase(value[i - 1]) && isUpperCase(value[i + 1])) // a char on either side of this char is not uppercase
         ) {
             words.push(
-                value.substr(startOfCurrentWord, i - startOfCurrentWord)
+                value.substring(startOfCurrentWord, i - startOfCurrentWord)
             );
             startOfCurrentWord = i;
         }
     }
 
-    words.push(value.substr(startOfCurrentWord));
+    words.push(value.substring(startOfCurrentWord));
 
     return words;
 }
@@ -115,11 +115,11 @@ function isUpperCase(value: string): boolean {
 }
 
 function capitalizeWord(word: string): string {
-    return `${word[0].toUpperCase()}${word.substr(1)}`;
+    return word.length > 0 ? `${word[0].toUpperCase()}${word.substring(1)}` : '';
 }
 
 function lowerCaseFirstChar(text: string): string {
-    return `${text[0].toLowerCase()}${text.substr(1)}`;
+    return text.length > 0 ? `${text[0].toLowerCase()}${text.substring(1)}` : '';
 }
 
 function lowerCaseWord(word: string): string {
@@ -128,4 +128,8 @@ function lowerCaseWord(word: string): string {
 
 function upperCaseWord(word: string): string {
     return word.toUpperCase();
+}
+
+function sanitize(value: string): string {
+    return value.trim().replace(/[^\w\s]/gi, '');
 }
