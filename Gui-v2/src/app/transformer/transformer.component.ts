@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MatDialogState } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
@@ -8,6 +8,8 @@ import { IpcService } from '../ipc.service';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { ResultSnackbarComponent } from './result-snackbar/result-snackbar.component';
 import { OutputMessageComponent } from './output-message/output-message.component';
+import { ProgressDialogComponent } from './progress-dialog/progress-dialog.component';
+import { Subject } from 'rxjs';
 
 // Base editor options for both the input and output editors
 const BASE_EDITOR_OPTIONS = {
@@ -33,17 +35,19 @@ export class TransformerComponent {
 
   plugin: LoadedPlugin;
 
-  autoRun = false;
-  autoRunOnPaste = true;
+  // TODO: disabled for now - "paste" causes issues with the progress dialog
+  // Need to make this customisable in some way - can user pick? can plugin? can both?
+  autoRunOn: 'paste'|'change'|'never' = 'never';
 
   outputType = 'none';
   outputText = '';
 
+  progressDialog?: MatDialogRef<ProgressDialogComponent> = null;
+  currentRunId: string = null;
+
   inputEditorOptions = BASE_EDITOR_OPTIONS;
-  outputEditorOptions = {
-    ...BASE_EDITOR_OPTIONS,
-    readOnly: true,
-  };
+
+  runPluginSubject: Subject<void> = new Subject();
 
   @ViewChild('inputEditor')
   inputEditor: NuMonacoEditorComponent;
@@ -62,6 +66,30 @@ export class TransformerComponent {
     this.ipc.getPlugin(id).then((plugin) => {
       this.plugin = plugin;
     });
+
+    this.ipc.registerPluginProgressUpdates().subscribe((progress) => {
+      if (progress.id === this.currentRunId && this.progressDialog?.getState() !== MatDialogState.OPEN) {
+        this.showProgressDialog();
+      }
+    });
+
+    this.ipc.registerPluginStatusUpdates().subscribe((status) => {
+      if (status.id === this.currentRunId && this.progressDialog?.getState() !== MatDialogState.OPEN) {
+        this.showProgressDialog();
+      }
+    });
+
+    this.runPluginSubject.asObservable().subscribe(() => {
+      console.log('Running plugin...');
+      if (!this.currentRunId) {
+        this.runPlugin();
+      }
+    });
+
+  }
+
+  triggerRunPlugin() {
+    this.runPluginSubject.next();
   }
 
   getIcon() {
@@ -96,24 +124,78 @@ export class TransformerComponent {
         this.setLanguage('input', this.plugin.input.syntax);
       }
 
-      if (this.autoRunOnPaste) {
+      // TODO: these are broken (fail to handle the dialog) so disabled for now
+      if (this.autoRunOn === 'paste') {
         this.getEditor('input').onDidPaste(() => {
-          this.runPlugin();
+          this.triggerRunPlugin();
         });
-      } else if (this.autoRun) {
+      } else if (this.autoRunOn === 'change') {
         this.inputEditor.registerOnChange(() => {
-          this.runPlugin();
+          this.triggerRunPlugin();
         });
       }
     }
   }
 
+  showProgressDialog(message?: string, progress?: number) {
+    // If we already have a dialog that is open, don't show another one
+    if (this.progressDialog?.getState() === MatDialogState.OPEN) {
+      return;
+    }
+
+    console.log(`[TransformerComponent] Showing progress dialog: ${JSON.stringify({message, progress})}`);
+
+    this.progressDialog = this.dialog.open(ProgressDialogComponent, {
+      data: {
+        runId: this.currentRunId,
+        initialMessage: message,
+        initialProgress: progress
+      },
+      disableClose: false, // TODO enable this - disabled just while this is broken
+      width: '400px',
+      height: '100px',
+    });
+
+    this.progressDialog.backdropClick().subscribe(() => {
+      this.progressDialog.close();
+    });
+  }
+
+  hideProgressDialog() {
+    console.log('[TransformerComponent] Hiding progress dialog');
+    if (this.progressDialog?.getState() === MatDialogState.OPEN) {
+      // clean up the dialog before closing it
+      this.progressDialog.componentInstance.onClose();
+      this.progressDialog.close();
+      // this.progressDialog = undefined;
+    } else {
+      console.log('[TransformerComponent] No progress dialog to hide');
+    }
+
+    this.changeDetector.detectChanges();
+  }
+
   async runPlugin() {
+    this.currentRunId = this.getPluginRunId();
+
+    // Set up a timer to show the progress dialog after 700ms if:
+    // - We haven't already shown it
+    // - We haven't already finished
+    setTimeout(() => {
+      if (this.currentRunId && this.progressDialog?.getState() !== MatDialogState.OPEN) {
+        console.log('[TransformerComponent] Taking too long to run, showing progress dialog');
+        this.showProgressDialog();
+      }
+    }, 700);
+
     const result = await this.ipc.runPlugin({
       plugin: this.plugin.id,
-      requestId: this.getPluginRunId(),
+      requestId: this.currentRunId,
       data: this.getText('input'),
     });
+
+    this.currentRunId = null;
+    this.hideProgressDialog();
 
     if (result.render === 'message') {
       this.setOutputType('message');

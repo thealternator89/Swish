@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
@@ -30,6 +31,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { OutputMarkdownComponent } from './transformer/output-markdown/output-markdown.component';
 import { LogviewComponent } from './logview/logview.component';
 import { LogitemComponent } from './logview/logitem/logitem.component';
+import { ProgressDialogComponent } from './transformer/progress-dialog/progress-dialog.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ import { LogitemComponent } from './logview/logitem/logitem.component';
     OutputMarkdownComponent,
     LogviewComponent,
     LogitemComponent,
+    ProgressDialogComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -60,6 +63,7 @@ import { LogitemComponent } from './logview/logitem/logitem.component';
     MatInputModule,
     MatListModule,
     MatMenuModule,
+    MatProgressBarModule,
     MatSnackBarModule,
     NuMonacoEditorModule.forRoot({
       baseUrl: `lib`,
