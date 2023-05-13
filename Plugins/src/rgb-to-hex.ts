@@ -43,7 +43,7 @@ function extractRgb(rgb: string): rgb {
 
 const parseColor = (component: string) => {
     const parsed = parseInt(component);
-    return { num: parsed, hex: parsed.toString(16) };
+    return { num: parsed, hex: parsed.toString(16).padStart(2, '0') };
 };
 
 function throwIfValueInvalid({ num }: parsedColor, component: string) {
