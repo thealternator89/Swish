@@ -1,4 +1,4 @@
-<div *ngIf="plugin" >
+<div id="wrapper" *ngIf="plugin" >
   <div id="title">
     <div id="icon">
       <span class="material-icons">{{getIcon()}}</span>
@@ -12,15 +12,11 @@
   <div id="editors">
     <div id="input">
       <div class="panel-header">Input</div>
-      <nu-monaco-editor
-        #inputEditor
-        [options]="inputEditorOptions"
-        height="450px"
-        width="100%"
-        (event)="inputShowEvent($event)"
-      ></nu-monaco-editor>
+      <app-input-code #inputCode></app-input-code>
       <div id="buttons">
-        <button mat-stroked-button color="primary" (click)="triggerRunPlugin()"><span class="material-icons">bolt</span> Run</button>
+        <button mat-stroked-button color="primary" (click)="triggerRunPlugin()">
+          <span class="material-icons">bolt</span> Run
+        </button>
       </div>
     </div>
     <div id="output">
@@ -28,6 +24,7 @@
       <app-output-placeholder *ngIf="outputType === 'none'"></app-output-placeholder>
       <app-output-message #outputMessage *ngIf="outputType === 'message'"></app-output-message>
       <app-output-markdown #outputMarkdown [outputText]="outputText" *ngIf="outputType === 'markdown'"></app-output-markdown>
+      <app-output-code #outputCode [outputText]="outputText" [language]="language" *ngIf="outputType === 'code'"></app-output-code>
     </div>
   </div>
 </div>

@@ -1,6 +1,6 @@
 #wrapper {
-  width: 550px;
-  height: 430px;
+  width: calc(100% - 20px);
+  height: calc(100% - 45px);
   padding: 10px;
   overflow: auto;
   border: thin solid lightgray;

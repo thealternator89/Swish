@@ -10,6 +10,7 @@ import { ResultSnackbarComponent } from './result-snackbar/result-snackbar.compo
 import { OutputMessageComponent } from './output-message/output-message.component';
 import { ProgressDialogComponent } from './progress-dialog/progress-dialog.component';
 import { Subject } from 'rxjs';
+import { InputCodeComponent } from './input-code/input-code.component';
 
 // Base editor options for both the input and output editors
 const BASE_EDITOR_OPTIONS = {
@@ -52,6 +53,9 @@ export class TransformerComponent {
   @ViewChild('inputEditor')
   inputEditor: NuMonacoEditorComponent;
 
+  @ViewChild('inputCode')
+  inputCode: InputCodeComponent;
+
   @ViewChild('outputMessage')
   outputMessage: OutputMessageComponent;
 
@@ -80,7 +84,6 @@ export class TransformerComponent {
     });
 
     this.runPluginSubject.asObservable().subscribe(() => {
-      console.log('Running plugin...');
       if (!this.currentRunId) {
         this.runPlugin();
       }
@@ -143,8 +146,6 @@ export class TransformerComponent {
       return;
     }
 
-    console.log(`[TransformerComponent] Showing progress dialog: ${JSON.stringify({message, progress})}`);
-
     this.progressDialog = this.dialog.open(ProgressDialogComponent, {
       data: {
         runId: this.currentRunId,
@@ -162,14 +163,11 @@ export class TransformerComponent {
   }
 
   hideProgressDialog() {
-    console.log('[TransformerComponent] Hiding progress dialog');
     if (this.progressDialog?.getState() === MatDialogState.OPEN) {
       // clean up the dialog before closing it
       this.progressDialog.componentInstance.onClose();
       this.progressDialog.close();
       // this.progressDialog = undefined;
-    } else {
-      console.log('[TransformerComponent] No progress dialog to hide');
     }
 
     this.changeDetector.detectChanges();
@@ -183,7 +181,6 @@ export class TransformerComponent {
     // - We haven't already finished
     setTimeout(() => {
       if (this.currentRunId && this.progressDialog?.getState() !== MatDialogState.OPEN) {
-        console.log('[TransformerComponent] Taking too long to run, showing progress dialog');
         this.showProgressDialog();
       }
     }, 700);
@@ -191,7 +188,7 @@ export class TransformerComponent {
     const result = await this.ipc.runPlugin({
       plugin: this.plugin.id,
       requestId: this.currentRunId,
-      data: this.getText('input'),
+      data: this.inputCode.getText(),
     });
 
     this.currentRunId = null;
@@ -211,8 +208,13 @@ export class TransformerComponent {
       return;
     }
 
-    this.setOutputType('markdown');
-    this.outputText = (result as any).markdown ?? result.text;
+    if (result.render === 'markdown') {
+      this.outputText = result.markdown;
+      this.setOutputType('markdown');
+    } else {
+      this.outputText = result.text;
+      this.setOutputType('code');
+    }
     this.changeDetector.detectChanges();
   }
 

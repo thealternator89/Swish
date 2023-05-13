@@ -1,3 +1,7 @@
+#wrapper {
+  height: calc(100% - 45px);
+}
+
 .panel-header {
   font-size: 12pt;
   font-weight: bold;
@@ -61,6 +65,7 @@
 }
 
 #editors {
+  height: calc(100% - 135px);
   display: flex;
 }
 

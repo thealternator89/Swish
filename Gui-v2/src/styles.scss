@@ -33,3 +33,26 @@ mat-dialog-container {
 .success-snackbar {
   background-color: rgb(120, 234, 120);
 }
+
+
+/* Styles for Markdown Tables */
+markdown table {
+  width: 100%;
+}
+
+markdown table, tr, th, td {
+  border : thin solid black;
+  border-collapse: collapse;
+}
+
+markdown th, td {
+  padding: 5px;
+}
+
+markdown th {
+  background-color: #aaa;
+}
+
+markdown pre {
+  white-space: pre-wrap !important; // force code blocks to line wrap
+}

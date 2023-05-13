@@ -5,6 +5,7 @@ export interface PluginResult {
     text?: string;
     html?: string;
     rtf?: string;
+    markdown?: string;
     message?: {
         text: string;
         level: 'info' | 'warn' | 'success' | 'error';
