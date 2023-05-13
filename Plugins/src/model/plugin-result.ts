@@ -14,7 +14,7 @@ export interface PluginResult {
      * The type of result to render - only used by Gui v2 currently
      * @default 'text'
      */
-    render?: 'text' | 'message' | 'markdown';
+    render?: 'text' | 'message' | 'markdown' | 'html';
 
     /**
      * The syntax of the result (if render is 'text') - only used by Gui v2 currently

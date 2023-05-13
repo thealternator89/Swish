@@ -40,7 +40,7 @@ export class TransformerComponent {
   // Need to make this customisable in some way - can user pick? can plugin? can both?
   autoRunOn: 'paste'|'change'|'never' = 'never';
 
-  outputType = 'none';
+  outputType: 'none'|'message'|'code'|'markdown'|'html' = 'none';
   outputText = '';
 
   progressDialog?: MatDialogRef<ProgressDialogComponent> = null;
@@ -211,7 +211,10 @@ export class TransformerComponent {
     if (result.render === 'markdown') {
       this.outputText = result.markdown;
       this.setOutputType('markdown');
-    } else {
+    } else if (result.render === 'html') {
+      this.outputText = result.html;
+      this.setOutputType('html');
+    }else {
       this.outputText = result.text;
       this.setOutputType('code');
     }
@@ -225,11 +228,7 @@ export class TransformerComponent {
     }
   }
 
-  /**
-   * Set the output type and force angular to detect changes
-   * @param type 'none'|'message'|'code'
-   */
-  private setOutputType(type: 'none'|'message'|'code'|'markdown') {
+  private setOutputType(type: 'none'|'message'|'code'|'markdown'|'html') {
     this.outputType = type;
     this.changeDetector.detectChanges();
   }

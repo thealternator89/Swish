@@ -25,6 +25,7 @@
       <app-output-message #outputMessage *ngIf="outputType === 'message'"></app-output-message>
       <app-output-markdown #outputMarkdown [outputText]="outputText" *ngIf="outputType === 'markdown'"></app-output-markdown>
       <app-output-code #outputCode [outputText]="outputText" [language]="language" *ngIf="outputType === 'code'"></app-output-code>
+      <app-output-html #outputHtml [outputText]="outputText" *ngIf="outputType === 'html'"></app-output-html>
     </div>
   </div>
 </div>

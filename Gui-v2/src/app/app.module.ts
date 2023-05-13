@@ -34,6 +34,7 @@ import { LogitemComponent } from './logview/logitem/logitem.component';
 import { ProgressDialogComponent } from './transformer/progress-dialog/progress-dialog.component';
 import { InputCodeComponent } from './transformer/input-code/input-code.component';
 import { OutputCodeComponent } from './transformer/output-code/output-code.component';
+import { OutputHtmlComponent } from './transformer/output-html/output-html.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { OutputCodeComponent } from './transformer/output-code/output-code.compo
     ProgressDialogComponent,
     InputCodeComponent,
     OutputCodeComponent,
+    OutputHtmlComponent,
   ],
   imports: [
     AppRoutingModule,
