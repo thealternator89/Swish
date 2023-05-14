@@ -6,6 +6,7 @@ export interface PluginResult {
     html?: string;
     rtf?: string;
     markdown?: string;
+    data?: Record<string, any>;
     message?: {
         text: string;
         level: 'info' | 'warn' | 'success' | 'error';
