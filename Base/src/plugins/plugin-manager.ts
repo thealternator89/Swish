@@ -197,13 +197,13 @@ class PluginManager {
      * @param id The ID of the plugin to run
      * @param args Arguments for running the plugin
      * @param type Type of plugin, system/user/default. Defaults to 'default' where a user plugin is used if found, falling back to system plugins.
-     * @param throwOnError Whether to throw an error if an error occurs while running the plugin. This should be set to true for child plugins, but false for top-level plugins.
+     * @param topLevel Whether this is the top level plugin or not (to handle calling other plugins). Defaults to true.
      */
     public async runPlugin(
         id: string,
         args: PluginArgument,
         type?: 'system' | 'user' | 'default',
-        throwOnError: boolean = false,
+        topLevel: boolean = true
     ): Promise<PluginResult> {
         const plugin = this.getPluginById(id, type);
 
@@ -249,14 +249,30 @@ class PluginManager {
             const lineEndingChar = identifyLineEndingChar(args.textContent);
             const unifiedTextContent = unifyLineEndings(args.textContent);
 
+            // Set up a global environment for the plugin to use to access the plugin API
+            // TODO - it would be good if we can handle swapping these over and back for child plugins - low priority since it's not likely to be _that_ useful.
+            // e.g. Plugin A launches and calls runPlugin for Plugin B, passing its own "progressUpdate" function
+            //  while Plugin B is running the passed progressUpdate function is used, but when it returns to Plugin A it reverts to the original.
+            if (topLevel) {
+                (global as any).progressUpdate = args.progressUpdate ?? (() => undefined);
+                (global as any).statusUpdate = args.statusUpdate ?? (() => undefined);
+                (global as any).runPlugin = (id, args, type) => this.internalRunPlugin(id, args, type);
+            }
+
             const runResult = await plugin.process({
-                progressUpdate: () => undefined,
-                statusUpdate: () => undefined,
+                progressUpdate: (global as any).progressUpdate,
+                statusUpdate: (global as any).statusUpdate,
                 ...args,
-                runPlugin: (id, args, type) =>
-                    this.internalRunPlugin(id, args, type),
+                runPlugin: (global as any).runPlugin,
                 textContent: unifiedTextContent,
             });
+
+            // Clean up the global environment
+            if (topLevel){
+                (global as any).progressUpdate = undefined;
+                (global as any).statusUpdate = undefined;
+                (global as any).runPlugin = undefined;
+            }
 
             if (typeof runResult === 'string') {
                 return {
@@ -277,7 +293,9 @@ class PluginManager {
                 };
             }
         } catch (error) {
-            if (throwOnError) {
+            // If we are not running a top level plugin, we should throw the error so it is passed up the chain
+            // Otherwise we should wrap it in a PluginErrorResult to simplify how the client handles it
+            if (!topLevel) {
                 throw error;
             }
 
@@ -327,7 +345,7 @@ class PluginManager {
                 this.internalRunPlugin(id, args, type),
         };
 
-        const result = await this.runPlugin(id, unifiedArgs, type, true);
+        const result = await this.runPlugin(id, unifiedArgs, type, false);
 
         if (typeof result === 'string') {
             return {text: result};
