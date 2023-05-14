@@ -95,10 +95,6 @@ export class TransformerComponent {
       width: '400px',
       height: '100px',
     });
-
-    this.progressDialog.backdropClick().subscribe(() => {
-      this.progressDialog.close();
-    });
   }
 
   hideProgressDialog() {
