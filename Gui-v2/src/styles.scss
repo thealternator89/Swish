@@ -56,3 +56,9 @@ markdown th {
 markdown pre {
   white-space: pre-wrap !important; // force code blocks to line wrap
 }
+
+markdown code {
+  background-color: #eee;
+  padding: 2px;
+  border-radius: 2px;
+}
