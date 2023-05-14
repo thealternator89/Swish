@@ -17,7 +17,18 @@ export class OutputHtmlComponent implements OnInit {
   }
 
   sanitizeHtml(html: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(html);
+    return this.sanitizer.bypassSecurityTrustHtml(this.modifyLinks(html, "Links have been deactivated."));
+  }
+
+  private modifyLinks(htmlString: string, alertMessage: string): string {
+    // Regular expression pattern to match anchor tags with href attribute
+    var pattern = /<a([^>]+)href\s*=\s*["']([^"']+)["']([^>]*)>/gi;
+
+    // Replace the href attribute with the modified JavaScript code
+    var modifiedHTML = htmlString.replace(pattern, `<a$1href="javascript:alert('${alertMessage}')">$3`);
+
+    // Return the modified HTML string
+    return modifiedHTML;
   }
 
 }
