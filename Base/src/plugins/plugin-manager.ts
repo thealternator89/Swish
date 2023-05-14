@@ -197,11 +197,13 @@ class PluginManager {
      * @param id The ID of the plugin to run
      * @param args Arguments for running the plugin
      * @param type Type of plugin, system/user/default. Defaults to 'default' where a user plugin is used if found, falling back to system plugins.
+     * @param throwOnError Whether to throw an error if an error occurs while running the plugin. This should be set to true for child plugins, but false for top-level plugins.
      */
     public async runPlugin(
         id: string,
         args: PluginArgument,
-        type?: 'system' | 'user' | 'default'
+        type?: 'system' | 'user' | 'default',
+        throwOnError: boolean = false,
     ): Promise<PluginResult> {
         const plugin = this.getPluginById(id, type);
 
@@ -275,6 +277,10 @@ class PluginManager {
                 };
             }
         } catch (error) {
+            if (throwOnError) {
+                throw error;
+            }
+
             return {
                 message: {
                     level: 'error',
@@ -321,7 +327,7 @@ class PluginManager {
                 this.internalRunPlugin(id, args, type),
         };
 
-        const result = await this.runPlugin(id, unifiedArgs, type);
+        const result = await this.runPlugin(id, unifiedArgs, type, true);
 
         if (typeof result === 'string') {
             return {text: result};
