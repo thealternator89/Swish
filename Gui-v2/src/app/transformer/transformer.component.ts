@@ -12,21 +12,6 @@ import { ProgressDialogComponent } from './progress-dialog/progress-dialog.compo
 import { Subject } from 'rxjs';
 import { InputCodeComponent } from './input-code/input-code.component';
 
-// Base editor options for both the input and output editors
-const BASE_EDITOR_OPTIONS = {
-  theme: 'vs',
-  language: 'plaintext',
-  scrollBeyondLastLine: false,
-  selectionHighlight: false,
-  occurrencesHighlight: false,
-  renderLineHighlight: 'none',
-  matchBrackets: 'never',
-  minimap: {
-    enabled: false,
-  },
-  wordWrap: true,
-}
-
 @Component({
   selector: 'app-transformer',
   templateUrl: './transformer.component.html',
@@ -46,12 +31,7 @@ export class TransformerComponent {
   progressDialog?: MatDialogRef<ProgressDialogComponent> = null;
   currentRunId: string = null;
 
-  inputEditorOptions = BASE_EDITOR_OPTIONS;
-
   runPluginSubject: Subject<void> = new Subject();
-
-  @ViewChild('inputEditor')
-  inputEditor: NuMonacoEditorComponent;
 
   @ViewChild('inputCode')
   inputCode: InputCodeComponent;
@@ -66,20 +46,20 @@ export class TransformerComponent {
     private changeDetector: ChangeDetectorRef,
     route: ActivatedRoute
     ) {
-    const id = route.snapshot.params['id'];
-    this.ipc.getPlugin(id).then((plugin) => {
+    const pluginId = route.snapshot.params['id'];
+    this.ipc.getPlugin(pluginId).then((plugin) => {
       this.plugin = plugin;
     });
 
-    this.ipc.registerPluginProgressUpdates().subscribe((progress) => {
-      if (progress.id === this.currentRunId && this.progressDialog?.getState() !== MatDialogState.OPEN) {
-        this.showProgressDialog();
+    this.ipc.registerPluginProgressUpdates().subscribe(({id, percentage}) => {
+      if (id === this.currentRunId && this.progressDialog?.getState() !== MatDialogState.OPEN) {
+        this.showProgressDialog(undefined, percentage);
       }
     });
 
-    this.ipc.registerPluginStatusUpdates().subscribe((status) => {
-      if (status.id === this.currentRunId && this.progressDialog?.getState() !== MatDialogState.OPEN) {
-        this.showProgressDialog();
+    this.ipc.registerPluginStatusUpdates().subscribe(({id, status}) => {
+      if (id === this.currentRunId && this.progressDialog?.getState() !== MatDialogState.OPEN) {
+        this.showProgressDialog(status, undefined);
       }
     });
 
@@ -99,47 +79,6 @@ export class TransformerComponent {
     return this.plugin?.icon ?? 'extension';
   }
 
-  getText(editor: 'input') {
-    return this.getModel(editor).getValue();
-  }
-
-  setText(editor: 'input', newContent: string) {
-    const waslocked = this.editorIsLocked(editor);
-    this.unlockEditor(editor);
-
-    const e = this.getEditor(editor);
-    const m = e.getModel();
-
-    e.pushUndoStop();
-    e.executeEdits('', [
-      { range: m.getFullModelRange(), text: newContent },
-    ]);
-    e.setPosition(m.getFullModelRange().getEndPosition());
-
-    if (waslocked) {
-      this.lockEditor(editor);
-    }
-  }
-
-  inputShowEvent(e: Event) {
-    if (e.type === 'init') {
-      if (this.plugin?.input?.syntax) {
-        this.setLanguage('input', this.plugin.input.syntax);
-      }
-
-      // TODO: these are broken (fail to handle the dialog) so disabled for now
-      if (this.autoRunOn === 'paste') {
-        this.getEditor('input').onDidPaste(() => {
-          this.triggerRunPlugin();
-        });
-      } else if (this.autoRunOn === 'change') {
-        this.inputEditor.registerOnChange(() => {
-          this.triggerRunPlugin();
-        });
-      }
-    }
-  }
-
   showProgressDialog(message?: string, progress?: number) {
     // If we already have a dialog that is open, don't show another one
     if (this.progressDialog?.getState() === MatDialogState.OPEN) {
@@ -152,7 +91,7 @@ export class TransformerComponent {
         initialMessage: message,
         initialProgress: progress
       },
-      disableClose: false, // TODO enable this - disabled just while this is broken
+      disableClose: true,
       width: '400px',
       height: '100px',
     });
@@ -167,7 +106,7 @@ export class TransformerComponent {
       // clean up the dialog before closing it
       this.progressDialog.componentInstance.onClose();
       this.progressDialog.close();
-      // this.progressDialog = undefined;
+      this.progressDialog = undefined;
     }
 
     this.changeDetector.detectChanges();
@@ -214,17 +153,9 @@ export class TransformerComponent {
     } else if (result.render === 'html') {
       this.outputText = result.html;
       this.setOutputType('html');
-    }else {
+    } else {
       this.outputText = result.text;
       this.setOutputType('code');
-    }
-    this.changeDetector.detectChanges();
-  }
-
-  private setLanguage(editor: 'input', language: string) {
-    const model = this.getModel(editor);
-    if (model) {
-      monaco.editor.setModelLanguage(model, language ?? 'plaintext');
     }
   }
 
@@ -245,18 +176,6 @@ export class TransformerComponent {
         duration: 5000,
       });
     }
-  }
-
-  private editorIsLocked(editor: 'input') {
-    return this.getEditor(editor).getOption(monaco.editor.EditorOption.readOnly);
-  }
-
-  private lockEditor(editor: 'input') {
-    this.getEditor(editor).updateOptions({ readOnly: true });
-  }
-
-  private unlockEditor(editor: 'input') {
-    this.getEditor(editor).updateOptions({ readOnly: false });
   }
 
   getPluginRunId(): string {
@@ -283,15 +202,5 @@ export class TransformerComponent {
 
       return new Array(32).join('.').split('.').map(randomChar).join('');
     }
-  }
-
-  private getEditor(editor: 'input'): monaco.editor.IStandaloneCodeEditor {
-    switch (editor) {
-      case 'input': return this.inputEditor.editor;
-    }
-  }
-
-  private getModel(editor: 'input'): monaco.editor.ITextModel {
-    return this.getEditor(editor).getModel()!;
   }
 }
