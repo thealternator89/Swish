@@ -113,6 +113,21 @@ class IPCHandler {
     });
   }
 
+  public toggleDevTools(): void {
+    const webContents = this?.win?.webContents;
+    if (webContents?.isDevToolsOpened()){
+      webContents.closeDevTools();
+    } else {
+      // The window buttons overlap the dev tools on Windows, so we need to open it on the left instead so we can control it.
+      if (process.platform === 'win32') {
+        webContents?.openDevTools({mode: 'left'});
+      }
+      else {
+        webContents?.openDevTools();
+      }
+    }
+  }
+
   private safeSend = (channel: string, ...args: any[]) =>
     this?.win?.webContents?.send(channel, ...args);
 }

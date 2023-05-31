@@ -15,8 +15,9 @@ function buildApplicationMenu(appName: string) {
     label: appName,
     submenu: [
       {
-        role: 'toggleDevTools',
+        label: 'Toggle Developer Tools',
         accelerator: 'CmdOrCtrl+Alt+I',
+        click: () => ipcHandler.toggleDevTools()
       },
       {
         role: 'quit',
