@@ -5,14 +5,11 @@
   </mat-form-field>
 </form>
 
-<div id="fav-plugins-container">
-  <div id="fav-plugins">
-    <app-fav-plugin-item *ngFor="let plugin of favPlugins" [plugin]="plugin"></app-fav-plugin-item>
-  </div>
-  <div id="no-fav-plugins" *ngIf="favPlugins.length === 0">
-    <div id="no-fav-plugins-heading">No favorites</div>
-    <div id="no-fav-plugins-hint">You can add up to 5 transformers to your favorites - they appear here for easy access.</div>
-  </div>
+<div id="tags">
+  <div class="padding"></div>
+  <div class="tag selected" *ngFor="let tag of getSelectedTags()" (click)="tagSelected(tag)">{{tag}}</div>
+  <div class="tag" *ngFor="let tag of getOtherTags()" (click)="tagSelected(tag)">{{tag}}</div>
+  <div class="padding"></div>
 </div>
 
 <div id="plugin-container">

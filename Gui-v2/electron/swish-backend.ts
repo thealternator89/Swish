@@ -7,8 +7,8 @@ class SwishBackend {
     pluginManager.reloadUserPlugins();
   }
 
-  public search(query: string): LoadedPlugin[] {
-    return pluginManager.searchPlugins(query);
+  public search(query: string, tags?: string[]): LoadedPlugin[] {
+    return pluginManager.searchPlugins(query, tags);
   }
 
   public async runPlugin(
