@@ -18,7 +18,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'sort',
-    tags: ['sort', 'natural'],
+    tags: ['sort', 'natural', 'text'],
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return args.textContent

@@ -7,7 +7,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'code',
-    tags: ['json', 'web', 'query', 'URI', 'URL'],
+    tags: ['json', 'web', 'query', 'url'],
     usableFrom: ['core', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         let input: any;
