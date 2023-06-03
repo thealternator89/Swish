@@ -34,9 +34,14 @@ mat-dialog-container {
   background-color: rgb(120, 234, 120);
 }
 
+/* Styles to make the mat tabs work properly */
 
 .mat-tab-body-wrapper {
   height: 100%;
+}
+
+.mat-tab-body-active {
+  overflow: hidden !important;
 }
 
 /* Styles for Markdown Tables */
