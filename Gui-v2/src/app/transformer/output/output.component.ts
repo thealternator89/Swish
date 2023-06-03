@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PluginResult } from 'swish-base';
 import { OutputMessageComponent } from '../output-message/output-message.component';
 
@@ -8,7 +8,7 @@ import { OutputMessageComponent } from '../output-message/output-message.compone
   styleUrls: ['./output.component.scss'],
 })
 export class OutputComponent implements OnInit {
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor() {}
 
   @ViewChild('outputMessage')
   outputMessage: OutputMessageComponent;

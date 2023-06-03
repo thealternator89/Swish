@@ -1,6 +1,9 @@
 #container {
-  height: calc(100% - 30px);
-  padding: 2px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
   border: thin solid lightgray;
   background-color: white;
 }

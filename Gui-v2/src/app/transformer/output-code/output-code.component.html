@@ -3,8 +3,9 @@
     #editor
     [ngModel]="outputText"
     [options]="monacoOptions"
+    (event)="editorShowEvent($event)"
     height="100%"
     width="100%"
-    >
+  >
   </nu-monaco-editor>
 </div>

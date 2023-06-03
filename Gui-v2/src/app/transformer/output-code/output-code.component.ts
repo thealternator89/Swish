@@ -1,18 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
 
 @Component({
   selector: 'app-output-code',
   templateUrl: './output-code.component.html',
-  styleUrls: ['./output-code.component.scss']
+  styleUrls: ['./output-code.component.scss'],
 })
-export class OutputCodeComponent implements OnInit {
-
-  @Input("outputText")
+export class OutputCodeComponent {
+  @Input('outputText')
   outputText: string;
+
+  @Input('language')
+  outputLanguage: string = 'plaintext';
+
+  @ViewChild('editor')
+  editor: NuMonacoEditorComponent;
 
   monacoOptions = {
     theme: 'vs',
-    language: 'plaintext',
     scrollBeyondLastLine: false,
     selectionHighlight: false,
     occurrencesHighlight: false,
@@ -23,11 +28,19 @@ export class OutputCodeComponent implements OnInit {
     },
     wordWrap: true,
     readOnly: true,
+  };
+
+  constructor() {}
+
+  editorShowEvent(e: Event) {
+    if (e.type === 'init') {
+      this.setLanguage(this.outputLanguage);
+    }
   }
 
-  constructor() { }
-
-  ngOnInit(): void {
+  setLanguage(language: string) {
+    console.log(`Setting language to ${language}`);
+    this.outputLanguage = language;
+    monaco.editor.setModelLanguage(this.editor.editor.getModel(), language);
   }
-
 }
