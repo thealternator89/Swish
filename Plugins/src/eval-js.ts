@@ -39,7 +39,7 @@ function formatResult(input: any): string {
     } else if (input === null) {
         return 'null';
     } else if (typeof input === 'object') {
-        return JSON.stringify(input);
+        return JSON.stringify(input, null, 4);
     } else {
         return input.toString();
     }
