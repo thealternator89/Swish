@@ -17,18 +17,18 @@ export class OutputHtmlComponent implements OnInit {
   }
 
   sanitizeHtml(html: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(this.modifyLinks(html, "Links have been deactivated."));
+    return this.sanitizer.bypassSecurityTrustHtml(this.deLinkify(html));
   }
 
-  private modifyLinks(htmlString: string, alertMessage: string): string {
-    // Regular expression pattern to match anchor tags with href attribute
-    var pattern = /<a([^>]+)href\s*=\s*["']([^"']+)["']([^>]*)>/gi;
-
-    // Replace the href attribute with the modified JavaScript code
-    var modifiedHTML = htmlString.replace(pattern, `<a$1href="javascript:alert('${alertMessage}')">$3`);
-
-    // Return the modified HTML string
-    return modifiedHTML;
+  /**
+   * Replaces all anchor tags with span tags in the given html string.
+   * This is so that the links are not clickable in the output.
+   * @param htmlString The html string to be de-linkified
+   * @returns A HTML string with all the links replaced with spans
+   */
+  private deLinkify(htmlString: string): string {
+    var regex = /<a\b([^>]*)>(.*?)<\/a>/gi;
+    var replacedHtml = htmlString.replace(regex, '<span $1>$2</span>');
+    return replacedHtml;
   }
-
 }
