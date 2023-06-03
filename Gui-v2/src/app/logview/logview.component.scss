@@ -12,13 +12,19 @@
 }
 
 #no-log-message {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   font-style: italic;
   padding: 10px;
-  border: thin dashed black;
+  background-color: rgba(0,0,0,0.2);
   border-radius: 5px;
-  width: 50%;
+  width: 100%;
+  height: calc(100% - 86px);
   margin-left: auto;
   margin-right: auto;
-  margin-top: 50px;
+}
+
+.padding {
+  flex-grow: 1;
 }
