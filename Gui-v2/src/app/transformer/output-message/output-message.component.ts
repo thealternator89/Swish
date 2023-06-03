@@ -1,22 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
-type Level = 'error'|'warn'|'info'|'success';
+type Level = 'error' | 'warn' | 'info' | 'success';
 
 @Component({
   selector: 'app-output-message',
   templateUrl: './output-message.component.html',
-  styleUrls: ['./output-message.component.scss']
+  styleUrls: ['./output-message.component.scss'],
 })
 export class OutputMessageComponent implements OnInit {
+  @Input('text')
   text: string;
+  @Input('level')
   level: Level = 'info';
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  setMessage(message: {level: 'info'|'warn'|'error'|'success', text: string}): void {
+  setMessage(message: {
+    level: 'info' | 'warn' | 'error' | 'success';
+    text: string;
+  }): void {
     this.level = message.level;
     this.text = message.text;
   }
@@ -26,12 +30,11 @@ export class OutputMessageComponent implements OnInit {
       error: 'error',
       warn: 'warning',
       info: 'info',
-      success: 'check_circle'
+      success: 'check_circle',
     }[this.level];
   }
 
   getClass(): Level {
     return this.level;
   }
-
 }

@@ -1,6 +1,9 @@
 #wrapper {
-  width: calc(100% - 20px);
-  height: calc(100% - 45px);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
   padding: 10px;
   overflow: auto;
   border: thin solid lightgray;

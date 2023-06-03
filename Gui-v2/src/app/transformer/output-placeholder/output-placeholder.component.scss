@@ -7,9 +7,13 @@
 }
 
 #container {
+    position: absolute;
     padding: 15px;
     color: rgba(0,0,0,0.5);
-    height: calc(100% - 60px);
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
     display: flex;
     flex-direction: column;
     border: thin dashed rgba(0,0,0,0.5);

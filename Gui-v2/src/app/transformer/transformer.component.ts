@@ -1,5 +1,9 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MatDialogState } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MatDialogState,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
@@ -11,22 +15,15 @@ import { OutputMessageComponent } from './output-message/output-message.componen
 import { ProgressDialogComponent } from './progress-dialog/progress-dialog.component';
 import { Subject } from 'rxjs';
 import { InputCodeComponent } from './input-code/input-code.component';
+import { OutputComponent } from './output/output.component';
 
 @Component({
   selector: 'app-transformer',
   templateUrl: './transformer.component.html',
-  styleUrls: ['./transformer.component.scss']
+  styleUrls: ['./transformer.component.scss'],
 })
 export class TransformerComponent {
-
   plugin: LoadedPlugin;
-
-  // TODO: disabled for now - "paste" causes issues with the progress dialog
-  // Need to make this customisable in some way - can user pick? can plugin? can both?
-  autoRunOn: 'paste'|'change'|'never' = 'never';
-
-  outputType: 'none'|'message'|'code'|'markdown'|'html' = 'none';
-  outputText = '';
 
   progressDialog?: MatDialogRef<ProgressDialogComponent> = null;
   currentRunId: string = null;
@@ -36,8 +33,8 @@ export class TransformerComponent {
   @ViewChild('inputCode')
   inputCode: InputCodeComponent;
 
-  @ViewChild('outputMessage')
-  outputMessage: OutputMessageComponent;
+  @ViewChild('output')
+  output: OutputComponent;
 
   constructor(
     private ipc: IpcService,
@@ -45,20 +42,26 @@ export class TransformerComponent {
     private snackBar: MatSnackBar,
     private changeDetector: ChangeDetectorRef,
     route: ActivatedRoute
-    ) {
+  ) {
     const pluginId = route.snapshot.params['id'];
     this.ipc.getPlugin(pluginId).then((plugin) => {
       this.plugin = plugin;
     });
 
-    this.ipc.registerPluginProgressUpdates().subscribe(({id, percentage}) => {
-      if (id === this.currentRunId && this.progressDialog?.getState() !== MatDialogState.OPEN) {
+    this.ipc.registerPluginProgressUpdates().subscribe(({ id, percentage }) => {
+      if (
+        id === this.currentRunId &&
+        this.progressDialog?.getState() !== MatDialogState.OPEN
+      ) {
         this.showProgressDialog(undefined, percentage);
       }
     });
 
-    this.ipc.registerPluginStatusUpdates().subscribe(({id, status}) => {
-      if (id === this.currentRunId && this.progressDialog?.getState() !== MatDialogState.OPEN) {
+    this.ipc.registerPluginStatusUpdates().subscribe(({ id, status }) => {
+      if (
+        id === this.currentRunId &&
+        this.progressDialog?.getState() !== MatDialogState.OPEN
+      ) {
         this.showProgressDialog(status, undefined);
       }
     });
@@ -68,7 +71,6 @@ export class TransformerComponent {
         this.runPlugin();
       }
     });
-
   }
 
   triggerRunPlugin() {
@@ -89,7 +91,7 @@ export class TransformerComponent {
       data: {
         runId: this.currentRunId,
         initialMessage: message,
-        initialProgress: progress
+        initialProgress: progress,
       },
       disableClose: true,
       width: '400px',
@@ -115,7 +117,10 @@ export class TransformerComponent {
     // - We haven't already shown it
     // - We haven't already finished
     setTimeout(() => {
-      if (this.currentRunId && this.progressDialog?.getState() !== MatDialogState.OPEN) {
+      if (
+        this.currentRunId &&
+        this.progressDialog?.getState() !== MatDialogState.OPEN
+      ) {
         this.showProgressDialog();
       }
     }, 700);
@@ -129,38 +134,16 @@ export class TransformerComponent {
     this.currentRunId = null;
     this.hideProgressDialog();
 
-    if (result.render === 'message') {
-      this.setOutputType('message');
-      this.outputMessage.setMessage(result.message);
-      return;
-    } else if (result.message) {
+    this.output.handlePluginResult(result);
+    if (result.message && result.render !== 'message') {
       this.handlePluginMessage(result.message);
     }
-
-    // If we had some message, but no text, don't show the empty output
-    if (!result.text && result.message) {
-      this.setOutputType('none');
-      return;
-    }
-
-    if (result.render === 'markdown') {
-      this.outputText = result.markdown;
-      this.setOutputType('markdown');
-    } else if (result.render === 'html') {
-      this.outputText = result.html;
-      this.setOutputType('html');
-    } else {
-      this.outputText = result.text;
-      this.setOutputType('code');
-    }
   }
 
-  private setOutputType(type: 'none'|'message'|'code'|'markdown'|'html') {
-    this.outputType = type;
-    this.changeDetector.detectChanges();
-  }
-
-  private handlePluginMessage(message: {level: 'info'|'warn'|'error'|'success', text: string}) {
+  private handlePluginMessage(message: {
+    level: 'info' | 'warn' | 'error' | 'success';
+    text: string;
+  }) {
     if (message.level === 'error') {
       this.dialog.open(ErrorDialogComponent, {
         data: message,

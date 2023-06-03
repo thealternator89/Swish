@@ -1,0 +1,27 @@
+<div id="wrapper">
+  <app-output-placeholder
+    *ngIf="outputType === 'none'"
+  ></app-output-placeholder>
+  <app-output-message
+    #outputMessage
+    [text]="output.message.text"
+    [level]="output.message.level"
+    *ngIf="outputType === 'message'"
+  ></app-output-message>
+  <app-output-markdown
+    #outputMarkdown
+    [outputText]="output.markdown"
+    *ngIf="outputType === 'markdown'"
+  ></app-output-markdown>
+  <app-output-code
+    #outputCode
+    [outputText]="output.text"
+    [language]="output.syntax"
+    *ngIf="outputType === 'text'"
+  ></app-output-code>
+  <app-output-html
+    #outputHtml
+    [outputText]="output.html"
+    *ngIf="outputType === 'html'"
+  ></app-output-html>
+</div>

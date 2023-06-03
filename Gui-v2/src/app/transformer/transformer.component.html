@@ -1,12 +1,15 @@
-<div id="wrapper" *ngIf="plugin" >
+<div id="wrapper" *ngIf="plugin">
   <div id="title">
     <div id="icon">
-      <span class="material-icons">{{getIcon()}}</span>
+      <span class="material-icons">{{ getIcon() }}</span>
     </div>
     <div id="pluginDetails">
-      <div id="pluginName">{{plugin.name}}</div>
-      <div id="pluginDescription">{{plugin.description}}</div>
-      <div><span class="tag" *ngFor="let tag of plugin.tags">{{tag}}</span> <span id="pluginId">{{plugin.id}}</span></div>
+      <div id="pluginName">{{ plugin.name }}</div>
+      <div id="pluginDescription">{{ plugin.description }}</div>
+      <div>
+        <span class="tag" *ngFor="let tag of plugin.tags">{{ tag }}</span>
+        <span id="pluginId">{{ plugin.id }}</span>
+      </div>
     </div>
   </div>
   <div id="editors">
@@ -21,11 +24,7 @@
     </div>
     <div id="output">
       <div class="panel-header">Output</div>
-      <app-output-placeholder *ngIf="outputType === 'none'"></app-output-placeholder>
-      <app-output-message #outputMessage *ngIf="outputType === 'message'"></app-output-message>
-      <app-output-markdown #outputMarkdown [outputText]="outputText" *ngIf="outputType === 'markdown'"></app-output-markdown>
-      <app-output-code #outputCode [outputText]="outputText" [language]="language" *ngIf="outputType === 'code'"></app-output-code>
-      <app-output-html #outputHtml [outputText]="outputText" *ngIf="outputType === 'html'"></app-output-html>
+      <app-output #output></app-output>
     </div>
   </div>
 </div>

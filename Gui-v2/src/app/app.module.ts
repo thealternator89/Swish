@@ -35,6 +35,7 @@ import { ProgressDialogComponent } from './transformer/progress-dialog/progress-
 import { InputCodeComponent } from './transformer/input-code/input-code.component';
 import { OutputCodeComponent } from './transformer/output-code/output-code.component';
 import { OutputHtmlComponent } from './transformer/output-html/output-html.component';
+import { OutputComponent } from './transformer/output/output.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { OutputHtmlComponent } from './transformer/output-html/output-html.compo
     InputCodeComponent,
     OutputCodeComponent,
     OutputHtmlComponent,
+    OutputComponent,
   ],
   imports: [
     AppRoutingModule,
