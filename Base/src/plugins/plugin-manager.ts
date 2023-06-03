@@ -185,7 +185,7 @@ class PluginManager {
         }
 
         return this.userSelectablePlugins.filter((plugin) =>
-            tags.every((tag) => plugin.tags.some((pluginTag) => pluginTag.toLocaleLowerCase() === tag.toLocaleLowerCase()))
+            tags.every((tag) => plugin.tags?.some((pluginTag) => pluginTag.toLocaleLowerCase() === tag.toLocaleLowerCase()))
         );
     }
 

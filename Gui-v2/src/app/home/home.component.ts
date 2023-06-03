@@ -65,8 +65,8 @@ export class HomeComponent {
 
   getPluginTags(plugins: PluginDefinition[]) {
     const tagDict: Record<string, number> = {};
-    plugins.forEach((plugin) => {
-      plugin.tags.forEach((tag) => {
+    plugins?.forEach((plugin) => {
+      plugin?.tags?.forEach((tag) => {
         if (tagDict[tag]) {
           tagDict[tag]++;
         } else {
