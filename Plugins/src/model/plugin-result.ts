@@ -1,3 +1,5 @@
+// NOTE: Plugin Manager sanitizes the plugin result before passing it to the client application.
+// If you add a new property to this interface, you must also add it to the sanitizer in plugin-manager.ts ~L304
 export interface PluginResult {
     /**
      * The text result

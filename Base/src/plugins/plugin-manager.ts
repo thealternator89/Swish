@@ -302,16 +302,29 @@ class PluginManager {
                 };
             } else {
                 return {
-                    ...runResult,
+                    // Unify line endings for all the text based results (if present)
                     text: runResult.text
                         ? unifyLineEndings(runResult.text, lineEndingChar)
                         : undefined,
                     html: runResult.html
                         ? unifyLineEndings(runResult.html, lineEndingChar)
                         : undefined,
+                    markdown: runResult.markdown
+                        ? unifyLineEndings(runResult.markdown, lineEndingChar)
+                        : undefined,
                     rtf: runResult.rtf
                         ? unifyLineEndings(runResult.rtf, lineEndingChar)
                         : undefined,
+
+                    // Deep clone the data to ensure only data is passed (prevent functions etc.)
+                    data: runResult.data
+                        ? JSON.parse(JSON.stringify(runResult.data))
+                        : undefined,
+
+                    // The other properties are passed through as-is
+                    message: runResult.message,
+                    render: runResult.render,
+                    syntax: runResult.syntax,
                 };
             }
         } catch (error) {
