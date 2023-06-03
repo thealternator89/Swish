@@ -2,8 +2,8 @@ import { ipcRenderer, contextBridge } from 'electron';
 import { configManager } from 'swish-base';
 
 contextBridge.exposeInMainWorld('app', {
-  search: (terms: string) => {
-    return ipcRenderer.invoke('pluginSearch', terms);
+  search: (terms: string, tags?: string[]) => {
+    return ipcRenderer.invoke('pluginSearch', {terms, tags});
   },
   runPlugin: (request: any) => {
     ipcRenderer.send('runPlugin', request);

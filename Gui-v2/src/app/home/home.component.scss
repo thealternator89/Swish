@@ -14,20 +14,8 @@
   font-size: 14pt;
 }
 
-#fav-plugins-container {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#fav-plugins {
-  display:flex;
-  flex-wrap: nowrap;
-  justify-content: space-evenly;
-}
-
 #plugin-container {
-  max-height: calc(100% - 219px);
+  max-height: calc(100% - 180px);
   margin-top: 10px;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -41,24 +29,28 @@
   margin: 0px auto;
 }
 
-#no-fav-plugins {
+#tags {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: #999;
-  border: thin dashed #999;
-  border-radius: 10px;
-  height: 87px;
+  flex-direction: row;
+  width: 80%;
+  margin: 30px auto 20px;
+}
+
+.tag {
+  margin: 0px 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #ddd;
+  cursor: pointer;
   user-select: none;
 }
 
-#no-fav-plugins-heading{
-  font-size: 12pt;
+.tag.selected {
+  background-color: #1976d2;
+  color: white;
+  font-weight: bold;
 }
 
-#no-fav-plugins-hint {
-  font-size: 9pt;
-  font-style: oblique;
+.padding {
+  flex-grow: 1;
 }

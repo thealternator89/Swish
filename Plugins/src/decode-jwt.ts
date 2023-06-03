@@ -10,7 +10,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'view_agenda',
-    tags: ['jwt', 'auth0'],
+    tags: ['jwt', 'auth0', 'decode', 'base64', 'token'],
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         const [headerB64, payloadB64, signature] = args.textContent.split('.');

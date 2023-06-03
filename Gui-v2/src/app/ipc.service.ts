@@ -35,8 +35,8 @@ export class IpcService {
     return window['app'].getPlugin(id);
   }
 
-  searchPlugins(query: string): Promise<any> {
-    return window['app'].search(query);
+  searchPlugins(query: string, tags?: string[]): Promise<any> {
+    return window['app'].search(query, tags);
   }
 
   runPlugin(runPluginRequest: RunPluginRequest): Promise<PluginResult> {

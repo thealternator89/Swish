@@ -10,15 +10,13 @@ import { IPC_CHANNELS } from '../shared/const/ipc/ipc-channel';
 class IPCHandler {
   private win: BrowserWindow;
 
+  // NOTE: This constructor is special. It will automatically call all register* functions in this class.
   constructor() {
-    // TODO this is getting long (and it's easy to miss).
-    // Figure out a way to just do this automatically.
-    this.registerRunPlugin();
-    this.registerSearch();
-    this.registerGetPlugin();
-    this.registerReloadUserPlugins();
-    this.registerGetAppVersion();
-    this.registerGetLogs();
+    for (let key of Object.getOwnPropertyNames(Object.getPrototypeOf(this))) {
+      if (typeof this[key] === 'function' && key.startsWith('register')) {
+        this[key]();
+      }
+    }
   }
 
   public setWindow(window: BrowserWindow) {
@@ -26,8 +24,8 @@ class IPCHandler {
   }
 
   public registerSearch() {
-    ipcMain.handle(IPC_CHANNELS.PLUGIN_SEARCH.REQ, (_event, arg: string) => {
-      const matching = swishBackend.search(arg);
+    ipcMain.handle(IPC_CHANNELS.PLUGIN_SEARCH.REQ, (_event, {terms, tags}: {terms: string, tags: string[]}) => {
+      const matching = swishBackend.search(terms, tags);
       return matching.map(
         // Filter out everything we don't want to send.
         ({ id, name, description, author, tags, icon, systemPlugin }) => ({
@@ -37,7 +35,7 @@ class IPCHandler {
           author,
           tags,
           icon,
-          systemPlugin
+          systemPlugin,
         })
       );
     });
@@ -54,8 +52,8 @@ class IPCHandler {
         tags: plugin.tags,
         icon: plugin.icon,
         systemPlugin: plugin.systemPlugin,
-        input: plugin.input
-      }
+        input: plugin.input,
+      };
     });
   }
 
@@ -113,6 +111,21 @@ class IPCHandler {
       status: status,
       id: runId,
     });
+  }
+
+  public toggleDevTools(): void {
+    const webContents = this?.win?.webContents;
+    if (webContents?.isDevToolsOpened()){
+      webContents.closeDevTools();
+    } else {
+      // The window buttons overlap the dev tools on Windows, so we need to open it on the left instead so we can control it.
+      if (process.platform === 'win32') {
+        webContents?.openDevTools({mode: 'left'});
+      }
+      else {
+        webContents?.openDevTools();
+      }
+    }
   }
 
   private safeSend = (channel: string, ...args: any[]) =>

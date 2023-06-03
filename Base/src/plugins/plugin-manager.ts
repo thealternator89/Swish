@@ -161,19 +161,32 @@ class PluginManager {
         }
     }
 
-    public searchPlugins(query: string): LoadedPlugin[] {
+    public searchPlugins(query: string, tags?: string[]): LoadedPlugin[] {
+        const pluginsToSearch = this.getPluginsForSearch(tags);
+
         if (!query) {
-            return this.userSelectablePlugins.sort(
+            return pluginsToSearch.sort(
                 LocaleComparePluginDefinition
             );
         }
 
-        const fuse = new Fuse(this.userSelectablePlugins, {
+        const fuse = new Fuse(pluginsToSearch, {
             keys: SEARCH_KEYS,
         });
 
         const results = fuse.search(query);
         return results.map((result) => result.item);
+    }
+
+    // If no tags are passed, return all plugins, otherwise return only plugins which have all the tags.
+    private getPluginsForSearch(tags?: string[]) {
+        if (!tags || !tags.length) {
+            return this.userSelectablePlugins;
+        }
+
+        return this.userSelectablePlugins.filter((plugin) =>
+            tags.every((tag) => plugin.tags.some((pluginTag) => pluginTag.toLocaleLowerCase() === tag.toLocaleLowerCase()))
+        );
     }
 
     /**
@@ -361,6 +374,12 @@ class PluginManager {
     private rebuildUserSelectablePlugins(): void {
         this.userSelectablePlugins = filterHiddenPlugins(
             mergePluginLists(this.userPlugins, this.systemPlugins)
+        );
+    }
+
+    private getPluginsForTag(tag: string): LoadedPlugin[] {
+        return this.userSelectablePlugins.filter((plugin) =>
+            plugin.tags.includes(tag)
         );
     }
 }

@@ -7,7 +7,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'emoji_symbols',
-    tags: ['encode', 'web', 'URI', 'URL'],
+    tags: ['encode', 'web', 'url'],
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         return encodeURIComponent(args.textContent);

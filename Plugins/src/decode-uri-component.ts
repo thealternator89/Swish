@@ -7,7 +7,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '1.0.0',
     icon: 'emoji_symbols',
-    tags: ['decode', 'web', 'URI', 'URL'],
+    tags: ['decode', 'web', 'url'],
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         let text = args.textContent;
