@@ -9,31 +9,35 @@ import { env } from 'process';
 
 const APP_NAME = 'Swish';
 
-const DEV_MODE = !!env["SWISH_DEVELOPMENT"];
+const DEV_MODE = !!env['SWISH_DEVELOPMENT'];
 
-const sleep = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
+const sleep = (duration: number) =>
+  new Promise((resolve) => setTimeout(resolve, duration));
 
 const platformWindowOptions = () => {
   // Hide the titlebar and
   switch (process.platform) {
-    case 'darwin': return {
-      frame: false,
-      titleBarStyle: 'hiddenInset',
-    }
-    case 'win32': return {
-      frame: false,
-      titleBarStyle: 'hidden',
-      titleBarOverlay: {
-        color: '#1976d2',
-        symbolColor: '#fff',
-        height: 40
-      }
-    }
-    default: return {
-      titleBarStyle: 'default',
-    }
+    case 'darwin':
+      return {
+        frame: false,
+        titleBarStyle: 'hiddenInset',
+      };
+    case 'win32':
+      return {
+        frame: false,
+        titleBarStyle: 'hidden',
+        titleBarOverlay: {
+          color: '#1976d2',
+          symbolColor: '#fff',
+          height: 40,
+        },
+      };
+    default:
+      return {
+        titleBarStyle: 'default',
+      };
   }
-}
+};
 
 let win: BrowserWindow;
 
@@ -51,7 +55,7 @@ app.on('activate', () => {
 function createWindow() {
   win = new BrowserWindow({
     ...(platformWindowOptions() as any),
-    width: 1200, // TODO Figure out what a good default size is
+    width: 1200,
     height: 700,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -65,22 +69,19 @@ function createWindow() {
 
   // If in dev mode, attempt to load the app from the standard angular location
   // Otherwise load the compiled angular app
-  if(DEV_MODE) {
+  if (DEV_MODE) {
+    console.log(
+      'Running in Dev Mode - will attempt to use ng for live development'
+    );
+    safeLoadUrl('http://localhost:4200');
+  } else {
     win.loadURL(
       url
-        .pathToFileURL(path.join(__dirname, '../../../dev-mode.html'))
+        .pathToFileURL(
+          path.join(__dirname, '../../../dist/swish-gui/index.html')
+        )
         .toString()
-      );
-
-    console.log('Running in Dev Mode - will attempt to use ng for live development');
-    safeLoadUrl("http://localhost:4200");
-  }
-  else {
-    win.loadURL(
-      url
-        .pathToFileURL(path.join(__dirname, '../../../dist/swish-gui/index.html'))
-        .toString()
-      );
+    );
   }
 
   win.on('closed', () => {
@@ -91,12 +92,14 @@ function createWindow() {
 
 // Attempt to load a URL in the window
 // If it fails, wait a second and try again.
-async function safeLoadUrl(url:string, logOnError:boolean = true) {
+async function safeLoadUrl(url: string, logOnError: boolean = true) {
   try {
     await win.loadURL(url);
   } catch (error) {
-    if(logOnError) {
-      console.error(`Failed to load URL: ${url}. Ng may still be building. Will retry every second.`);
+    if (logOnError) {
+      console.error(
+        `Failed to load URL: ${url}. Ng may still be building. Will retry every second.`
+      );
     }
     await sleep(1000);
     await safeLoadUrl(url, false);

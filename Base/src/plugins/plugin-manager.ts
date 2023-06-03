@@ -98,10 +98,7 @@ class PluginManager {
                 plugin,
                 resolvedDirectory,
                 (loadedPlugin) =>
-                    this.checkPluginVersion(
-                        loadedPlugin,
-                        BEEP_BASE_VERSION
-                    )
+                    this.checkPluginVersion(loadedPlugin, BEEP_BASE_VERSION)
             );
             pluginObjs = pluginObjs.concat(module);
         });
@@ -122,13 +119,18 @@ class PluginManager {
             .split('.')
             .map((n) => parseInt(n));
 
-        const versionMatches = (
+        const versionMatches =
             requiredVersion[0] === swishVersion[0] && // Major version matches AND
-            requiredVersion[1] <= swishVersion[1]
-        ); // Minor version is less than or equal
+            requiredVersion[1] <= swishVersion[1]; // Minor version is less than or equal
 
         if (!versionMatches) {
-            logger.writeWarning(`Plugin "${plugin.name}" (id: ${plugin.id}) requires Swish version ${plugin.swishVersion} but we're running ${swishVersion.join('.')}. Skipping.`);
+            logger.writeWarning(
+                `Plugin "${plugin.name}" (id: ${
+                    plugin.id
+                }) requires Swish version ${
+                    plugin.swishVersion
+                } but we're running ${swishVersion.join('.')}. Skipping.`
+            );
         }
 
         return versionMatches;
@@ -165,9 +167,7 @@ class PluginManager {
         const pluginsToSearch = this.getPluginsForSearch(tags);
 
         if (!query) {
-            return pluginsToSearch.sort(
-                LocaleComparePluginDefinition
-            );
+            return pluginsToSearch.sort(LocaleComparePluginDefinition);
         }
 
         const fuse = new Fuse(pluginsToSearch, {
@@ -185,7 +185,13 @@ class PluginManager {
         }
 
         return this.userSelectablePlugins.filter((plugin) =>
-            tags.every((tag) => plugin.tags?.some((pluginTag) => pluginTag.toLocaleLowerCase() === tag.toLocaleLowerCase()))
+            tags.every((tag) =>
+                plugin.tags?.some(
+                    (pluginTag) =>
+                        pluginTag.toLocaleLowerCase() ===
+                        tag.toLocaleLowerCase()
+                )
+            )
         );
     }
 
@@ -267,9 +273,12 @@ class PluginManager {
             // e.g. Plugin A launches and calls runPlugin for Plugin B, passing its own "progressUpdate" function
             //  while Plugin B is running the passed progressUpdate function is used, but when it returns to Plugin A it reverts to the original.
             if (topLevel) {
-                (global as any).progressUpdate = args.progressUpdate ?? (() => undefined);
-                (global as any).statusUpdate = args.statusUpdate ?? (() => undefined);
-                (global as any).runPlugin = (id, args, type) => this.internalRunPlugin(id, args, type);
+                (global as any).progressUpdate =
+                    args.progressUpdate ?? (() => undefined);
+                (global as any).statusUpdate =
+                    args.statusUpdate ?? (() => undefined);
+                (global as any).runPlugin = (id, args, type) =>
+                    this.internalRunPlugin(id, args, type);
             }
 
             const runResult = await plugin.process({
@@ -281,7 +290,7 @@ class PluginManager {
             });
 
             // Clean up the global environment
-            if (topLevel){
+            if (topLevel) {
                 (global as any).progressUpdate = undefined;
                 (global as any).statusUpdate = undefined;
                 (global as any).runPlugin = undefined;
@@ -361,7 +370,7 @@ class PluginManager {
         const result = await this.runPlugin(id, unifiedArgs, type, false);
 
         if (typeof result === 'string') {
-            return {text: result};
+            return { text: result };
         }
 
         if (!result) {
