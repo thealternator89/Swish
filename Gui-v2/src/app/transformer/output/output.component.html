@@ -8,34 +8,28 @@
     [level]="output.message.level"
     *ngIf="outputType === 'message'"
   ></app-output-message>
-  <mat-tab-group
-    headerPosition="below"
-    *ngIf="outputType !== 'none' && outputType !== 'message'"
-  >
-    <mat-tab label="Text" *ngIf="output.text">
-      <ng-template matTabContent>
-        <app-output-code
-          #outputCode
-          [outputText]="output.text"
-          [language]="output.syntax"
-        ></app-output-code>
-      </ng-template>
-    </mat-tab>
-    <mat-tab label="Markdown" *ngIf="output.markdown">
-      <ng-template matTabContent>
-        <app-output-markdown
-          #outputMarkdown
-          [outputText]="output.markdown"
-        ></app-output-markdown>
-      </ng-template>
-    </mat-tab>
-    <mat-tab label="HTML" *ngIf="output.html">
-      <ng-template matTabContent>
-        <app-output-html
-          #outputHtml
-          [outputText]="output.html"
-        ></app-output-html>
-      </ng-template>
-    </mat-tab>
+  <mat-tab-group headerPosition="below" *ngIf="outputType === 'tabs'">
+    <ng-container *ngFor="let tab of tabs">
+      <mat-tab [label]="tabName(tab)">
+        <ng-template matTabContent>
+          <app-output-markdown
+            #outputMarkdown
+            [outputText]="output.markdown"
+            *ngIf="tab === 'markdown'"
+          ></app-output-markdown>
+          <app-output-code
+            #outputCode
+            [outputText]="output.text"
+            [language]="output.syntax"
+            *ngIf="tab === 'text'"
+          ></app-output-code>
+          <app-output-html
+            #outputHtml
+            [outputText]="output.html"
+            *ngIf="tab === 'html'"
+          ></app-output-html>
+        </ng-template>
+      </mat-tab>
+    </ng-container>
   </mat-tab-group>
 </div>
