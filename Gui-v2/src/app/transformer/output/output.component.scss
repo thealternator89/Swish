@@ -1,6 +1,14 @@
 #wrapper {
   position: relative;
   width: calc(100% - 20px);
-  height: calc(100% - 28px);
+  height: calc(100% - 0px);
   overflow: hidden;
+}
+
+mat-tab-group {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
 }
