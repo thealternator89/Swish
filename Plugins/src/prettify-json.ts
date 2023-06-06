@@ -19,7 +19,6 @@ export = {
 
         return {
             text: prettified,
-            render: 'text',
             syntax: 'json'
         };
     },

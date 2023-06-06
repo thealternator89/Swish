@@ -15,7 +15,6 @@ export = {
         const parsed = JSON.parse(args.textContent);
         return {
             text: yaml.stringify(parsed),
-            render: 'text',
             syntax: 'yaml',
         }
     },

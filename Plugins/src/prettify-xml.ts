@@ -15,7 +15,6 @@ export = {
     process: async (args: ProvidedPluginArgument) => {
         return {
             text: format(args.textContent, { collapseContent: true }),
-            render: 'text',
             syntax: 'xml',
         }
     },
