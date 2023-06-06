@@ -13,11 +13,11 @@ class SwishBackend {
 
   public async runPlugin(
     pluginId: string,
-    data: string,
+    data: { textContent?: string; formData?: { [key: string]: any }},
     runId: string
   ): Promise<PluginResult> {
     const result = await pluginManager.runPlugin(pluginId, {
-      textContent: data,
+      ...data,
       progressUpdate: (percent: number) =>
         ipcHandler.sendProgressUpdate(percent, runId),
       statusUpdate: (status: string) =>

@@ -1,0 +1,46 @@
+#container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 45px);
+  background-color: white;
+  border: thin solid lightgray;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+#editor {
+  margin-top: 10px;
+  flex-grow: 1;
+  min-height: 150px;
+  border-top: thin solid lightgray;
+}
+
+.form-label {
+  margin-left: 5px;
+}
+
+.form-label.heading {
+  font-weight: bold;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.field-label {
+  margin-left: 5px;
+  flex: 1;
+  flex-basis: 0;
+  min-width: 100px;
+  text-align: left;
+  padding-right: 5px;
+}
+
+.field-input {
+  flex-grow: 1;
+  padding-left: 5px;
+  margin-right: 20px;
+}

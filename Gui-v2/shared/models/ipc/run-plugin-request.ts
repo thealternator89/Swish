@@ -1,5 +1,5 @@
 export interface RunPluginRequest {
   plugin: string;
-  data: string;
+  data: {textContent?: string, formData?: {[key: string]: any}};
   requestId: string;
 }

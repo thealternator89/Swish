@@ -6,16 +6,15 @@ import {
 } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
 import { LoadedPlugin } from 'src/models/LoadedPlugin';
 import { IpcService } from '../ipc.service';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { ResultSnackbarComponent } from './result-snackbar/result-snackbar.component';
-import { OutputMessageComponent } from './output-message/output-message.component';
 import { ProgressDialogComponent } from './progress-dialog/progress-dialog.component';
 import { Subject } from 'rxjs';
 import { InputCodeComponent } from './input-code/input-code.component';
 import { OutputComponent } from './output/output.component';
+import { InputFormComponent } from './input-form/input-form.component';
 
 @Component({
   selector: 'app-transformer',
@@ -32,6 +31,8 @@ export class TransformerComponent {
 
   @ViewChild('inputCode')
   inputCode: InputCodeComponent;
+  @ViewChild('inputForm')
+  inputForm: InputFormComponent;
 
   @ViewChild('output')
   output: OutputComponent;
@@ -46,6 +47,9 @@ export class TransformerComponent {
     const pluginId = route.snapshot.params['id'];
     this.ipc.getPlugin(pluginId).then((plugin) => {
       this.plugin = plugin;
+      if(this.plugin?.id === 'uuid-generate-v4') {
+        this.triggerRunPlugin();
+      }
     });
 
     this.ipc.registerPluginProgressUpdates().subscribe(({ id, percentage }) => {
@@ -74,6 +78,7 @@ export class TransformerComponent {
   }
 
   triggerRunPlugin() {
+    console.log('running plugin...');
     this.runPluginSubject.next();
   }
 
@@ -125,10 +130,12 @@ export class TransformerComponent {
       }
     }, 700);
 
+    const inputComponent = this.plugin.input?.type === 'form' ? this.inputForm : this.inputCode;
+
     const result = await this.ipc.runPlugin({
       plugin: this.plugin.id,
       requestId: this.currentRunId,
-      data: this.inputCode.getText(),
+      data: inputComponent?.getData() ?? {textContent: ''}
     });
 
     this.currentRunId = null;

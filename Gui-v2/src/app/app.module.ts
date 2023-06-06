@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
+import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,6 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -37,6 +39,7 @@ import { InputCodeComponent } from './transformer/input-code/input-code.componen
 import { OutputCodeComponent } from './transformer/output-code/output-code.component';
 import { OutputHtmlComponent } from './transformer/output-html/output-html.component';
 import { OutputComponent } from './transformer/output/output.component';
+import { InputFormComponent } from './transformer/input-form/input-form.component';
 
 @NgModule({
   declarations: [
@@ -59,12 +62,14 @@ import { OutputComponent } from './transformer/output/output.component';
     OutputCodeComponent,
     OutputHtmlComponent,
     OutputComponent,
+    InputFormComponent,
   ],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
+    MatCheckboxModule,
     MatChipsModule,
     MatButtonModule,
     MatDialogModule,
@@ -73,12 +78,14 @@ import { OutputComponent } from './transformer/output/output.component';
     MatListModule,
     MatMenuModule,
     MatProgressBarModule,
+    MatSelectModule,
     MatSnackBarModule,
     MatTabsModule,
     NuMonacoEditorModule.forRoot({
       baseUrl: `lib`,
     }),
     MarkdownModule.forRoot(),
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

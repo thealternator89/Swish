@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
 
 @Component({
@@ -10,6 +10,9 @@ export class InputCodeComponent implements OnInit {
 
   @ViewChild('editor')
   inputEditor: NuMonacoEditorComponent;
+
+  @Input('language')
+  editorLanguage: string;
 
   monacoOptions = {
     theme: 'vs',
@@ -28,6 +31,12 @@ export class InputCodeComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  getData() {
+    return {
+      textContent: this.getText(),
+    }
   }
 
   getText() {
@@ -55,6 +64,12 @@ export class InputCodeComponent implements OnInit {
   setLanguage(language: string) {
     const model = this.getModel();
     monaco.editor.setModelLanguage(model, language ?? 'plaintext');
+  }
+
+  editorShowEvent(e: Event) {
+    if (e.type === 'init') {
+      this.setLanguage(this.editorLanguage);
+    }
   }
 
   private editorIsLocked() {

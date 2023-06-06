@@ -10,7 +10,20 @@ export = {
     icon: 'loop',
     tags: ['uuid', 'random', 'generate'],
     usableFrom: ['core', 'clip', 'gui'],
-    process: async (_args: ProvidedPluginArgument) => {
-        return v4();
+    input: {
+        type: 'form',
+        fields: [
+            {
+                key: 'count',
+                label: 'Number of UUIDs',
+                type: 'number'
+            }
+        ],
+    },
+    process: async (args: ProvidedPluginArgument) => {
+        const count = args.formContent?.count ?? 1;
+        const uuids = new Array(count).fill(0).map(() => v4());
+
+        return uuids.join('\n');
     },
 };

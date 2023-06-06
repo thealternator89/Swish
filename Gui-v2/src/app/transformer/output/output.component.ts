@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PluginResult } from 'swish-base';
-import { OutputMessageComponent } from '../output-message/output-message.component';
 
 @Component({
   selector: 'app-output',
@@ -10,9 +9,6 @@ import { OutputMessageComponent } from '../output-message/output-message.compone
 export class OutputComponent implements OnInit {
   constructor() {}
 
-  @ViewChild('outputMessage')
-  outputMessage: OutputMessageComponent;
-
   tabs: string[] = [];
 
   outputType: 'none' | 'message' | 'tabs' = 'none';
@@ -21,7 +17,9 @@ export class OutputComponent implements OnInit {
   ngOnInit(): void {}
 
   handlePluginResult(result: PluginResult) {
-    if (result.render || result.text) {
+    if (result.render === 'message') {
+      this.outputType = 'message';
+    } else if (result.render || result.text) {
       this.outputType = 'tabs';
       this.tabs = this.getTabs(result);
     } else {
