@@ -39,7 +39,6 @@ export class OutputCodeComponent {
   }
 
   setLanguage(language: string) {
-    console.log(`Setting language to ${language}`);
     this.outputLanguage = language;
     monaco.editor.setModelLanguage(this.editor.editor.getModel(), language);
   }
