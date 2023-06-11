@@ -34,21 +34,64 @@ export const convertWordCaseToTitleCase = (value: string) =>
     buildTitleCase(sanitize(value).split(' '));
 
 // Builders - takes a set of words and builds a string based on joining rules.
-const buildCamelCase = (words: string[]) =>
+export const buildCamelCase = (words: string[]) =>
     buildStringFromWords(words, capitalizeWord, '', lowerCaseFirstChar);
-const buildConstantCase = (words: string[]) =>
+export const buildConstantCase = (words: string[]) =>
     buildStringFromWords(words, upperCaseWord, '_');
-const buildKebabCase = (words: string[]) =>
+export const buildKebabCase = (words: string[]) =>
     buildStringFromWords(words, lowerCaseWord, '-');
-const buildPascalCase = (words: string[]) =>
+export const buildPascalCase = (words: string[]) =>
     buildStringFromWords(words, capitalizeWord, '');
-const buildSnakeCase = (words: string[]) =>
+export const buildSnakeCase = (words: string[]) =>
     buildStringFromWords(words, lowerCaseWord, '_');
-const buildTitleCase = (words: string[]) =>
+export const buildTitleCase = (words: string[]) =>
     buildStringFromWords(words, capitalizeWord, ' ');
-const buildWordCase = (words: string[]) =>
-    buildStringFromWords(words, lowerCaseWord, ' ');
+export const buildWordCase = (words: string[]) =>
+    buildStringFromWords(words, lowerCaseWord, ' ', upperCaseFirstChar);
 
+export function splitCamelAndPascalCase(value: string): string[] {
+    // Split string on capital letter, unless the capital letter is both prefixed and postfixed with another capital letter.
+    // Things to convert:
+    //   * "findTvIpAddress" => ["find", "Tv", "Ip", "Address"]
+    //   * "convertIPAddressToDNSAddress" => ["convert", "IP", "Address", "To", "DNS", "Address"]
+    //   * "QueryParamToJSON" => ["Query", "Param", "To", "JSON"]
+    // Things that won't work:
+    //   * "convertPHPIPAddress" => ["convert", "PHP", "IP", "Address"] - multiple adjacent acronyms/initialisms. Would be a single word "PHPIP"
+    //   * "downloadYouTubeVideo" => ["download", "YouTube", "Video"] - proprietary word "YouTube". this would be split into 2 words
+
+    const isStartOfNewWord = (index: number): boolean =>
+        index !== 0 &&
+        value[index] !== value[index].toLowerCase() &&
+        value[index - 1] !== value[index - 1].toUpperCase();
+
+    const words: string[] = [];
+
+    let startOfCurrentWord = 0;
+
+    for (let i = 0; i < value.length; i++) {
+        if (isStartOfNewWord(i)) {
+            words.push(
+                value.substring(startOfCurrentWord, i)
+            );
+            startOfCurrentWord = i;
+        }
+    }
+
+    words.push(value.substring(startOfCurrentWord));
+
+    return words;
+}
+
+/**
+ * Builds a string by converting an array of words, joining them using a specified character,
+ * and optionally performing a post-processing step on the final string.
+ *
+ * @param words - The array of words to convert and join.
+ * @param wordConverter - A function that converts individual words.
+ * @param joinChar - The character used to join the converted words.
+ * @param postProcess - An optional function to perform post-processing on the final string.
+ * @returns The built string.
+ */
 function buildStringFromWords(
     words: string[],
     wordConverter: (word: string) => string,
@@ -67,37 +110,7 @@ function buildStringFromWords(
     return converted;
 }
 
-export function splitCamelAndPascalCase(value: string): string[] {
-    // Split string on capital letter, unless the capital letter is both prefixed and postfixed with another capital letter.
-    // Things to convert:
-    //   * "findTvIpAddress" => ["find", "Tv", "Ip", "Address"]
-    //   * "convertIPAddressToDNSAddress" => ["convert", "IP", "Address", "To", "DNS", "Address"]
-    //   * "QueryParamToJSON" => ["Query", "Param", "To", "JSON"]
-    // Things that won't work:
-    //   * "convertPHPIPAddress" => ["convert", "PHP", "IP", "Address"] - multiple adjacent acronyms/initialisms. Would be a single word "PHPIP"
-    //   * "downloadYouTubeVideo" => ["download", "YouTube", "Video"] - proprietary word "YouTube". this would be split into 2 words
-    const words: string[] = [];
-
-    let startOfCurrentWord = 0;
-
-    for (let i = 0; i < value.length; i++) {
-        if (
-            i !== 0 && // is not the first char
-            isUpperCase(value[i]) && // is upper case
-            !(isUpperCase(value[i - 1]) && isUpperCase(value[i + 1])) // a char on either side of this char is not uppercase
-        ) {
-            words.push(
-                value.substring(startOfCurrentWord, i - startOfCurrentWord)
-            );
-            startOfCurrentWord = i;
-        }
-    }
-
-    words.push(value.substring(startOfCurrentWord));
-
-    return words;
-}
-
+// Check if a string is all uppercase.
 function isUpperCase(value: string): boolean {
     const A_CHAR_CODE = 65;
     const Z_CHAR_CODE = 90;
@@ -114,22 +127,39 @@ function isUpperCase(value: string): boolean {
     return value.length !== 0;
 }
 
+// Capitalize the first letter of a word, and lowercase the rest while keeping acronyms/initialisms uppercase.
 function capitalizeWord(word: string): string {
-    return word.length > 0 ? `${word[0].toUpperCase()}${word.substring(1)}` : '';
+    if (word.length === 0) {
+        return '';
+    }
+
+    const firstChar = word[0];
+    const restOfWord = word.substring(1);
+
+    return firstChar + (isUpperCase(restOfWord) ? restOfWord : restOfWord.toLowerCase());
 }
 
+// Capitalize the first letter and leave the rest of the word as is.
+function upperCaseFirstChar(text: string): string {
+    return text.length > 0 ? `${text[0].toUpperCase()}${text.substring(1)}` : '';
+}
+
+// Lowercase the first letter and leave the rest of the word as is.
 function lowerCaseFirstChar(text: string): string {
     return text.length > 0 ? `${text[0].toLowerCase()}${text.substring(1)}` : '';
 }
 
+// Lowercase the entire word.
 function lowerCaseWord(word: string): string {
     return word.toLowerCase();
 }
 
+// Uppercase the entire word.
 function upperCaseWord(word: string): string {
     return word.toUpperCase();
 }
 
+// Remove all non-alphanumeric characters from the string.
 function sanitize(value: string): string {
     return value.trim().replace(/[^\w\s]/gi, '');
 }

@@ -398,12 +398,6 @@ class PluginManager {
             mergePluginLists(this.userPlugins, this.systemPlugins)
         );
     }
-
-    private getPluginsForTag(tag: string): LoadedPlugin[] {
-        return this.userSelectablePlugins.filter((plugin) =>
-            plugin.tags.includes(tag)
-        );
-    }
 }
 
 function mergePluginLists(...lists: LoadedPlugin[][]) {

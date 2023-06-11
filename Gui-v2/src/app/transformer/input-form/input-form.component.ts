@@ -39,7 +39,7 @@ export class InputFormComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({});
     for (const field of this.plugin.input.fields) {
-      this.form.addControl(field.label, this.fb.control(''));
+      this.form.addControl(field.label, this.fb.control(field.default));
     }
   }
 
@@ -59,11 +59,23 @@ export class InputFormComponent implements OnInit {
     }
   }
 
+  getFormFieldClass(field: PluginInputFormField) {
+    if (field.type !== 'label') {
+      return 'form-field';
+    } else {
+      return '';
+    }
+  }
+
   getData() {
-    return {
+    const data = {
       formContent: this.getFormValue(),
       textContent: this.getTextValue(),
     }
+
+    console.log(data);
+
+    return data;
   }
 
   getFormValue() {

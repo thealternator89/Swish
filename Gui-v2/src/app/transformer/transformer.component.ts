@@ -47,8 +47,8 @@ export class TransformerComponent {
     const pluginId = route.snapshot.params['id'];
     this.ipc.getPlugin(pluginId).then((plugin) => {
       this.plugin = plugin;
-      if(this.plugin?.id === 'uuid-generate-v4') {
-        this.triggerRunPlugin();
+      if (this.plugin?.id === 'uuid-generate-v4') {
+        setTimeout(() => this.triggerRunPlugin(), 100);
       }
     });
 
@@ -78,7 +78,6 @@ export class TransformerComponent {
   }
 
   triggerRunPlugin() {
-    console.log('running plugin...');
     this.runPluginSubject.next();
   }
 
@@ -135,7 +134,7 @@ export class TransformerComponent {
     const result = await this.ipc.runPlugin({
       plugin: this.plugin.id,
       requestId: this.currentRunId,
-      data: inputComponent?.getData() ?? {textContent: ''}
+      data: inputComponent?.getData() ?? {textContent: '', formContent: {}}
     });
 
     this.currentRunId = null;

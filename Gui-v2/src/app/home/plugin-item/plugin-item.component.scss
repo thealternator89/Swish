@@ -51,8 +51,12 @@
 }
 
 .material-icons {
-  font-size: 30px;
   margin-right: 5px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
 }
 
 .tags {
@@ -61,6 +65,9 @@
   flex-direction: row;
   align-items: center;
   height: 20px;
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+  flex-wrap: nowrap;
 }
 
 .tag {
@@ -71,5 +78,14 @@
   border-radius: 5px;
   font-size: 8pt;
   text-transform: lowercase;
+  flex-wrap: nowrap;
 }
 
+.padding {
+  flex: 1;
+}
+
+.user-icon {
+  font-size: 20px;
+  margin-right: 5px;
+}

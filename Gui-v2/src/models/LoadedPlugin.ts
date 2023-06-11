@@ -13,5 +13,6 @@ export type LoadedPlugin = {
     syntax: string;
     fields: PluginInputFormField[];
     includeEditor?: boolean;
+    editorPosition?: 'top' | 'bottom';
   };
 };

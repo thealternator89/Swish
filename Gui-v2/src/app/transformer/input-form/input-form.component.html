@@ -1,21 +1,33 @@
 <div id="container">
+  <div id="editor" *ngIf="plugin?.input?.includeEditor && plugin?.input?.editorPosition === 'top'">
+    <nu-monaco-editor
+      #editor
+      class="editor top-editor"
+      [options]="monacoOptions"
+      height="100%"
+      width="100%"
+      (event)="editorShowEvent($event)"
+      >
+    </nu-monaco-editor>
+  </div>
   <form [formGroup]="form" id="input-form">
-    <div class="form-field" *ngFor="let field of plugin.input.fields">
+    <div [class]="getFormFieldClass(field)" *ngFor="let field of plugin.input.fields">
       <label [class]="getLabelClass(field)">{{ getLabelText(field) }}</label>
       <mat-form-field class="field-input" *ngIf="field.type !== 'checkbox' && field.type !== 'label'">
         <ng-container [ngSwitch]="field.type">
-          <mat-select [id]="field.key" [name]="field.label" [formControlName]="field.label" *ngSwitchCase="'select'">
+          <mat-select [id]="field.key" [name]="field.label" [formControlName]="field.label" [placeholder]="field.placeholder" *ngSwitchCase="'select'">
             <mat-option *ngFor="let option of field.opts" [value]="option">{{ option }}</mat-option>
           </mat-select>
-          <input matInput [type]="field.type" [id]="field.key" [name]="field.label" [formControlName]="field.label" *ngSwitchDefault/>
+          <input matInput [type]="field.type" [id]="field.key" [name]="field.label" [placeholder]="field.placeholder" [formControlName]="field.label" *ngSwitchDefault/>
         </ng-container>
       </mat-form-field>
       <mat-checkbox class="field-input" [id]="field.key" [formControlName]="field.label" *ngIf="field.type === 'checkbox'"></mat-checkbox>
     </div>
   </form>
-  <div id="editor" *ngIf="plugin?.input?.includeEditor">
+  <div id="editor" *ngIf="plugin?.input?.includeEditor && plugin?.input?.editorPosition !== 'top'">
     <nu-monaco-editor
       #editor
+      class="editor bottom-editor"
       [options]="monacoOptions"
       height="100%"
       width="100%"

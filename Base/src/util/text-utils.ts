@@ -1,6 +1,10 @@
-import { PluginResult } from "swish-plugins/dist/model";
+import { PluginResult } from 'swish-plugins/dist/model';
 
 export function identifyLineEndingChar(text: string): '\r\n' | '\r' | '\n' {
+    if (!text) {
+        return '\n';
+    }
+
     const lineEndings = [
         { char: '\r\n', freq: (text.match(/\r\n/g) ?? []).length },
         { char: '\r', freq: (text.match(/\r[^\n]/g) ?? []).length },
@@ -17,6 +21,9 @@ export function unifyLineEndings(
     text: string,
     lineEndingChar: '\r\n' | '\r' | '\n' = '\n'
 ): string {
+    if (!text) {
+        return '';
+    }
     const unified = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
     return unified.replace(/\n/g, lineEndingChar);
 }
@@ -30,7 +37,7 @@ export async function runPlugins(
         type?: string
     ) => Promise<PluginResult>
 ): Promise<PluginResult> {
-    let currentValue: PluginResult = {text: input};
+    let currentValue: PluginResult = { text: input };
 
     for (const plugin of plugins) {
         const [pluginType, pluginId] = plugin.split(':');

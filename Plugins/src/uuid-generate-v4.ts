@@ -16,14 +16,40 @@ export = {
             {
                 key: 'count',
                 label: 'Number of UUIDs',
-                type: 'number'
+                type: 'number',
+                default: 1,
+            },
+            {
+                key: 'shorten',
+                label: 'Shorten',
+                type: 'checkbox'
+            },
+            {
+                key: 'format',
+                label: 'Format',
+                type: 'select',
+                default: 'Text',
+                opts: ['Text', 'JSON']
             }
         ],
     },
     process: async (args: ProvidedPluginArgument) => {
-        const count = args.formContent?.count ?? 1;
-        const uuids = new Array(count).fill(0).map(() => v4());
+        let { count, shorten, format } = args.formContent;
+        count = typeof count === 'number' && !Number.isNaN(count) ? count : 1;
 
-        return uuids.join('\n');
+        let uuids = new Array(count ?? 1).fill(0).map(() => v4());
+
+        if (shorten) {
+            uuids = uuids.map(uuid => uuid.replace(/-/g, ''));
+        }
+
+        switch (format) {
+            case 'Text': return uuids.join('\n');
+            case 'JSON': return {
+                text: JSON.stringify(uuids, null, 4),
+                syntax: 'json'
+            }
+            default: throw new Error(`Invalid format: ${format}`);
+        }
     },
 };

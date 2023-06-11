@@ -9,10 +9,23 @@
 }
 
 #editor {
-  margin-top: 10px;
   flex-grow: 1;
   min-height: 150px;
+}
+
+.top-editor {
+  border-bottom: thin solid lightgray;
+}
+
+.bottom-editor {
+  margin-top: 10px;
   border-top: thin solid lightgray;
+}
+
+#input-form {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 5px;
 }
 
 .form-label {
@@ -20,13 +33,14 @@
 }
 
 .form-label.heading {
+  font-size: 12pt;
   font-weight: bold;
 }
 
 .form-field {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 100px 1fr; /* 150px for the label width */
+  gap: 10px; /* Adjust the gap between the label and input */
   align-items: center;
 }
 

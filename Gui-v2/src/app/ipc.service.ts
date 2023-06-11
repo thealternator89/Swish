@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RunPluginRequest } from 'shared/models/ipc/run-plugin-request';
 import { LoadedPlugin } from 'src/models/LoadedPlugin';
-import { PluginResult } from 'swish-base';
+import { PluginDefinition, PluginResult } from 'swish-base';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +35,7 @@ export class IpcService {
     return window['app'].getPlugin(id);
   }
 
-  searchPlugins(query: string, tags?: string[]): Promise<any> {
+  searchPlugins(query: string, tags?: string[]): Promise<PluginDefinition[]> {
     return window['app'].search(query, tags);
   }
 

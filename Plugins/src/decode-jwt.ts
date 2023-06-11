@@ -13,9 +13,9 @@ export = {
     tags: ['jwt', 'auth0', 'decode', 'base64', 'token'],
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
-        const [headerB64, payloadB64, signature] = args.textContent.split('.');
+        const [headerB64, payloadB64] = args.textContent.split('.');
 
-        if (!headerB64 || !payloadB64 || !signature) {
+        if (!headerB64 || !payloadB64) {
             throw new Error(
                 'Invalid token. Expected format: <header>.<payload>.<signature>'
             );
@@ -24,8 +24,8 @@ export = {
         const {text: header} = await args.runPlugin('base64-decode-json', headerB64);
         const {text: payload} = await args.runPlugin('base64-decode-json', payloadB64);
 
-        const text = buildText(header, payload, signature);
-        const markdown = buildMarkdown(header, payload, signature);
+        const text = buildText(header, payload);
+        const markdown = buildMarkdown(header, payload);
 
         return {
             text,
@@ -42,27 +42,22 @@ function indentLines(text: string, spaces: number): string {
         .join(NEWLINE_CHAR);
 }
 
-function buildText (header, payload, signature) {
+function buildText (header, payload) {
     return [
         'HEADER:',
         indentLines(header, 4),
         ,
         'PAYLOAD:',
         indentLines(payload, 4),
-        ,
-        'SIGNATURE:',
-        indentLines(signature, 4),
     ].join(NEWLINE_CHAR)
 }
 
-function buildMarkdown (header, payload, signature) {
+function buildMarkdown (header, payload) {
     return [
         '**Header:**',
         ...(buildMarkdownCodeBlock(header, 'json')),
         '**Payload:**',
         ...(buildMarkdownCodeBlock(payload, 'json')),
-        '**Signature:**',
-        ...(buildMarkdownCodeBlock(signature, 'text')),
     ].join(NEWLINE_CHAR);
 }
 

@@ -24,11 +24,16 @@ export interface PluginInput {
     type?: 'text' | 'form'; // Default is text
     syntax?: string; // Only used if type is text - default is plain text
     fields?: PluginInputFormField[]; // Only used if type is form
+    includeEditor?: boolean; // Whether to include the editor in the form
+    editorPosition?: 'top' | 'bottom'; // Only used if includeEditor is true - default is bottom
 }
 
 export interface PluginInputFormField {
-    key: string;
-    type: 'text' | 'number' | 'checkbox' | 'select' | 'radio' | 'code' | 'date';
-    label: string;
+    key: string; // The key to use when accessing the value of this field - must be unique.
+    type: 'text' | 'number' | 'checkbox' | 'select' | 'date'; // The type of input to display
+    label: string; // The label for this field
+    heading?: boolean; // Only used for labels - indicates that this label is a heading
+    opts?: string[]; // Only used if type is select - the options to choose from
+    default?: string | number | boolean; // The default value for this field
   }
   
