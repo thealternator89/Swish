@@ -5,7 +5,7 @@ export = {
     description: `Evaluate the input as javascript`,
     id: 'eval-js',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'widgets',
     tags: ['evaluate', 'javascript', 'execute', 'run'],
     usableFrom: ['core', 'clip', 'gui'],

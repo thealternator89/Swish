@@ -7,7 +7,7 @@ export = {
     description: 'Create a variable, function or class name from a sentence or phrase',
     id: 'name-maker',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'format_size',
     tags: ['variable', 'method', 'class', 'dev'],
     input: {

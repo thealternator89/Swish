@@ -5,7 +5,7 @@ export = {
     description: 'Reverses a string passed to it. e.g: "ABC123" -> "321CBA"',
     id: 'reverse-string',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'replay',
     tags: ['reverse', 'text'],
     usableFrom: ['core', 'clip', 'gui'],

@@ -6,7 +6,7 @@ export = {
     description: 'Sorts the lines of the input',
     id: 'sort-lines',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'sort',
     tags: ['sort', 'text'],
     usableFrom: ['core', 'clip', 'gui'],

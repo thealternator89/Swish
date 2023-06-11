@@ -5,7 +5,7 @@ export = {
     description: 'Converts a Hex color value to an RGB color',
     id: 'hex-to-rgb',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'palette',
     tags: ['hex', 'rgb', 'color', 'web', 'css'],
     usableFrom: ['core', 'clip', 'gui'],

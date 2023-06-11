@@ -12,7 +12,7 @@ export = {
         'Basic, insecure cypher. Rotates each alphabet character by 13 places',
     id: 'rot13-cypher',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'lock_open',
     tags: ['rot13', 'crypto'],
     usableFrom: ['core', 'clip', 'gui'],

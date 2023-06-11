@@ -7,7 +7,7 @@ export = {
     description: 'Encode text as a Base-64 encoded string',
     id: 'base64-encode',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     tags: ['base64', 'encode', 'text', 'json', 'xml'],
     icon: 'code',
     usableFrom: ['core', 'clip', 'gui'],

@@ -5,7 +5,7 @@ export = {
     description: 'Escape text for most programming languages',
     id: 'string-escape',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'format_quote',
     tags: ['escape', 'dev'],
     usableFrom: ['core', 'clip', 'gui'],

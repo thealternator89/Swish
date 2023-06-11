@@ -6,7 +6,7 @@ export = {
     description: 'Compute the MD5 checksum of your text',
     id: 'hash-md5',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'fingerprint',
     tags: ['MD5', 'crypto', 'hash'],
     usableFrom: ['core', 'clip', 'gui'],

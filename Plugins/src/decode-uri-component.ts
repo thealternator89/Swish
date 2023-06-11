@@ -5,7 +5,7 @@ export = {
     description: `Decode URI components to display them in a human-readable way`,
     id: 'decode-uri-component',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'emoji_symbols',
     tags: ['decode', 'web', 'url'],
     usableFrom: ['core', 'clip', 'gui'],

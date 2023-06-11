@@ -7,7 +7,7 @@ export = {
     description: 'Convert JSON object to YAML',
     id: 'json-to-yaml',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     tags: ['json', 'yaml', 'dev'],
     usableFrom: ['core', 'clip', 'gui'],
     input: { syntax: 'json'},

@@ -9,7 +9,7 @@ export = {
     description: 'Converts an RGB color value to a Hex color',
     id: 'rgb-to-hex',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'palette',
     tags: ['hex', 'rgb', 'color', 'web', 'css'],
     usableFrom: ['core', 'clip', 'gui'],

@@ -5,7 +5,7 @@ export = {
     description: 'Pretty prints JSON using a unified spacing',
     id: 'prettify-json',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'expand',
     tags: ['json', 'prettify', 'beautify', 'format', 'dev'],
     usableFrom: ['core', 'clip', 'gui'],

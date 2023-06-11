@@ -8,7 +8,7 @@ export = {
     description: 'Decodes a JSON Web Token (JWT) and makes it human-readable',
     id: 'decode-jwt',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'view_agenda',
     tags: ['jwt', 'auth0', 'decode', 'base64', 'token'],
     usableFrom: ['core', 'clip', 'gui'],

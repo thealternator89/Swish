@@ -6,7 +6,7 @@ export = {
     description: 'Reverses the lines of the input',
     id: 'reverse-lines',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'swap_vert',
     tags: ['reverse', 'text'],
     usableFrom: ['core', 'clip', 'gui'],

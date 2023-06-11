@@ -6,7 +6,7 @@ export = {
         'Validates JSON, displaying either an error or a successful message',
     id: 'validate-json',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'check_circle',
     tags: ['json', 'validate', 'dev'],
     usableFrom: ['core', 'clip', 'gui'],

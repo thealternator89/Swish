@@ -5,7 +5,7 @@ export = {
     description: 'Lengthens a 3-character hex to a 6-character hex',
     id: 'lengthen-hex',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'palette',
     tags: ['lengthen', 'hex', 'color', 'web', 'css'],
     usableFrom: ['core', 'clip', 'gui'],

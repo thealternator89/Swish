@@ -6,7 +6,7 @@ export = {
     description: 'Escape text to be used in HTML',
     id: 'html-escape',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'public',
     tags: ['html', 'web', 'escape'],
     usableFrom: ['core', 'clip', 'gui'],

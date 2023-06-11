@@ -5,7 +5,7 @@ export = {
     description: 'Remove hyphens from UUID',
     id: 'uuid-shorten',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'content_cut',
     tags: ['uuid', 'shorten'],
     usableFrom: ['core', 'clip', 'gui'],

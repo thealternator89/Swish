@@ -6,7 +6,7 @@ export = {
     description: 'Generate a V4 UUID',
     id: 'uuid-generate-v4',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'loop',
     tags: ['uuid', 'random', 'generate'],
     usableFrom: ['core', 'clip', 'gui'],

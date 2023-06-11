@@ -8,7 +8,7 @@ export = {
     id: 'base64-decode',
     author: 'thealternator89',
     tags: ['base64', 'decode', 'text', 'json', 'xml'],
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'code',
     usableFrom: ['core', 'clip', 'gui'],
     input: {

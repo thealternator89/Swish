@@ -5,7 +5,7 @@ export = {
     description: 'Convert input to uppercase',
     id: 'upcase',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'arrow_upward',
     tags: ['text', 'format', 'uppercase'],
     usableFrom: ['core', 'clip', 'gui'],

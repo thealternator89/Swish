@@ -5,7 +5,7 @@ export = {
     description: 'Format a UUID as 8-4-4-4-12',
     id: 'uuid-format',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'power_input',
     tags: ['uuid', 'format'],
     usableFrom: ['core', 'clip', 'gui'],

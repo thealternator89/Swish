@@ -6,7 +6,7 @@ export = {
     description: 'Compute the SHA256 hash of your text',
     id: 'hash-sha256',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'fingerprint',
     tags: ['SHA256', 'crypto', 'hash'],
     usableFrom: ['core', 'clip', 'gui'],

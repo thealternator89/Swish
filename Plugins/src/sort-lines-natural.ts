@@ -16,7 +16,7 @@ export = {
     description: 'Sorts the lines of the input, keeping numbers in order',
     id: 'sort-lines-natural',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'sort',
     tags: ['sort', 'natural', 'text'],
     usableFrom: ['core', 'clip', 'gui'],

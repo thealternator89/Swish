@@ -5,7 +5,7 @@ export = {
     description: 'Remove slashes from a string',
     id: 'string-unescape',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'format_quote',
     tags: ['unescape', 'dev'],
     usableFrom: ['core', 'clip', 'gui'],

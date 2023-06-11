@@ -6,7 +6,7 @@ export = {
     description: 'Remove all whitespace from the start and end of each line',
     id: 'trim-lines',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'content_cut',
     tags: ['trim', 'whitespace'],
     usableFrom: ['core', 'clip', 'gui'],

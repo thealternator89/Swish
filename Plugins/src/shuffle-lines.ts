@@ -6,7 +6,7 @@ export = {
     description: 'Shuffles the lines of the input',
     id: 'shuffle-lines',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'shuffle',
     tags: ['shuffle', 'random', 'text'],
     usableFrom: ['core', 'clip', 'gui'],

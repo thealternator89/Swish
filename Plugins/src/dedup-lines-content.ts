@@ -7,7 +7,7 @@ export = {
         'Removes all duplicate lines, excluding surrounding whitespace and capitalization',
     id: 'dedup-lines-content',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     tags: ['deduplicate', 'content'],
     icon: 'filter_alt',
     usableFrom: ['core', 'gui'],

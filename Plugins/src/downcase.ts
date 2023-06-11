@@ -5,7 +5,7 @@ export = {
     description: 'Convert input to lowercase',
     id: 'downcase',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'arrow_downward',
     tags: ['text', 'format', 'lowercase'],
     usableFrom: ['core', 'clip', 'gui'],

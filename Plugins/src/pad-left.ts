@@ -7,7 +7,7 @@ export = {
         'Add padding to the left of each line so all lines are the same length',
     id: 'pad-left',
     author: 'thealternator89',
-    swishVersion: '1.0.0',
+    swishVersion: '2.0.0',
     icon: 'format_align_right',
     tags: ['padding', 'text'],
     usableFrom: ['core', 'gui'],
