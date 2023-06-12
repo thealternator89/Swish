@@ -334,6 +334,9 @@ class PluginManager {
                 throw error;
             }
 
+            // Log the error so users can see what happened.
+            logger.writeError(`${plugin.name} - ` + error.stack);
+
             return {
                 message: {
                     level: 'error',
