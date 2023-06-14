@@ -28,8 +28,6 @@ export = {
         const { algorithm } = args.formContent ?? { algorithm: '*All' };
         const text = args.textContent;
 
-        crypto.MD5;
-
         switch (algorithm) {
             case 'MD5':
             case 'SHA1':
