@@ -64,10 +64,12 @@ markdown th {
 
 markdown pre {
   white-space: pre-wrap !important; // force code blocks to line wrap
+  overflow-wrap: anywhere !important;
 }
 
 markdown code {
-  background-color: #eee;
+  background-color: transparent;
   padding: 2px;
   border-radius: 2px;
+  overflow-wrap: anywhere;
 }
