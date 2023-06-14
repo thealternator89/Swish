@@ -21,8 +21,16 @@ export = {
             );
         }
 
-        const {text: header} = await args.runPlugin('base64-decode-json', headerB64);
-        const {text: payload} = await args.runPlugin('base64-decode-json', payloadB64);
+        const { text: header } = await args.runPlugin('base64-decode', {
+            ...args,
+            textContent: headerB64,
+            formContent: { format: 'JSON' },
+        });
+        const { text: payload } = await args.runPlugin('base64-decode', {
+            ...args,
+            textContent: payloadB64,
+            formContent: { format: 'JSON' },
+        });
 
         const text = buildText(header, payload);
         const markdown = buildMarkdown(header, payload);
@@ -31,7 +39,7 @@ export = {
             text,
             markdown,
             render: 'markdown',
-        }
+        };
     },
 };
 
@@ -42,30 +50,25 @@ function indentLines(text: string, spaces: number): string {
         .join(NEWLINE_CHAR);
 }
 
-function buildText (header, payload) {
+function buildText(header, payload) {
     return [
         'HEADER:',
         indentLines(header, 4),
         ,
         'PAYLOAD:',
         indentLines(payload, 4),
-    ].join(NEWLINE_CHAR)
-}
-
-function buildMarkdown (header, payload) {
-    return [
-        '**Header:**',
-        ...(buildMarkdownCodeBlock(header, 'json')),
-        '**Payload:**',
-        ...(buildMarkdownCodeBlock(payload, 'json')),
     ].join(NEWLINE_CHAR);
 }
 
-function buildMarkdownCodeBlock (text, lang) {
+function buildMarkdown(header, payload) {
     return [
-        CODE_BLOCK + lang,
-        text,
-        CODE_BLOCK,
-    ];
+        '**Header:**',
+        ...buildMarkdownCodeBlock(header, 'json'),
+        '**Payload:**',
+        ...buildMarkdownCodeBlock(payload, 'json'),
+    ].join(NEWLINE_CHAR);
 }
 
+function buildMarkdownCodeBlock(text, lang) {
+    return [CODE_BLOCK + lang, text, CODE_BLOCK];
+}
