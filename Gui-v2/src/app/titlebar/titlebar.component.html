@@ -1,58 +1,68 @@
 <div class="titleBar" role="banner">
   <div id="titlebarTitle">
-    {{title}}
+    {{ title }}
   </div>
   <div id="titleBarContent" [class]="getPlatformClass()">
-    <button mat-icon-button aria-label="Go Back" *ngIf="showHomeButton()" (click)="goHome();">
+    <button
+      mat-icon-button
+      aria-label="Home"
+      *ngIf="showHomeButton()"
+      (click)="goHome()"
+    >
       <span class="material-icons">home</span>
     </button>
-    <div class="spacer"></div>
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu" *ngIf="showSettingsButton()">
-      <span class="material-icons">more_vert</span>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="reloadCustomPlugins();">
-        <div class="button-content">
-          <div class="button-icon">
-            <span class="material-icons">sync</span>
-          </div>
-          <div class="button-text">
-            <span>Reload custom plugins</span>
-          </div>
-        </div>
+    <div id="right-buttons">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Menu"
+        *ngIf="showMenuButton()"
+      >
+        <span class="material-icons">more_vert</span>
       </button>
-      <button mat-menu-item (click)="showLogs();">
-        <div class="button-content">
-          <div class="button-icon">
-            <span class="material-icons">table_rows</span>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="reloadCustomPlugins()">
+          <div class="button-content">
+            <div class="button-icon">
+              <span class="material-icons">sync</span>
+            </div>
+            <div class="button-text">
+              <span>Reload custom plugins</span>
+            </div>
           </div>
-          <div class="button-text">
-            <span>View logs</span>
+        </button>
+        <button mat-menu-item (click)="showLogs()">
+          <div class="button-content">
+            <div class="button-icon">
+              <span class="material-icons">table_rows</span>
+            </div>
+            <div class="button-text">
+              <span>View logs</span>
+            </div>
           </div>
-        </div>
-      </button>
-
-      <button mat-menu-item disabled>
-        <div class="button-content">
-          <div class="button-icon">
-            <span class="material-icons">settings</span>
+        </button>
+        <button mat-menu-item disabled>
+          <div class="button-content">
+            <div class="button-icon">
+              <span class="material-icons">settings</span>
+            </div>
+            <div class="button-text">
+              <span>Settings</span>
+            </div>
           </div>
-          <div class="button-text">
-            <span>Settings</span>
+        </button>
+        <hr />
+        <button mat-menu-item (click)="showAbout()">
+          <div class="button-content">
+            <div class="button-icon">
+              <span class="material-icons">info</span>
+            </div>
+            <div class="button-text">
+              <span>About {{ title }}</span>
+            </div>
           </div>
-        </div>
-      </button>
-      <hr>
-      <button mat-menu-item (click)="showAbout();">
-        <div class="button-content">
-          <div class="button-icon">
-            <span class="material-icons">info</span>
-          </div>
-          <div class="button-text">
-            <span>About {{title}}</span>
-          </div>
-        </div>
-      </button>
-    </mat-menu>
+        </button>
+      </mat-menu>
+    </div>
   </div>
 </div>

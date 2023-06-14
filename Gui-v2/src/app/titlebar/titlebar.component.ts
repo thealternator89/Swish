@@ -23,8 +23,8 @@ export class TitlebarComponent {
   // Show the back button if the current URL is not the same as the referrer
   showHomeButton = () => this._router.url !== '/';
 
-  // Only show the settings button if the current URL is the home page
-  showSettingsButton = () => this._router.url === '/';
+  // Only show the menu button if the current URL is the home page
+  showMenuButton = () => this._router.url === '/';
 
   goHome(): void {
     this._router.navigateByUrl('/');

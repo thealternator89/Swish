@@ -29,6 +29,7 @@ button:hover {
 }
 
 #titleBarContent {
+  position: relative;
   z-index: 500;
   display: flex;
   flex-direction: row;
@@ -59,8 +60,9 @@ button:hover {
   Window will have a separate title bar so no need to add space
 */
 
-.spacer {
-  flex: 1 1 auto;
+#right-buttons{
+  position: absolute;
+  right: 0;
 }
 
 #titlebarTitle {
