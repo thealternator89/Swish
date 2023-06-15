@@ -1,11 +1,11 @@
 #wrapper {
-  height: calc(100% - 45px);
+  height: calc(100% - 60px);
 }
 
 .panel-header {
   font-size: 12pt;
-  font-weight: bold;
   margin-bottom: 5px;
+  text-align: center;
 }
 
 #title{
@@ -13,10 +13,8 @@
   justify-content: flex-start;
   align-items: center;
   border: thin solid #ddd;
-  border-radius: 15px;
   background-color: #ccc;
-  margin: 5px;
-  padding: 5px;
+  padding: 15px;
   user-select: none;
 }
 
@@ -25,8 +23,10 @@
 }
 
 #icon .material-icons {
-  margin-left: 5px;
   font-size: 50px;
+  padding: 10px;
+  background-color: #ddd;
+  border-radius: 40%;
 }
 
 #pluginDetails {
@@ -66,19 +66,25 @@
 
 #editors {
   height: calc(100% - 121px);
-  display: flex;
+  position: relative;
 }
 
 #input {
-  flex: 1;
-  flex-basis: 0;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  width: calc(50% - 7px);
   padding-top: 10px;
   padding-left: 5px;
 }
 
 #output {
-  flex: 1;
-  flex-basis: 0;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  width: calc(50% - 7px);
   padding-left: 10px;
   padding-top: 10px;
 }

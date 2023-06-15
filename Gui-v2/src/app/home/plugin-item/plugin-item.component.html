@@ -1,13 +1,11 @@
-<div (click)="click();">
+<div (click)="click();" [class]="getTitleClass()">
   <div [class]="'title ' + getTitleClass()">
-    <div class="plugin-icon">
+    <div [class]="'plugin-icon ' + getTitleClass()">
       <span class="material-icons">{{getIcon()}}</span>
     </div>
-    <div class="plugin-name">{{plugin.name}}</div>
   </div>
-  <div class="description">
-    {{plugin.description}}
-  </div>
+  <div class="plugin-name">{{plugin.name}}</div>
+  <div class="description">{{plugin.description}}</div>
   <div class="footer">
     <div class="tags">
         <div class="tag" *ngFor="let tag of plugin.tags">
@@ -15,6 +13,7 @@
         </div>
     </div>
     <div class="padding"></div>
+    <span class="material-icons" *ngIf="plugin.systemPlugin">api</span>
     <span class="material-icons" *ngIf="!plugin.systemPlugin">person</span>
   </div>
 </div>
