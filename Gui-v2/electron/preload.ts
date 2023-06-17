@@ -3,7 +3,7 @@ import { configManager } from 'swish-base';
 
 contextBridge.exposeInMainWorld('app', {
   search: (terms: string, tags?: string[]) => {
-    return ipcRenderer.invoke('pluginSearch', {terms, tags});
+    return ipcRenderer.invoke('pluginSearch', { terms, tags });
   },
   runPlugin: (request: any) => {
     ipcRenderer.send('runPlugin', request);
@@ -37,6 +37,9 @@ contextBridge.exposeInMainWorld('app', {
   },
   getLogs: () => {
     return ipcRenderer.invoke('getLogs');
+  },
+  openExternalUrl: (url: string) => {
+    return ipcRenderer.invoke('openExternalUrl', url);
   },
   os: process.platform,
   config: configManager.config,

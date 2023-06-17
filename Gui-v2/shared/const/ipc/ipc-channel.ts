@@ -21,5 +21,8 @@ export const IPC_CHANNELS = {
   },
   GET_LOGS: {
     REQ: 'getLogs',
-  }
+  },
+  OPEN_EXTERNAL_URL: {
+    REQ: 'openExternalUrl',
+  },
 };

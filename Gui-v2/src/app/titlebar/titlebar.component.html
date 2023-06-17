@@ -14,6 +14,13 @@
     <div id="right-buttons">
       <button
         mat-icon-button
+        aria-label="Bug Report"
+        (click)="openGithubIssues()"
+      >
+        <span class="material-icons">bug_report</span>
+      </button>
+      <button
+        mat-icon-button
         [matMenuTriggerFor]="menu"
         aria-label="Menu"
         *ngIf="showMenuButton()"

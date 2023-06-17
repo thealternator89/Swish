@@ -34,6 +34,25 @@ mat-dialog-container {
   background-color: rgb(120, 234, 120);
 }
 
+/* Scrollbar */
+// Macos style scrollbar
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
 /* Styles to make the mat tabs work properly */
 
 .mat-tab-body-wrapper {

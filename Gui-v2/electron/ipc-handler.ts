@@ -1,4 +1,5 @@
 import { BrowserWindow, ipcMain } from 'electron';
+import { exec } from 'child_process';
 
 import { PluginResult } from 'swish-base';
 
@@ -24,21 +25,24 @@ class IPCHandler {
   }
 
   public registerSearch() {
-    ipcMain.handle(IPC_CHANNELS.PLUGIN_SEARCH.REQ, (_event, {terms, tags}: {terms: string, tags: string[]}) => {
-      const matching = swishBackend.search(terms, tags);
-      return matching.map(
-        // Filter out everything we don't want to send.
-        ({ id, name, description, author, tags, icon, systemPlugin }) => ({
-          id,
-          name,
-          description,
-          author,
-          tags,
-          icon,
-          systemPlugin,
-        })
-      );
-    });
+    ipcMain.handle(
+      IPC_CHANNELS.PLUGIN_SEARCH.REQ,
+      (_event, { terms, tags }: { terms: string; tags: string[] }) => {
+        const matching = swishBackend.search(terms, tags);
+        return matching.map(
+          // Filter out everything we don't want to send.
+          ({ id, name, description, author, tags, icon, systemPlugin }) => ({
+            id,
+            name,
+            description,
+            author,
+            tags,
+            icon,
+            systemPlugin,
+          })
+        );
+      }
+    );
   }
 
   public registerGetPlugin() {
@@ -95,6 +99,15 @@ class IPCHandler {
     });
   }
 
+  public registerOpenExternalUrl() {
+    ipcMain.handle(
+      IPC_CHANNELS.OPEN_EXTERNAL_URL.REQ,
+      (_event, url: string) => {
+        this.openURL(url);
+      }
+    );
+  }
+
   public sendMenuCommand(menuCommand: MenuCommand): void {
     this.safeSend(IPC_CHANNELS.MENU_COMMAND, menuCommand);
   }
@@ -115,16 +128,29 @@ class IPCHandler {
 
   public toggleDevTools(): void {
     const webContents = this?.win?.webContents;
-    if (webContents?.isDevToolsOpened()){
+    if (webContents?.isDevToolsOpened()) {
       webContents.closeDevTools();
     } else {
       // The window buttons overlap the dev tools on Windows, so we need to open it on the left instead so we can control it.
       if (process.platform === 'win32') {
-        webContents?.openDevTools({mode: 'left'});
-      }
-      else {
+        webContents?.openDevTools({ mode: 'left' });
+      } else {
         webContents?.openDevTools();
       }
+    }
+  }
+
+  private openURL(url: string): void {
+    switch (process.platform) {
+      case 'win32':
+        exec(`start ${url}`);
+        break;
+      case 'darwin':
+        exec(`open ${url}`);
+        break;
+      case 'linux':
+        exec(`xdg-open ${url}`);
+        break;
     }
   }
 

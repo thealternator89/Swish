@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
 import { InputCodeComponent } from './input-code/input-code.component';
 import { OutputComponent } from './output/output.component';
 import { InputFormComponent } from './input-form/input-form.component';
+import { NotifierService } from '../notifier.service';
 
 @Component({
   selector: 'app-transformer',
@@ -39,6 +40,7 @@ export class TransformerComponent {
 
   constructor(
     private ipc: IpcService,
+    private notifier: NotifierService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private changeDetector: ChangeDetectorRef,
@@ -50,6 +52,12 @@ export class TransformerComponent {
       if (this.plugin?.id === 'uuid-generate') {
         setTimeout(() => this.triggerRunPlugin(), 100);
       }
+    });
+
+    this.notifier.onPluginsReloaded().subscribe(() => {
+      this.ipc.getPlugin(pluginId).then((plugin) => {
+        this.plugin = plugin;
+      });
     });
 
     this.ipc.registerPluginProgressUpdates().subscribe(({ id, percentage }) => {

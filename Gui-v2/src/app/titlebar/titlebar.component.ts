@@ -15,16 +15,16 @@ export class TitlebarComponent {
   constructor(
     private _router: Router,
     private _notifier: NotifierService,
-    ipc: IpcService
+    private _ipc: IpcService
   ) {
-    this.platform = ipc.platform;
+    this.platform = _ipc.platform;
   }
 
   // Show the back button if the current URL is not the same as the referrer
   showHomeButton = () => this._router.url !== '/';
 
   // Only show the menu button if the current URL is the home page
-  showMenuButton = () => this._router.url === '/';
+  showMenuButton = () => true;
 
   goHome(): void {
     this._router.navigateByUrl('/');
@@ -36,6 +36,12 @@ export class TitlebarComponent {
 
   showLogs(): void {
     this._router.navigateByUrl('/logs');
+  }
+
+  openGithubIssues(): void {
+    this._ipc.openExternalUrl(
+      'https://github.com/thealternator89/Swish/issues'
+    );
   }
 
   async reloadCustomPlugins(): Promise<void> {

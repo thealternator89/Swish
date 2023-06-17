@@ -54,4 +54,8 @@ export class IpcService {
   getLogs(): Promise<any> {
     return window['app'].getLogs();
   }
+
+  openExternalUrl(url: string): Promise<void> {
+    return window['app'].openExternalUrl(url);
+  }
 }
