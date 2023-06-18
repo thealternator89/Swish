@@ -1,13 +1,13 @@
 import { ProvidedPluginArgument } from './model';
 
 export = {
-    name: 'Decode URI Components',
+    name: 'Query Parameter Parser',
     description: `Decode URI components to display them in a human-readable way`,
-    id: 'decode-uri-component',
+    id: 'query-param-parser',
     author: 'thealternator89',
     swishVersion: '2.0.0',
-    icon: 'emoji_symbols',
-    tags: ['decode', 'web', 'url'],
+    icon: 'travel_explore',
+    tags: ['query-param', 'decode', 'web', 'url'],
     usableFrom: ['core', 'clip', 'gui'],
     process: async (args: ProvidedPluginArgument) => {
         let text = args.textContent.trim();
@@ -24,23 +24,22 @@ export = {
     },
 };
 
-
-function splitUriComponent (uriComponent: string): string[] {
+function splitUriComponent(uriComponent: string): string[] {
     return uriComponent.split('&');
 }
 
-function splitKeyValuePair (keyValuePair: string): string[] {
+function splitKeyValuePair(keyValuePair: string): string[] {
     const kvp = keyValuePair.split('=');
     kvp[1] = decodeURIComponent(kvp[1]);
     return kvp;
 }
 
-
-
-function buildMarkdownTable (keyValuePairs: string[][]): string {
+function buildMarkdownTable(keyValuePairs: string[][]): string {
     const header = buildMarkdownTableRowFromKvp(['Key', 'Value']);
     const separator = buildMarkdownTableRowFromKvp(['---', '---']);
-    const rows = keyValuePairs.map((kvp) => buildMarkdownTableRowFromKvp(kvp, true));
+    const rows = keyValuePairs.map((kvp) =>
+        buildMarkdownTableRowFromKvp(kvp, true)
+    );
     return [header, separator, ...rows].join('\n');
 }
 
@@ -48,8 +47,11 @@ function buildTextResult(keyValuePairs: string[][]): string {
     return keyValuePairs.map(textRenderKvp).join('\n');
 }
 
-function buildMarkdownTableRowFromKvp(kvp: string[], monospace?: boolean): string {
-    const [key, value] = kvp.map((i) => monospace ? `\`${i}\`` : i);
+function buildMarkdownTableRowFromKvp(
+    kvp: string[],
+    monospace?: boolean
+): string {
+    const [key, value] = kvp.map((i) => (monospace ? `\`${i}\`` : i));
     return `| ${key} | ${value} |`;
 }
 

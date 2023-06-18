@@ -8,7 +8,7 @@ export = {
     author: 'thealternator89',
     swishVersion: '2.0.0',
     icon: 'travel_explore',
-    tags: ['query-param', 'url', 'internet'],
+    tags: ['query-param', 'encode', 'web', 'url'],
     input: {
         type: 'form',
         fields: [

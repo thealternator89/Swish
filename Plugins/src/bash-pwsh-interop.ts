@@ -17,19 +17,28 @@ export = [
         sourceSyntax: 'powershell',
         targetSyntax: 'shell',
     },
-].map(({ source, target, inputRegex, replacement, sourceSyntax, targetSyntax }) => ({
-    name: `${source} to ${target}`,
-    description: `Make a ${source} command work in ${target}`,
-    id: `${source}-to-${target}`.toLowerCase(),
-    author: 'thealternator89',
-    swishVersion: '2.0.0',
-    icon: 'attach_money',
-    tags: ['shell', 'dev', source.toLowerCase(), target.toLowerCase()],
-    usableFrom: ['core', 'clip', 'gui'],
-    input: { syntax: sourceSyntax },
-    process: async (args: ProvidedPluginArgument) => ({
-        text: args.textContent.replace(inputRegex, replacement),
-        render: 'text',
-        syntax: targetSyntax,
-    }),
-}));
+].map(
+    ({
+        source,
+        target,
+        inputRegex,
+        replacement,
+        sourceSyntax,
+        targetSyntax,
+    }) => ({
+        name: `${source} to ${target}`,
+        description: `Make a ${source} command work in ${target} (if commands and arguments are compatible)`,
+        id: `${source}-to-${target}`.toLowerCase(),
+        author: 'thealternator89',
+        swishVersion: '2.0.0',
+        icon: 'attach_money',
+        tags: ['shell', 'dev', source.toLowerCase(), target.toLowerCase()],
+        usableFrom: ['core', 'clip', 'gui'],
+        input: { syntax: sourceSyntax },
+        process: async (args: ProvidedPluginArgument) => ({
+            text: args.textContent.replace(inputRegex, replacement),
+            render: 'text',
+            syntax: targetSyntax,
+        }),
+    })
+);

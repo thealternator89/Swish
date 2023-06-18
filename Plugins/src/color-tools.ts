@@ -140,6 +140,8 @@ const util = {
         } else if (rgbPattern.test(colorString)) {
             hex = util.rgbToHex(colorString);
             rgb = util.hexToRgb(hex); // parse back to rgb to normalize
+        } else {
+            throw new Error('Invalid color string provided.');
         }
 
         // Fix for if provided hex is missing the '#' symbol
