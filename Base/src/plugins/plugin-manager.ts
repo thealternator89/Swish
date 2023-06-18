@@ -74,6 +74,7 @@ class PluginManager {
         }
 
         this.rebuildUserSelectablePlugins();
+        backgroundManager.killActiveBackgroundTasks();
     }
 
     private loadPluginSet(directory: string): PluginDefinition[] {

@@ -4,21 +4,38 @@
  * This is useful for plugins that need to run code in the background, but we want to make sure they don't continue to run after they return.
  */
 
-import { Logger } from "./log-manager";
+import { Logger } from './log-manager';
 
 const logger = new Logger('background-manager');
 
 // Switch between a singular and plural word based on the specified count
 // Assumes the plural word should be used for 0 and negative values for count
-function pluralizeWord(singularWord: string, pluralWord: string, count: number) {
+function pluralizeWord(
+    singularWord: string,
+    pluralWord: string,
+    count: number
+) {
     return count === 1 ? singularWord : pluralWord;
 }
 
 class BackgroundManager {
-    private originalSetTimeout: ((callback: (...args: any[]) => void, ms: number, ...args: any[]) => NodeJS.Timeout) & typeof setTimeout;
-    private originalSetInterval: ((callback: (...args: any[]) => void, ms: number, ...args: any[]) => NodeJS.Timeout) & {
+    private originalSetTimeout: ((
+        callback: (...args: any[]) => void,
+        ms: number,
+        ...args: any[]
+    ) => NodeJS.Timeout) &
+        typeof setTimeout;
+    private originalSetInterval: ((
+        callback: (...args: any[]) => void,
+        ms: number,
+        ...args: any[]
+    ) => NodeJS.Timeout) & {
         (handler: TimerHandler, timeout?: number, ...args: any[]): number;
-        (callback: (...args: any[]) => void, ms: number, ...args: any[]): NodeJS.Timeout;
+        (
+            callback: (...args: any[]) => void,
+            ms: number,
+            ...args: any[]
+        ): NodeJS.Timeout;
     };
     private originalClearTimeout: ((timeoutId: NodeJS.Timeout) => void) & {
         (id: number): void;
@@ -85,12 +102,17 @@ class BackgroundManager {
      * Unpatched setInterval
      * This is useful for internal purposes, as this allows us to manage the timeouts and intervals ourselves, without having to worry about being cleared unexpectedly.
      */
-    setInterval(callback: (...args: any[]) => void, ms: number, ...args: any[]) {
+    setInterval(
+        callback: (...args: any[]) => void,
+        ms: number,
+        ...args: any[]
+    ) {
         return this.originalSetInterval(callback, ms, ...args);
     }
 
     /**
      * Helper function to kill all active timeouts and intervals
+     * @param pluginId The ID of the plugin that is being unloaded. If not specified, it is assumed that this is running as part of the plugin loading process.
      * @param force If true, kill all active timeouts and intervals even if the background manager is not initialized.
      */
     killActiveBackgroundTasks(pluginId?: string, force = false) {
@@ -104,20 +126,28 @@ class BackgroundManager {
 
         const killed = killedIntervals + killedTimeouts;
 
-        if (killed > 0 && pluginId){
+        if (killed > 0) {
             const pluralized = {
                 task: pluralizeWord('task', 'tasks', killed),
                 was: pluralizeWord('was', 'were', killed),
-                has: pluralizeWord('has', 'have', killed)
-            }
+                has: pluralizeWord('has', 'have', killed),
+            };
 
-            logger.writeWarning(`${killed} background ${pluralized.task} ${pluralized.was} left over after a plugin (${pluginId}) finished executing and ${pluralized.has} been killed.\nThis is likely a bug in the plugin - please report it to the plugin author.`)
+            if (pluginId) {
+                logger.writeWarning(
+                    `${killed} background ${pluralized.task} ${pluralized.was} left over after a plugin (${pluginId}) finished executing and ${pluralized.has} been killed.\nThis is likely a bug in the plugin - please report it to the plugin author.`
+                );
+            } else {
+                logger.writeWarning(
+                    `${killed} background ${pluralized.task} ${pluralized.was} left over after user plugins were loaded and ${pluralized.has} been killed.\nPlugins should not leave background tasks running during initialization.`
+                );
+            }
         }
     }
 
     killActiveIntervals(): number {
         const numIntervals = this.intervals.length;
-        this.intervals.forEach(x => this.originalClearInterval(x));
+        this.intervals.forEach((x) => this.originalClearInterval(x));
         this.intervals = [];
 
         return numIntervals;
@@ -125,9 +155,9 @@ class BackgroundManager {
 
     killActiveTimeouts(): number {
         const numTimeouts = this.timeouts.length;
-        this.timeouts.forEach(x => this.originalClearTimeout(x));
+        this.timeouts.forEach((x) => this.originalClearTimeout(x));
         this.timeouts = [];
-        
+
         return numTimeouts;
     }
 
@@ -138,7 +168,7 @@ class BackgroundManager {
         this.originalClearInterval = global.clearInterval;
         (global.clearInterval as any) = (id: NodeJS.Timeout) => {
             this.originalClearInterval(id);
-            this.intervals = this.intervals.filter(x => x !== id);
+            this.intervals = this.intervals.filter((x) => x !== id);
         };
     }
 
@@ -149,7 +179,7 @@ class BackgroundManager {
         this.originalClearTimeout = global.clearTimeout;
         (global.clearTimeout as any) = (id: NodeJS.Timeout) => {
             this.originalClearTimeout(id);
-            this.timeouts = this.timeouts.filter(x => x !== id);
+            this.timeouts = this.timeouts.filter((x) => x !== id);
         };
     }
 
@@ -158,7 +188,11 @@ class BackgroundManager {
      */
     private patchSetInterval() {
         this.originalSetInterval = global.setInterval;
-        (global.setInterval as any) = (callback: any, delay: number, ...args: any[]) => {
+        (global.setInterval as any) = (
+            callback: any,
+            delay: number,
+            ...args: any[]
+        ) => {
             const id = this.originalSetInterval(() => {
                 // We don't remove the interval from the list of intervals, since it's still active until clearInterval is called
                 callback(...args);
@@ -173,10 +207,14 @@ class BackgroundManager {
      */
     private patchSetTimeout() {
         this.originalSetTimeout = global.setTimeout;
-        (global.setTimeout as any) = (callback: any, delay: number, ...args: any[]) => {
+        (global.setTimeout as any) = (
+            callback: any,
+            delay: number,
+            ...args: any[]
+        ) => {
             const id = this.originalSetTimeout(() => {
                 // Remove the timeout from the list of timeouts after it has been called (since it's no longer active)
-                this.timeouts = this.timeouts.filter(x => x !== id);
+                this.timeouts = this.timeouts.filter((x) => x !== id);
                 callback(...args);
             }, delay);
             this.timeouts.push(id);
