@@ -56,8 +56,17 @@ button:hover {
 }
 
 /**
-  No linux specific styles
-  Window will have a separate title bar so no need to add space
+  Linux specific styles
+  Remove the title - the window will have a separate title bar with the title in it already
+*/
+
+.linux #titlebarTitle {
+  display: none;
+}
+
+/**
+  The right buttons are positioned absolutely to the right of the title bar.
+  We can't use flexbox for this because the buttons are broken - the icons cause the mouse events to be lost.
 */
 
 #right-buttons{
@@ -65,6 +74,10 @@ button:hover {
   right: 0;
 }
 
+
+/**
+  The title and badge
+*/
 #titlebarTitle {
   position: absolute;
   z-index: 1;
@@ -74,4 +87,13 @@ button:hover {
   padding-top: 10px;
   text-align: center;
   font-size: 15px;
+}
+
+#title-badge {
+  padding: 5px;
+  font-size: 11px;
+  background-color: #575757;
+  border-radius: 7px;
+  text-transform: uppercase;
+  margin-left: 5px;
 }

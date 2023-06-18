@@ -1,6 +1,7 @@
-<div class="titleBar" role="banner">
+<div [class]="'titleBar ' + getPlatformClass()" role="banner">
   <div id="titlebarTitle">
     {{ title }}
+    <span id="title-badge">Alpha</span>
   </div>
   <div id="titleBarContent" [class]="getPlatformClass()">
     <button
@@ -19,15 +20,20 @@
       >
         <span class="material-icons">bug_report</span>
       </button>
-      <button
-        mat-icon-button
-        [matMenuTriggerFor]="menu"
-        aria-label="Menu"
-        *ngIf="showMenuButton()"
-      >
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
         <span class="material-icons">more_vert</span>
       </button>
       <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openCustomPluginDocs()">
+          <div class="button-content">
+            <div class="button-icon">
+              <span class="material-icons">construction</span>
+            </div>
+            <div class="button-text">
+              <span>Build your own plugins</span>
+            </div>
+          </div>
+        </button>
         <button mat-menu-item (click)="reloadCustomPlugins()">
           <div class="button-content">
             <div class="button-icon">
@@ -38,6 +44,7 @@
             </div>
           </div>
         </button>
+        <hr />
         <button mat-menu-item (click)="showLogs()">
           <div class="button-content">
             <div class="button-icon">

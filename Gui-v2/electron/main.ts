@@ -7,7 +7,7 @@ import * as path from 'path';
 import * as url from 'url';
 import { env } from 'process';
 
-const APP_NAME = 'Swish';
+const APP_NAME = 'Swish Desktop';
 
 const DEV_MODE = !!env['SWISH_DEVELOPMENT'];
 

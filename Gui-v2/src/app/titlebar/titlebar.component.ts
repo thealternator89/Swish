@@ -9,7 +9,7 @@ import { IpcService } from '../ipc.service';
   styleUrls: ['./titlebar.component.scss'],
 })
 export class TitlebarComponent {
-  title = 'Swish';
+  title = 'Swish Desktop';
   platform: string;
 
   constructor(
@@ -41,6 +41,12 @@ export class TitlebarComponent {
   openGithubIssues(): void {
     this._ipc.openExternalUrl(
       'https://github.com/thealternator89/Swish/issues'
+    );
+  }
+
+  openCustomPluginDocs(): void {
+    this._ipc.openExternalUrl(
+      'https://github.com/thealternator89/Swish/wiki/Plugins'
     );
   }
 
