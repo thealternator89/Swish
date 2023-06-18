@@ -335,7 +335,10 @@ class PluginManager {
             }
 
             // Log the error so users can see what happened.
-            logger.writeError(`${plugin.name} - ` + error.stack);
+            // We don't log system plugins as they are likely to be internal and not useful to the user.
+            if (!plugin.systemPlugin) {
+                logger.writeError(`${plugin.name} - ` + error.stack);
+            }
 
             return {
                 message: {
