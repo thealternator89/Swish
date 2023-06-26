@@ -60,10 +60,10 @@ export class InputFormComponent implements OnInit {
   }
 
   getFormFieldClass(field: PluginInputFormField) {
-    if (field.type !== 'label') {
-      return 'form-field';
-    } else {
-      return '';
+    switch(field.type) {
+      case 'label': return '';
+      case 'checkbox': return 'form-field checkbox-field';
+      default: return 'form-field';
     }
   }
 

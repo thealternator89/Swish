@@ -1,8 +1,8 @@
 <div id="container">
-  <div id="editor" *ngIf="plugin?.input?.includeEditor && plugin?.input?.editorPosition === 'top'">
+  <div id="editor" class="top-editor" *ngIf="plugin?.input?.includeEditor && plugin?.input?.editorPosition === 'top'">
     <nu-monaco-editor
       #editor
-      class="editor top-editor"
+      class="editor"
       [options]="monacoOptions"
       height="100%"
       width="100%"
@@ -24,10 +24,10 @@
       <mat-checkbox class="field-input" [id]="field.key" [formControlName]="field.label" *ngIf="field.type === 'checkbox'"></mat-checkbox>
     </div>
   </form>
-  <div id="editor" *ngIf="plugin?.input?.includeEditor && plugin?.input?.editorPosition !== 'top'">
+  <div id="editor" class="bottom-editor" *ngIf="plugin?.input?.includeEditor && plugin?.input?.editorPosition !== 'top'">
     <nu-monaco-editor
       #editor
-      class="editor bottom-editor"
+      class="editor"
       [options]="monacoOptions"
       height="100%"
       width="100%"

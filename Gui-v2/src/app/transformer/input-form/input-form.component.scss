@@ -18,13 +18,11 @@
 }
 
 .bottom-editor {
-  margin-top: 10px;
   border-top: thin solid lightgray;
+  padding-bottom: 21px;
 }
 
 #input-form {
-  margin-top: 5px;
-  margin-bottom: 5px;
   margin-left: 5px;
 }
 
@@ -42,6 +40,11 @@
   grid-template-columns: 100px 1fr; /* 150px for the label width */
   gap: 10px; /* Adjust the gap between the label and input */
   align-items: center;
+}
+
+.checkbox-field {
+  padding-top: 10px;
+  padding-bottom: 11px;
 }
 
 .field-label {
