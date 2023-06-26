@@ -24,6 +24,11 @@ export function unifyLineEndings(
     if (!text) {
         return '';
     }
+
+    if (typeof text !== 'string') {
+        throw new Error('Expected result to be a string but got ' + typeof text);
+    }
+
     const unified = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
     return unified.replace(/\n/g, lineEndingChar);
 }
