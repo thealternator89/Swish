@@ -1,6 +1,8 @@
 {
-  "name": "swish-gui",
-  "productName": "Swish",
+  "name": "swish-desktop",
+  "productName": "swish-desktop",
+  "description": "Simple and powerful data transformation tool",
+  "author": "Mark Benson <thealternator89@gmail.com>",
   "version": "2.0.0-alpha",
   "scripts": {
     "build": "npm run build:ng && npm run build:electron",
@@ -17,7 +19,8 @@
     "package:mac": "npm run package -- --icon=electron/assets/icons/mac/icon.icns",
     "start": "electron .",
     "buildstart": "npm run build && npm run start",
-    "buildstart:electron": "npm run build:electron && npm run start"
+    "buildstart:electron": "npm run build:electron && npm run start",
+    "pack-installer": "electron-installer-windows --src release-builds/swish-desktop-win32-x64 --dest release-builds/installers/"
   },
   "main": "electron/dist/electron/main.js",
   "private": true,
@@ -56,6 +59,8 @@
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "electron": "^16.2.8",
+    "electron-builder": "^24.4.0",
+    "electron-installer-windows": "^3.0.0",
     "electron-packager": "^15.2.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",

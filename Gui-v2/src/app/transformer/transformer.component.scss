@@ -1,11 +1,17 @@
 #wrapper {
-  height: calc(100% - 60px);
+  height: calc(100% - 65px);
 }
 
 .panel-header {
   font-size: 12pt;
   margin-bottom: 5px;
   text-align: center;
+  user-select: none;
+}
+
+.plugin-type-icon {
+  margin-top: 3px;
+  font-size: 15pt;
 }
 
 #title{
@@ -45,13 +51,19 @@
   color: #444;
 }
 
+#tags {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .tag {
   font-size: 8pt;
   margin: 3px 3px 3px 0px;
   background-color: #444;
   color: #fff;
   border-radius: 5px;
-  padding: 2px 5px;
+  padding: 0px 5px;
   text-transform: lowercase;
 }
 
@@ -61,7 +73,8 @@
   background-color: #eee;
   border-radius: 5px;
   margin: 3px 3px 3px 0px;
-  padding: 2px 5px;
+  padding: 0px 5px;
+  user-select: all;
 }
 
 #editors {
