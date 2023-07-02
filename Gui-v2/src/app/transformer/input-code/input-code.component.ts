@@ -1,5 +1,19 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
+import { ConfigService } from 'src/app/config.service';
+
+const DEFAULT_MONACO_OPTIONS = {
+  language: 'plaintext',
+  scrollBeyondLastLine: false,
+  selectionHighlight: false,
+  occurrencesHighlight: false,
+  renderLineHighlight: 'none',
+  matchBrackets: 'never',
+  minimap: {
+    enabled: false,
+  },
+  wordWrap: true,
+};
 
 @Component({
   selector: 'app-input-code',
@@ -8,27 +22,22 @@ import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
 })
 export class InputCodeComponent implements OnInit {
 
+  monacoOptions = DEFAULT_MONACO_OPTIONS;
+  theme: 'light'|'dark' = 'light';
+
   @ViewChild('editor')
   inputEditor: NuMonacoEditorComponent;
 
   @Input('language')
   editorLanguage: string;
 
-  monacoOptions = {
-    theme: 'vs',
-    language: 'plaintext',
-    scrollBeyondLastLine: false,
-    selectionHighlight: false,
-    occurrencesHighlight: false,
-    renderLineHighlight: 'none',
-    matchBrackets: 'never',
-    minimap: {
-      enabled: false,
-    },
-    wordWrap: true,
+  constructor(private config: ConfigService) {
+    this.config.onColorModeChanged().subscribe((mode) => {
+      this.setEditorTheme(mode === 'light' ? 'vs' : 'vs-dark');
+      this.theme = mode;
+    });
+    this.theme = this.config.colorMode;
   }
-
-  constructor() { }
 
   ngOnInit(): void {
   }
@@ -61,6 +70,10 @@ export class InputCodeComponent implements OnInit {
     }
   }
 
+  setEditorTheme(theme: 'vs' | 'vs-dark') {
+    monaco.editor.setTheme(theme);
+  }
+
   setLanguage(language: string) {
     const model = this.getModel();
     monaco.editor.setModelLanguage(model, language ?? 'plaintext');
@@ -69,6 +82,7 @@ export class InputCodeComponent implements OnInit {
   editorShowEvent(e: Event) {
     if (e.type === 'init') {
       this.setLanguage(this.editorLanguage);
+      this.setEditorTheme(this.config.colorMode === 'light' ? 'vs' : 'vs-dark');
     }
   }
 

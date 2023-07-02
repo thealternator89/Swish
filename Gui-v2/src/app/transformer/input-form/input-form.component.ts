@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { LoadedPlugin } from '../../../models/LoadedPlugin';
 import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
 import { PluginInputFormField } from 'src/models/FormFields';
+import { ConfigService } from 'src/app/config.service';
 
 @Component({
   selector: 'app-input-form',
@@ -10,6 +11,8 @@ import { PluginInputFormField } from 'src/models/FormFields';
   styleUrls: ['./input-form.component.scss']
 })
 export class InputFormComponent implements OnInit {
+
+  theme: 'light'|'dark' = 'light';
 
   monacoOptions = {
     theme: 'vs',
@@ -33,7 +36,12 @@ export class InputFormComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private config: ConfigService) {
+    this.config.onColorModeChanged().subscribe((mode) => {
+      this.setEditorTheme(mode === 'light' ? 'vs' : 'vs-dark');
+      this.theme = mode;
+    });
+    this.theme = this.config.colorMode;
   }
 
   ngOnInit(): void {
@@ -105,11 +113,24 @@ export class InputFormComponent implements OnInit {
   editorShowEvent(e: Event) {
     if (e.type === 'init') {
       this.setLanguage(this.plugin.input.syntax);
+      this.setEditorTheme(this.theme === 'light' ? 'vs' : 'vs-dark');
     }
+  }
+
+  private setEditorTheme(theme: 'vs' | 'vs-dark') {
+    // typeof is needed as if monaco is not loaded, it will throw an error if we try to access it
+    if (typeof monaco === 'undefined') {
+      return;
+    }
+    monaco.editor.setTheme(theme);
   }
 
   private setLanguage(language: string) {
     const model = this.getModel();
+    // typeof is needed as if monaco is not loaded, it will throw an error if we try to access it (e.g. !monaco will fail)
+    if (typeof monaco === 'undefined') {
+      return;
+    }
     monaco.editor.setModelLanguage(model, language ?? 'plaintext');
   }
 

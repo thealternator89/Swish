@@ -41,6 +41,12 @@ contextBridge.exposeInMainWorld('app', {
   openExternalUrl: (url: string) => {
     return ipcRenderer.invoke('openExternalUrl', url);
   },
+  getConfigValue: (key: string) => {
+    return ipcRenderer.invoke('getConfigValue', key);
+  },
+  setConfigValue: (key: string, value: any) => {
+    return ipcRenderer.invoke('setConfigValue', {key, value});
+  },
   os: process.platform,
   config: configManager.config,
 });

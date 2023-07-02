@@ -1,6 +1,15 @@
 #container {
   height: calc(100% - 50px);
-  padding: 2px;
-  border: thin solid lightgray;
-  background-color: white;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.dark {
+  border-color: #444;
+  background-color: #222;
+}
+
+.light {
+  border-color: #ccc;
+  background-color: #ddd;
 }

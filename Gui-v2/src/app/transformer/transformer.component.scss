@@ -1,5 +1,5 @@
 #wrapper {
-  height: calc(100% - 65px);
+  height: calc(100% - 40px);
 }
 
 .panel-header {
@@ -18,10 +18,10 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  border: thin solid #ddd;
-  background-color: #ccc;
   padding: 15px;
   user-select: none;
+  border-width: thin;
+  border-style: solid;
 }
 
 #icon {
@@ -31,7 +31,6 @@
 #icon .material-icons {
   font-size: 50px;
   padding: 10px;
-  background-color: #ddd;
   border-radius: 40%;
 }
 
@@ -48,7 +47,6 @@
 #pluginDescription {
   font-size: 10pt;
   margin-top: 3px;
-  color: #444;
 }
 
 #tags {
@@ -60,8 +58,6 @@
 .tag {
   font-size: 8pt;
   margin: 3px 3px 3px 0px;
-  background-color: #444;
-  color: #fff;
   border-radius: 5px;
   padding: 0px 5px;
   text-transform: lowercase;
@@ -70,7 +66,6 @@
 #pluginId {
   font-family: monospace;
   font-size: 8pt;
-  background-color: #eee;
   border-radius: 5px;
   margin: 3px 3px 3px 0px;
   padding: 0px 5px;
@@ -78,7 +73,7 @@
 }
 
 #editors {
-  height: calc(100% - 121px);
+  height: calc(100% - 145px);
   position: relative;
 }
 
@@ -106,4 +101,65 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
+}
+
+/* Themes */
+
+.light {
+  #title {
+    border-color: #ddd;
+    background-color: #ccc;
+  }
+
+  #icon .material-icons {
+    background-color: #ddd;
+  }
+
+  #pluginDescription {
+    color: #444;
+  }
+
+  .tag {
+    background-color: #444;
+    color: #fff;
+  }
+
+  #pluginId {
+    background-color: #ddd;
+  }
+}
+
+.dark {
+  background-color: #333;
+  color: #fff;
+
+  #title {
+    background-color: #444;
+    border-color: #555;
+    color: #fff;
+  }
+
+  #pluginDescription {
+    color: #ccc;
+  }
+
+  .tag {
+    background-color: #222;
+    color: #fff;
+  }
+
+  #pluginId {
+    background-color: #555;
+  }
+
+  #icon .material-icons {
+    background-color: #ccc;
+    color: #333;
+  }
+
+  button {
+    background-color: #555;
+    border-color: #999;
+    color: #ffc000;
+  }
 }

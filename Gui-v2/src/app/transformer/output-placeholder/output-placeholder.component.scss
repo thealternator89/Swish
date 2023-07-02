@@ -9,14 +9,14 @@
 #container {
     position: absolute;
     padding: 15px;
-    color: rgba(0,0,0,0.5);
     top: 0px;
     left: 0px;
     right: 0px;
     bottom: 50px;
     display: flex;
     flex-direction: column;
-    border: thin dashed rgba(0,0,0,0.5);
+    border-width: thin;
+    border-style: dashed;
     border-radius: 10px;
 }
 
@@ -31,4 +31,15 @@
 
 #message {
     text-align: center;
+}
+
+
+.light {
+  color: rgba(0,0,0,0.5);
+  border-color: rgba(0,0,0,0.5)
+}
+
+.dark {
+  color: rgba(255,255,255,0.5);
+  border-color: rgba(255,255,255,0.5)
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -16,6 +16,7 @@ import { InputCodeComponent } from './input-code/input-code.component';
 import { OutputComponent } from './output/output.component';
 import { InputFormComponent } from './input-form/input-form.component';
 import { NotifierService } from '../notifier.service';
+import { ConfigService } from '../config.service';
 
 @Component({
   selector: 'app-transformer',
@@ -24,6 +25,7 @@ import { NotifierService } from '../notifier.service';
 })
 export class TransformerComponent {
   plugin: LoadedPlugin;
+  theme: 'light'|'dark' = 'light';
 
   progressDialog?: MatDialogRef<ProgressDialogComponent> = null;
   currentRunId: string = null;
@@ -41,6 +43,7 @@ export class TransformerComponent {
   constructor(
     private ipc: IpcService,
     private notifier: NotifierService,
+    private config: ConfigService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private changeDetector: ChangeDetectorRef,
@@ -59,6 +62,12 @@ export class TransformerComponent {
         this.plugin = plugin;
       });
     });
+
+    this.config.onColorModeChanged().subscribe((mode) => {
+      this.theme = mode;
+    });
+
+    this.theme = this.config.colorMode;
 
     this.ipc.registerPluginProgressUpdates().subscribe(({ id, percentage }) => {
       if (

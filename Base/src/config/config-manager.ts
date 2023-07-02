@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { homedir } from 'os';
 import { join } from 'path';
 import { env } from 'process';
@@ -6,6 +6,8 @@ import { Logger } from '../util/log-manager';
 
 const ENV_USER_PLUGINS = 'SWISH_PLUGIN_PATH';
 const ENV_CLIP_HOTKEY = 'SWISH_CLIP_HOTKEY';
+
+const CONFIG_FILE_PATH = join(homedir(), '.swishrc');
 
 interface SwishConfig {
     userPlugins?: string;
@@ -39,7 +41,9 @@ class ConfigManager {
             ...this.fileConfig,
         };
     }
-
+    
+    // Get the entire config
+    // @deprecated Use getValue instead and specify the key you want
     public getConfig() {
         return mergeDeep(
             {},
@@ -48,6 +52,55 @@ class ConfigManager {
             this.envConfig
         );
     }
+
+    // TODO add rxjs and allow for config changes to be observable
+    public getValue(key: string, search: any = this.getConfig()): any {
+        const keys = key.split(':');
+        let value = search;
+      
+        for (let key of keys) {
+          if (value.hasOwnProperty(key)) {
+            value = value[key];
+          } else {
+            return undefined;
+          }
+        }
+      
+        return value;
+    }
+
+    public setValue(key: string, value: any, temp: boolean = false): void {
+        const keys = key.split(':');
+        
+        let config = this.fileConfig;
+
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+
+            if (i === keys.length - 1) { 
+                config[key] = value;
+            } else if (!config.hasOwnProperty(key)) {
+                config[key] = {};
+            }
+
+            config = config[key];
+        }
+
+        if (!temp) {
+            this.saveConfigFile();
+        }
+    }
+
+    private saveConfigFile(): void {
+        writeFileSync(CONFIG_FILE_PATH, JSON.stringify(this.fileConfig, null, 2));
+    }
+
+    private ensureConfigFileExists(): void {
+        if (!this.configFileExists()) {
+            writeFileSync(CONFIG_FILE_PATH, '{\n\n}');
+        }
+    }
+
 
     // Specify environment to parse
     /**
@@ -64,6 +117,7 @@ class ConfigManager {
      *     "hotkey": "<value of SWISH_CLIP_HOTKEY>"
      *   }
      * }
+     * NOTE: This will overwrite any previously parsed environment. So you can only call this once.
      * @param section The section of the config to store the parsed values in
      * @param map The mapping from environment variables to keys in the config
      */
@@ -90,21 +144,23 @@ class ConfigManager {
         };
     }
 
-    private readFileConfig(): Partial<SwishConfig> {
-        const configPath = join(homedir(), '.swishrc');
+    private configFileExists(): boolean {
+        return existsSync(CONFIG_FILE_PATH);
+    }
 
-        if (!existsSync(configPath)) {
+    private readFileConfig(): Partial<SwishConfig> {
+        if (!this.configFileExists()) {
             return {};
         }
 
-        const configContents = readFileSync(configPath, 'utf-8');
+        const configContents = readFileSync(CONFIG_FILE_PATH, 'utf-8');
 
         try {
             const config = JSON.parse(configContents);
             return config;
         } catch (ex) {
             logger.writeError(
-                `Error loading config file at ${configPath}\n${ex.message}`
+                `Error loading config file at ${CONFIG_FILE_PATH}\n${ex.message}`
             );
         }
     }

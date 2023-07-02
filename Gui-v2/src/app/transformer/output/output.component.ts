@@ -1,20 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ConfigService } from 'src/app/config.service';
 import { PluginResult } from 'swish-base';
 
 @Component({
   selector: 'app-output',
   templateUrl: './output.component.html',
-  styleUrls: ['./output.component.scss'],
+  styleUrls: ['./output.component.scss']
 })
-export class OutputComponent implements OnInit {
-  constructor() {}
+export class OutputComponent {
+  constructor(config: ConfigService) {
+    config.onColorModeChanged().subscribe((mode) => {
+      this.theme = mode;
+    });
+    this.theme = config.colorMode;
+  }
+
+  theme: 'light'|'dark' = 'light';
 
   tabs: string[] = [];
 
   outputType: 'none' | 'message' | 'tabs' = 'none';
   output: PluginResult = null;
-
-  ngOnInit(): void {}
 
   handlePluginResult(result: PluginResult) {
     if (result.render === 'message') {

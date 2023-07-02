@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfigService } from 'src/app/config.service';
 
 @Component({
   selector: 'app-output-placeholder',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OutputPlaceholderComponent implements OnInit {
 
-  constructor() { }
+  theme: 'light'|'dark' = 'light';
+
+  constructor(config: ConfigService) {
+    config.onColorModeChanged().subscribe((mode) => {
+      this.theme = mode;
+    });
+    this.theme = config.colorMode;
+  }
 
   ngOnInit(): void {
   }

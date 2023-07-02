@@ -25,4 +25,10 @@ export const IPC_CHANNELS = {
   OPEN_EXTERNAL_URL: {
     REQ: 'openExternalUrl',
   },
+  GET_CONFIG_VALUE: {
+    REQ: 'getConfigValue',
+  },
+  SET_CONFIG_VALUE: {
+    REQ: 'setConfigValue',
+  },
 };

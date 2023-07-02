@@ -1,4 +1,4 @@
-<div id="container">
+<div id="container" [class]="theme">
   <div id="editor" class="top-editor" *ngIf="plugin?.input?.includeEditor && plugin?.input?.editorPosition === 'top'">
     <nu-monaco-editor
       #editor

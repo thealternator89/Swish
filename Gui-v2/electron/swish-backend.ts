@@ -1,4 +1,4 @@
-import { PluginResult, pluginManager, logManager, LoadedPlugin } from 'swish-base';
+import { PluginResult, pluginManager, logManager, LoadedPlugin, configManager } from 'swish-base';
 import { ipcHandler } from './ipc-handler';
 import { LogMessage } from '../shared/models/log-message';
 
@@ -41,6 +41,33 @@ class SwishBackend {
 
   public getLogs(): LogMessage[] {
     return logManager.getLogs();
+  }
+
+  /**
+   * Gets the value of a configuration key using the standard config resolution order.
+   *
+   * @param {string} key - The key of the configuration value. Case-sensitive.
+   * @param {boolean} global - Indicates whether the configuration is global or scoped to the desktop app.
+   * @returns {*} - The value of the configuration key, or undefined if it does not exist.
+   */
+  public getConfigValue(key: string, global: boolean = false): any | undefined {
+    const configKey = global ? key : 'desktop:' + key;
+    return configManager.getValue(configKey);
+  }
+
+  /**
+   * Sets the value of a configuration key in the user config, and saves the config file.
+   * Note that if the config is currently set by the environment, this will not have any effect to the user.
+   *     You should reload the config using getConfigValue to ensure you get the correct value.
+   *
+   * @param {string} key - The key of the configuration value. Case-sensitive.
+   * @param {*} value - The value to be set.
+   * @param {boolean} global - Indicates whether the configuration is global or scoped to the desktop app.
+   * @returns {void}
+   */
+  public setConfigValue(key: string, value: any, global: boolean = false): void {
+    const configKey = global ? key : 'desktop:' + key;
+    configManager.setValue(configKey, value);
   }
 }
 

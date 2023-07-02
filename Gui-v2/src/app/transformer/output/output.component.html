@@ -1,4 +1,4 @@
-<div id="wrapper">
+<div id="wrapper" [class]="theme">
   <app-output-placeholder
     *ngIf="outputType === 'none'"
   ></app-output-placeholder>
@@ -8,7 +8,7 @@
     [level]="output.message.level"
     *ngIf="outputType === 'message'"
   ></app-output-message>
-  <mat-tab-group mat-stretch-tabs headerPosition="below" *ngIf="outputType === 'tabs'">
+  <mat-tab-group mat-stretch-tabs headerPosition="below" *ngIf="outputType === 'tabs'" animationDuration="0ms">
     <ng-container *ngFor="let tab of tabs">
       <mat-tab [label]="tabName(tab)">
         <ng-template matTabContent>

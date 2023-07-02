@@ -12,3 +12,15 @@ mat-tab-group {
   right: 0px;
   bottom: 0px;
 }
+
+::ng-deep .dark {
+ .mat-tab-label {
+    color: #fff;
+  }
+}
+
+::ng-deep .light {
+  .mat-tab-label {
+    color: #000;
+  }
+}

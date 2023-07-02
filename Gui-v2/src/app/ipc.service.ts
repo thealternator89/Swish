@@ -47,6 +47,14 @@ export class IpcService {
     return window['app'].reloadUserPlugins();
   }
 
+  getConfigValue(key: string): Promise<any> {
+    return window['app'].getConfigValue(key);
+  }
+
+  setConfigValue(key: string, value: any): Promise<void> {
+    return window['app'].setConfigValue(key, value);
+  }
+
   getAppVersion(): Promise<string> {
     return window['app'].getAppVersion();
   }

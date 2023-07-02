@@ -108,6 +108,24 @@ class IPCHandler {
     );
   }
 
+  public registerGetConfigValue() {
+    ipcMain.handle(
+      IPC_CHANNELS.GET_CONFIG_VALUE.REQ,
+      (_event, key: string) => {
+        return swishBackend.getConfigValue(key);
+      }
+    );
+  }
+
+  public registerSetConfigValue() {
+    ipcMain.handle(
+      IPC_CHANNELS.SET_CONFIG_VALUE.REQ,
+      (_event, { key, value }: { key: string; value: any }) => {
+        swishBackend.setConfigValue(key, value);
+      }
+    );
+  }
+
   public sendMenuCommand(menuCommand: MenuCommand): void {
     this.safeSend(IPC_CHANNELS.MENU_COMMAND, menuCommand);
   }
