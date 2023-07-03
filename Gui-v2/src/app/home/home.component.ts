@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { PluginDefinition } from 'swish-base';
 import { IpcService } from '../ipc.service';
 import { NotifierService } from '../notifier.service';
+import { ConfigService } from '../config.service';
 
 const tagsToShow = 15;
 
@@ -13,17 +14,24 @@ const tagsToShow = 15;
 export class HomeComponent {
   plugins: PluginDefinition[] = [];
 
+  theme: 'light' | 'dark' = 'light';
+
   tags: string[] = [];
   selectedTags: string[] = [];
 
   @ViewChild('search')
   search: HTMLInputElement;
 
-  constructor(private ipc: IpcService, private notifier: NotifierService) {
+  constructor(private ipc: IpcService, private notifier: NotifierService, private config: ConfigService) {
     this.searchPlugins('');
     this.notifier
       .onPluginsReloaded()
       .subscribe(() => this.searchPlugins(this.search.value));
+
+    this.config.onColorModeChanged().subscribe((mode) => {
+      this.theme = mode;
+    });
+    this.theme = this.config.colorMode;
   }
 
   getSelectedTags() {

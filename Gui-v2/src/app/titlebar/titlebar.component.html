@@ -65,16 +65,13 @@
             </div>
           </div>
         </button>
-        <button mat-menu-item (click)="toggleLightDarkMode()">
-          <div class="button-content">
-            <div class="button-icon">
-              <span class="material-icons">{{getColorModeIcon()}}</span>
-            </div>
-            <div class="button-text">
-              <span>{{getColorModeName()}}</span>
-            </div>
-          </div>
-        </button>
+        <div>
+          <mat-button-toggle-group name="theme" aria-label="Theme" [(ngModel)]="colorMode" (change)="onThemeChange()">
+            <mat-button-toggle value="light"><span class="material-icons">light_mode</span>Light</mat-button-toggle>
+            <mat-button-toggle value="dark"><span class="material-icons">dark_mode</span>Dark</mat-button-toggle>
+            <mat-button-toggle value="auto" disabled><span class="material-icons">auto_awesome</span>Auto</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
         <hr />
         <button mat-menu-item (click)="showAbout()">
           <div class="button-content">

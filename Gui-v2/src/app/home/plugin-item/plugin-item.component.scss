@@ -1,13 +1,16 @@
 :host {
-  border: thin solid #ababab;
-  background-color: white;
-  border-radius: 5px;
   overflow: hidden;
   margin: 0px 5px 10px 5px;
   width: calc(20% - 15px);
   min-width: 200px;
   user-select: none;
   cursor: pointer;
+}
+
+#wrapper {
+  border-width: thin;
+  border-style: solid;
+  border-radius: 5px;
 }
 
 .title {
@@ -47,11 +50,9 @@
 }
 
 .description {
-  color: #666;
   font-size: 9pt;
   padding: 5px 10px 10px 10px;
   height: 35px;
-  //
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2; /* Maximum number of lines */
@@ -80,8 +81,6 @@
 }
 
 .tag {
-  background-color: #e0e0e0;
-  color: #666;
   margin: 0px 2px;
   padding: 0px 5px;
   border-radius: 5px;
@@ -98,4 +97,34 @@
 .user-icon {
   font-size: 20px;
   margin-right: 5px;
+}
+
+.light {
+  border-color: #ababab;
+  background-color: white;
+  color: black;
+
+  .tag {
+    background-color: #e0e0e0;
+    color: #666;
+  }
+
+  .description {
+    color: #666;
+  }
+}
+
+.dark {
+  border-color: #444;
+  background-color: #222;
+  color: white;
+
+  .tag {
+    background-color: #333;
+    color: #eee;
+  }
+
+  .description {
+    color: #eee;
+  }
 }

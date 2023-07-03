@@ -37,15 +37,16 @@ mat-dialog-container {
 /* Scrollbar */
 // Macos style scrollbar
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #aaa;
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 5px;
 }
 

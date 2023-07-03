@@ -62,12 +62,8 @@ export class TitlebarComponent {
     this._config.toggleColorMode();
   }
 
-  getColorModeIcon(): string {
-    return this.colorMode === 'light' ? 'light_mode' : 'dark_mode';
-  }
-
-  getColorModeName(): string {
-    return this.colorMode === 'light' ? 'Light Mode' : 'Dark Mode';
+  onThemeChange(): void {
+    this._config.setColorMode(this.colorMode);
   }
 
   async reloadCustomPlugins(): Promise<void> {

@@ -1,19 +1,20 @@
+<div id="wrapper" [class]="theme">
+  <form id="search-form">
+    <mat-form-field class="search-box">
+      <input #search matInput placeholder="Transformer Search" (input)="searchModified($event, search.value)">
+    </mat-form-field>
+  </form>
 
-<form id="search-form">
-  <mat-form-field class="search-box">
-    <input #search matInput placeholder="Transformer Search" (input)="searchModified($event, search.value)">
-  </mat-form-field>
-</form>
+  <div id="tags">
+    <div class="padding"></div>
+    <div class="tag selected" *ngFor="let tag of getSelectedTags()" (click)="tagSelected(tag)">{{tag}}</div>
+    <div class="tag" *ngFor="let tag of getOtherTags()" (click)="tagSelected(tag)">{{tag}}</div>
+    <div class="padding"></div>
+  </div>
 
-<div id="tags">
-  <div class="padding"></div>
-  <div class="tag selected" *ngFor="let tag of getSelectedTags()" (click)="tagSelected(tag)">{{tag}}</div>
-  <div class="tag" *ngFor="let tag of getOtherTags()" (click)="tagSelected(tag)">{{tag}}</div>
-  <div class="padding"></div>
-</div>
-
-<div id="plugin-container">
-  <div id="plugins">
-    <app-plugin-item *ngFor="let plugin of plugins" [plugin]="plugin"></app-plugin-item>
+  <div id="plugin-container">
+    <div id="plugins">
+      <app-plugin-item *ngFor="let plugin of plugins" [plugin]="plugin"></app-plugin-item>
+    </div>
   </div>
 </div>

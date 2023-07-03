@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConfigService } from 'src/app/config.service';
 import { LoadedPlugin } from 'src/models/LoadedPlugin';
 
 @Component({
@@ -9,10 +10,17 @@ import { LoadedPlugin } from 'src/models/LoadedPlugin';
 })
 export class PluginItemComponent {
 
+  theme: 'light'|'dark' = 'light';
+
   @Input()
   plugin: LoadedPlugin;
 
-  constructor(private _router: Router) { }
+  constructor(private _router: Router, config: ConfigService) {
+    config.onColorModeChanged().subscribe((mode) => {
+      this.theme = mode;
+    });
+    this.theme = config.colorMode;
+  }
 
   getIcon() {
     return this.plugin.icon ?? 'extension';

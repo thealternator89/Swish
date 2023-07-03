@@ -90,10 +90,19 @@
   }
 }
 
-::ng-deep .dark .mat-select-value {
-  color: white;
+/* Weirdly the value in a mat-select shows as black on black. This makes it visible*/
+::ng-deep .dark {
+  .mat-select-value {
+    color: #ddd;
+  }
+
+  .mat-select-arrow {
+    color: #ddd;
+  }
 }
 
-::ng-deep .light .mat-select-value {
-  color: dark;
+::ng-deep .light {
+  .mat-select-value {
+    color: black;
+  }
 }

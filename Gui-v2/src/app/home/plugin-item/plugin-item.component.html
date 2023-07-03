@@ -1,4 +1,4 @@
-<div (click)="click();" [class]="getTitleClass()">
+<div id="wrapper" (click)="click();" [class]="getTitleClass()" [class.dark]="theme === 'dark'" [class.light]="theme === 'light'">
   <div [class]="'title ' + getTitleClass()">
     <div [class]="'plugin-icon ' + getTitleClass()">
       <span class="material-icons">{{getIcon()}}</span>
