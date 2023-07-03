@@ -35,7 +35,6 @@ mat-dialog-container {
 }
 
 /* Scrollbar */
-// Macos style scrollbar
 ::-webkit-scrollbar {
   width: 7px;
 }
@@ -62,34 +61,4 @@ mat-dialog-container {
 
 .mat-tab-body-active {
   overflow: hidden !important;
-}
-
-/* Styles for Markdown Tables */
-markdown table {
-  width: 100%;
-}
-
-markdown table, tr, th, td {
-  border : thin solid black;
-  border-collapse: collapse;
-}
-
-markdown th, td {
-  padding: 5px;
-}
-
-markdown th {
-  background-color: #aaa;
-}
-
-markdown pre {
-  white-space: pre-wrap !important; // force code blocks to line wrap
-  overflow-wrap: anywhere !important;
-}
-
-markdown code {
-  background-color: transparent;
-  padding: 2px;
-  border-radius: 2px;
-  overflow-wrap: anywhere;
 }

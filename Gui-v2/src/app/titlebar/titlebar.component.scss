@@ -28,6 +28,24 @@ button:hover {
   margin: 7px 7px 5px 0px;
 }
 
+#theme-setting {
+  position: relative;
+  height: 50px;
+}
+
+#theme-picker {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+
+  mat-button-toggle {
+    flex-grow: 1;
+    height: 50px;
+  }
+}
+
 #titleBarContent {
   position: relative;
   z-index: 500;

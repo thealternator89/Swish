@@ -6,7 +6,72 @@
   bottom: 0px;
   padding: 10px;
   overflow: auto;
-  border: thin solid lightgray;
-  background-color: white;
+  border-style: solid;
+  border-width: thin;
 }
 
+/* Styles for Markdown Tables */
+::ng-deep table {
+  width: 100%;
+}
+
+::ng-deep th, td {
+  padding: 5px;
+}
+
+::ng-deep pre {
+  white-space: pre-wrap !important; // force code blocks to line wrap
+  overflow-wrap: anywhere !important;
+}
+
+::ng-deep code {
+  background-color: transparent;
+  padding: 2px;
+  border-radius: 2px;
+  overflow-wrap: anywhere;
+}
+
+.dark {
+  background-color: #222;
+  color: #fff;
+  border-color: #444;
+
+  ::ng-deep th {
+    background-color: #444;
+  }
+
+  ::ng-deep table, ::ng-deep tr, ::ng-deep th, ::ng-deep td {
+    border: thin solid white;
+    border-collapse: collapse;
+  }
+
+  ::ng-deep code:not(pre code) {
+    background-color: #444;
+  }
+}
+
+.light {
+  background-color: white;
+  color: black;
+  border-color: lightgray;
+
+  ::ng-deep th {
+    background-color: #aaa;
+  }
+
+  ::ng-deep table, ::ng-deep tr, ::ng-deep th, ::ng-deep td {
+    border: thin solid black;
+    border-collapse: collapse;
+  }
+
+  ::ng-deep kbd {
+    background-color: #eee;
+    font-family: sans-serif;
+    padding: 2px 5px;
+    border-radius: 2px;
+  }
+
+  ::ng-deep code:not(pre code) {
+    background-color: #eee;
+  }
+}
