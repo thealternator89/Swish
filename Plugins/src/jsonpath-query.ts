@@ -1,9 +1,9 @@
 import { JSONPath } from "jsonpath-plus";
 
 export = {
-    name: 'Evaluate JSONPath',
+    name: 'JSONPath Query',
     id: 'jsonpath-query',
-    description: 'Query JSON object using JSONPath',
+    description: 'Evaluate a JSONPath query on a JSON document',
     author: 'thealternator89',
     tags: ['json', 'query'],
     icon: 'data_object',
