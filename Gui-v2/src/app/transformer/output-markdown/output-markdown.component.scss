@@ -45,8 +45,15 @@
     border-collapse: collapse;
   }
 
+  ::ng-deep kbd {
+    background-color: #333;
+    font-family: sans-serif;
+    padding: 2px 5px;
+    border-radius: 2px;
+  }
+
   ::ng-deep code:not(pre code) {
-    background-color: #444;
+    background-color: #333;
   }
 }
 
