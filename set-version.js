@@ -22,6 +22,7 @@ const packageJsonLocations = [
     'Clip',
     'Core',
     'Gui',
+    'Gui-v2',
     'Web/web',
     'Web',
 ];
