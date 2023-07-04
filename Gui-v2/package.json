@@ -12,15 +12,15 @@
     "clean": "npm run clean:ng && npm run clean:electron",
     "clean:ng": "rimraf dist",
     "clean:electron": "rimraf electron/dist",
+    "dev": "concurrently \"npm:dev:ng\" \"npm:dev:electron\"",
     "dev:electron": "cross-env SWISH_DEVELOPMENT='1' npm run buildstart:electron",
     "dev:ng": "ng serve",
-    "dev": "concurrently \"npm:dev:ng\" \"npm:dev:electron\"",
     "package": "electron-packager . --overwrite --prune --out=release-builds",
     "package:mac": "npm run package -- --icon=electron/assets/icons/mac/icon.icns",
+    "package:win": "npm run package -- --icon=electron/assets/icons/win/icon.ico",
     "start": "electron .",
     "buildstart": "npm run build && npm run start",
-    "buildstart:electron": "npm run build:electron && npm run start",
-    "pack-installer": "electron-installer-windows --src release-builds/swish-desktop-win32-x64 --dest release-builds/installers/"
+    "buildstart:electron": "npm run build:electron && npm run start"
   },
   "main": "electron/dist/electron/main.js",
   "private": true,
