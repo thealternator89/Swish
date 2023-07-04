@@ -1,7 +1,7 @@
 #container {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 45px);
+  height: calc(100% - 50px);
   overflow-x: hidden;
   overflow-y: auto;
   border-width: thin;
@@ -21,7 +21,7 @@
 .bottom-editor {
   border-top-width: thin;
   border-top-style: solid;
-  padding-bottom: 21px;
+  padding-bottom: 25px;
 }
 
 #input-form {
