@@ -3,7 +3,7 @@
   "productName": "swish-desktop",
   "description": "Simple and powerful data transformation tool",
   "author": "Mark Benson <thealternator89@gmail.com>",
-  "version": "2.0.0-alpha",
+  "version": "2.0.0-alpha-1",
   "scripts": {
     "build": "npm run build:ng && npm run build:electron",
     "build:ng": "ng build --base-href ./ --prod",
