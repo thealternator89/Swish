@@ -33,22 +33,31 @@ export = {
             case 'SHA1':
             case 'SHA256':
             case 'SHA512':
-                return hash(text, crypto[algorithm]);
+                return hash(text, algorithm);
             default:
                 return hashAll(text, ['MD5', 'SHA1', 'SHA256', 'SHA512']);
         }
     },
 };
 
-function hash(value: string, algorithmFn: (value: string) => object): string {
-    return algorithmFn(value).toString();
+function hash(value: string, algorithm: string): PluginResult {
+    const algorithmFn = crypto[algorithm];
+    const hashed = algorithmFn(value).toString();
+
+    return {
+        text: hashed,
+        render: 'text',
+        data: {
+            [algorithm]: hashed
+        }
+    };
 }
 
 function hashAll(value: string, algorithms: string[]): PluginResult {
     const results: Record<string, string> = {};
 
     for (const algorithm of algorithms) {
-        results[algorithm] = hash(value, crypto[algorithm]);
+        results[algorithm] = hash(value, algorithm).text;
     }
 
     return {
@@ -59,5 +68,8 @@ function hashAll(value: string, algorithms: string[]): PluginResult {
             .map((key) => `**${key}**:\n\n>\`${results[key]}\``)
             .join('\n\n---\n\n'),
         render: 'markdown',
+        data: {
+            ...results
+        }
     };
 }
