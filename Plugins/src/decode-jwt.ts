@@ -43,6 +43,15 @@ export = {
     },
 };
 
+function parseDates(json: string): { issuedAt?: Date, notBefore?: Date, expires?: Date } {
+    const { iat, nbf, exp } = JSON.parse(json);
+    return {
+        issuedAt: iat ? new Date(iat * 1000) : null,
+        notBefore: nbf ? new Date(nbf * 1000) : null,
+        expires: exp ? new Date(exp * 1000) : null,
+    };
+}
+
 function indentLines(text: string, spaces: number): string {
     return text
         .split(NEWLINE_CHAR)
@@ -50,25 +59,74 @@ function indentLines(text: string, spaces: number): string {
         .join(NEWLINE_CHAR);
 }
 
-function buildText(header, payload) {
+function buildText(header: string, payload: string): string {
+    const dates = parseDates(payload);
     return [
-        'HEADER:',
-        indentLines(header, 4),
+        'DETAILS:',
+        displayDateInformation(dates, false),
         ,
         'PAYLOAD:',
         indentLines(payload, 4),
+        ,
+        'HEADER:',
+        indentLines(header, 4),
     ].join(NEWLINE_CHAR);
 }
 
-function buildMarkdown(header, payload) {
+function buildMarkdown(header: string, payload: string): string {
+    const dates = parseDates(payload);
     return [
-        '**Header:**',
-        ...buildMarkdownCodeBlock(header, 'json'),
-        '**Payload:**',
+        '## Details',
+        displayDateInformation(dates, true),
+        ,
+        '## Payload',
         ...buildMarkdownCodeBlock(payload, 'json'),
+        '## Header',
+        ...buildMarkdownCodeBlock(header, 'json'),
     ].join(NEWLINE_CHAR);
 }
 
 function buildMarkdownCodeBlock(text, lang) {
     return [CODE_BLOCK + lang, text, CODE_BLOCK];
+}
+
+function displayDateInformation(dates: { issuedAt?: Date, notBefore?: Date, expires?: Date }, markdown: boolean): string {
+    const { issuedAt, notBefore, expires } = dates;
+
+    const parts = [];
+
+    if (issuedAt) {
+        const isInFuture = issuedAt.getTime() > Date.now();
+        parts.push(
+            `- ${bold('Issued At:', markdown)} \`${issuedAt.toISOString()}\` ` + (isInFuture ? warning('In the future.', markdown) : ''),
+        );
+    }
+
+    if (notBefore) {
+        const isInFuture = notBefore.getTime() > Date.now();
+        parts.push(
+            `- ${bold('Not Before:', markdown)} \`${notBefore.toISOString()}\` ` + (isInFuture ? warning('In the future.', markdown) : '')
+        );
+    }
+
+    if (expires) {
+        const isInPast = expires.getTime() < Date.now();
+        parts.push(
+            `- ${bold('Expires:', markdown)} \`${expires.toISOString()}\` ` + (isInPast ? warning('Expired.', markdown) : '')
+        );
+    }
+
+    return parts.join(NEWLINE_CHAR);
+}
+
+function markdownWarning(message: string): string {
+    return `⚠️ _${message}_`;
+}
+
+function warning(message: string, markdown: boolean): string {
+    return markdown ? markdownWarning(message) : message;
+}
+
+function bold(message: string, markdown: boolean): string {
+    return markdown ? `**${message}**` : message.toUpperCase();
 }
