@@ -90,11 +90,11 @@ export class InputFormComponent implements OnInit {
     const formValue = {};
 
     for (const field of this.plugin.input.fields) {
-      const controlValue = this.form.get(field.label).value;
-
       if (field.type === 'label') {
         continue;
       }
+
+      const controlValue = this.form.get(field.label).value;
 
       if (field.type === 'number') {
         formValue[field.key] = parseFloat(controlValue);

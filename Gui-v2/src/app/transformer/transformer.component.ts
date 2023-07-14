@@ -149,14 +149,25 @@ export class TransformerComponent {
     const inputComponent =
       this.plugin.input?.type === 'form' ? this.inputForm : this.inputCode;
 
-    const result = await this.ipc.runPlugin({
-      plugin: this.plugin.id,
-      requestId: this.currentRunId,
-      data: inputComponent?.getData() ?? { textContent: '', formContent: {} },
-    });
+    let result;
 
-    this.currentRunId = null;
-    this.hideProgressDialog();
+    try {
+      result = await this.ipc.runPlugin({
+        plugin: this.plugin.id,
+        requestId: this.currentRunId,
+        data: inputComponent?.getData() ?? { textContent: '', formContent: {} },
+      });
+    } catch (e) {
+      this.dialog.open(ErrorDialogComponent, {
+        data: {
+          text: `An unexpected error occurred while running the plugin: ${e.message}`,
+        }
+      });
+      console.error(e);
+    } finally {
+      this.currentRunId = null;
+      this.hideProgressDialog();
+    }
 
     this.output.handlePluginResult(result);
     if (result.message && result.render !== 'message') {
